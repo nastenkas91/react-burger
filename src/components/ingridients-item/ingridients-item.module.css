@@ -1,0 +1,28 @@
+.item__wraper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.item__amount {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #4c4cff;
+  border-radius: 16px;
+}
+
+.item__image {
+  object-fit: cover;
+  width: 100%;
+}
+
+.item__price {
+
+}
+
+.item__name {
+  text-align: center;
+}

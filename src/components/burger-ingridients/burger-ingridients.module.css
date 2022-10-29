@@ -1,0 +1,35 @@
+.ingridients {
+  width: 600px;
+}
+
+.ingridients__nav {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+
+.ingridients__category {
+  padding: 0;
+}
+
+.ingridients__container {
+  height: calc(100vh - 308px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.ingridients__container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ingridients__container::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+
+.ingridients__container::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}

@@ -1,0 +1,12 @@
+.link {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: .8;
+  transition: opacity ease-in 0.5s;
+}
