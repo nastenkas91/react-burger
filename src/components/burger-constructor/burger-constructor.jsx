@@ -1,25 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from './burger-constructor.module.css';
-import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ConstructorDragElement} from "../constructor-drag-element/constructor-drag-element";
+import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
+import {Modal} from '../modal/modal'
+import {OrderDetails} from "../order-details/order-details";
+import {ingredientSetPropType} from "../../utils/types";
 
-export function BurgerConstructor(props) {
-  const selectedIngridients = props.order.filter(el => el.type !== 'bun');
-  const selectedBun = props.order.find(el => el.type === 'bun');
+export function BurgerConstructor({order}) {
+  const selectedIngridients = order.filter(el => el.type !== 'bun');
+  const selectedBun = order.find(el => el.type === 'bun');
   const total = selectedBun.price*2 + selectedIngridients.reduce((acc, el) => acc + el.price, 0);
 
-  const burgerConstructorPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    image:  PropTypes.string.isRequired,
-    price:  PropTypes.number.isRequired,
-  })
-  BurgerConstructor.propTypes = {
-    order: PropTypes.arrayOf(burgerConstructorPropTypes).isRequired,
+  BurgerConstructor.propTypes = ingredientSetPropType;
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openOrderDetails = () => {
+    setModalOpen(true)
   }
 
   return (
@@ -42,7 +40,10 @@ export function BurgerConstructor(props) {
         {
           selectedIngridients.map(elem => {
             return (
-              <ConstructorDragElement key={elem.orderId} {...elem} />
+              <div key={elem.orderId} className={`${styles.constructor__dragbox} mr-2`}>
+                <DragIcon type={"primary"}/>
+                <ConstructorElement text={elem.name} thumbnail={elem.image} price={elem.price}/>
+              </div>
             )
           })
         }
@@ -64,8 +65,13 @@ export function BurgerConstructor(props) {
         <span className={`text text_type_digits-medium mr-10`}>
           {total} <CurrencyIcon type={"primary"} />
         </span>
-        <Button htmlType={"submit"} type={"primary"} size={"large"}>Оформить заказ</Button>
+        <Button htmlType={"submit"} type={"primary"} size={"large"} onClick={openOrderDetails}>Оформить заказ</Button>
       </div>
+      {isModalOpen && (
+        <Modal setModalOpen={setModalOpen}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   )
 }

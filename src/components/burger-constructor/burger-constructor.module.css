@@ -18,6 +18,12 @@
   justify-content: flex-end;
 }
 
+.constructor__dragbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .constructor__container::-webkit-scrollbar {
   width: 8px
 }

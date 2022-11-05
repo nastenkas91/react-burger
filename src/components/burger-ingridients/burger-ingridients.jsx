@@ -1,23 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from './burger-ingridients.module.css';
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IngridientsCategory} from "../ingridients-category/ingridients-category";
-import {IngridientsItem} from "../ingridients-item/ingridients-item";
-import PropTypes from "prop-types";
+import {IngredientsItem} from "../ingridients-item/ingridients-item";
+import {Modal} from "../modal/modal";
+import {IngredientDetails} from "../ingredient-details/ingredient-details";
+import {ingredientSetPropType} from "../../utils/types";
 
-export function BurgerIngredients(props) {
-  const [current, setCurrent] = React.useState('Булки')
+export function BurgerIngredients({ingredients}) {
+  const [current, setCurrent] = useState('Булки');
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [ingredientInfo, setIngredientInfo] = useState({});
 
-  const burgerIngredientsPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    image:  PropTypes.string.isRequired,
-    price:  PropTypes.number.isRequired,
-  })
-  BurgerIngredients.propTypes = {
-    ingridients: PropTypes.arrayOf(burgerIngredientsPropTypes).isRequired,
-  }
+  BurgerIngredients.propTypes = ingredientSetPropType;
+
+  const filterIngredients = (array, type) => array.filter(item => item.type === type);
+  const bun = filterIngredients(ingredients, 'bun');
+  const sauce = filterIngredients(ingredients, 'sauce');
+  const main = filterIngredients(ingredients, 'main');
 
   return (
     <section className={`${styles.ingridients}`}>
@@ -45,31 +45,51 @@ export function BurgerIngredients(props) {
         <li className={`${styles.ingridients__navItem}`}>
           <IngridientsCategory title={'Булки'}>
           {
-            props.ingridients.filter(el => el.type === "bun").map(el => {
-              return <IngridientsItem key={el._id} {...el} />
-            })
-          }
+            bun.map(el => (
+                <IngredientsItem
+                  key={el._id}
+                  item={el}
+                  setModalOpen={setModalOpen}
+                  setIngredientInfo={setIngredientInfo}
+                />
+              )
+            )}
         </IngridientsCategory>
         </li>
         <li className={`${styles.ingridients__navItem}`}>
           <IngridientsCategory title={'Соусы'}>
           {
-            props.ingridients.filter(el => el.type === "sauce").map(el => {
-              return <IngridientsItem key={el._id} {...el} />
-            })
-          }
+            sauce.map(el => (
+                <IngredientsItem
+                  key={el._id}
+                  item={el}
+                  setModalOpen={setModalOpen}
+                  setIngredientInfo={setIngredientInfo}
+                />
+              )
+            )}
         </IngridientsCategory>
         </li>
         <li className={`${styles.ingridients__navItem}`}>
           <IngridientsCategory title={'Начинки'}>
           {
-            props.ingridients.filter(el => el.type === "main").map(el => {
-              return <IngridientsItem key={el._id} {...el} />
-            })
-          }
+            main.map(el => (
+              <IngredientsItem
+                key={el._id}
+                item={el}
+                setModalOpen={setModalOpen}
+                setIngredientInfo={setIngredientInfo}
+              />
+            )
+          )}
         </IngridientsCategory>
         </li>
       </ul>
+      {isModalOpen && (
+        <Modal setModalOpen={setModalOpen} title={'Детали ингредиента'}>
+          <IngredientDetails item={ingredientInfo} />
+        </Modal>
+      )}
 
     </section>
   )
