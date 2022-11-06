@@ -3,8 +3,15 @@ import styles from './ingridients-item.module.css';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {order} from '../../utils/data'
+import PropTypes from "prop-types";
+import {ingredientPropTypes} from "../../utils/types";
 
 export function IngredientsItem({item, setModalOpen, setIngredientInfo}) {
+  IngredientsItem.propTypes = {
+    item: ingredientPropTypes,
+    setModalOpen: PropTypes.func.isRequired,
+    setIngredientInfo: PropTypes.func.isRequired
+  }
   //временный подсчет
   const count = order.reduce((acc, el) => el._id === item._id ? acc + 1 : acc, 0)
 

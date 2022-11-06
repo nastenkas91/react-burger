@@ -1,7 +1,13 @@
 import React from "react";
 import styles from './header-link.module.css'
+import PropTypes from "prop-types";
 
 export function HeaderLink({active, linkRoute, children}) {
+  HeaderLink.propTypes = {
+    active: PropTypes.bool.isRequired,
+    linkRoute: PropTypes.string,
+    children: PropTypes.element.isRequired
+  }
   return (
     <a
       href={linkRoute}

@@ -68,7 +68,7 @@ export function BurgerConstructor({order}) {
         <Button htmlType={"submit"} type={"primary"} size={"large"} onClick={openOrderDetails}>Оформить заказ</Button>
       </div>
       {isModalOpen && (
-        <Modal setModalOpen={setModalOpen}>
+        <Modal title={''} setModalOpen={setModalOpen}>
           <OrderDetails />
         </Modal>
       )}
