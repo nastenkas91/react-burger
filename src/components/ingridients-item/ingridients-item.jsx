@@ -1,24 +1,27 @@
-import React from "react";
+import React, {useContext} from "react";
 import styles from './ingridients-item.module.css';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import {order} from '../../utils/data'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/types";
+import {OrderContext} from "../../context/appContext";
 
 export function IngredientsItem({item, setModalOpen, setIngredientInfo}) {
+  const { orderDispatcher } = useContext(OrderContext);
+
   IngredientsItem.propTypes = {
     item: ingredientPropTypes,
     setModalOpen: PropTypes.func.isRequired,
     setIngredientInfo: PropTypes.func.isRequired
   }
-  //временный подсчет
-  const count = order.reduce((acc, el) => el._id === item._id ? acc + 1 : acc, 0)
+  let count = 0;
 
   const onIngredientClick = () => {
+    orderDispatcher({type: 'add', payload: item});
     setIngredientInfo(item);
     setModalOpen(true);
   }
+
   return (
     <div className={`${styles.item__wraper}`} onClick={onIngredientClick}>
       {count > 0 && (

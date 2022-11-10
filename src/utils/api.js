@@ -1,4 +1,6 @@
-import {INGREDIENTS_END_POINT, URL_API} from "./constants";
+import {URL_API, INGREDIENTS_END_POINT, ORDERS_END_POINT} from "./constants";
+
+const CheckResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
 export function getIngredients() {
   return fetch(URL_API + INGREDIENTS_END_POINT, {
@@ -6,5 +8,16 @@ export function getIngredients() {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-}
+    .then(res => CheckResponse(res))
+};
+
+export function makeOrder(order) {
+  return fetch(URL_API + ORDERS_END_POINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(order)
+  })
+    .then(res => CheckResponse(res))
+};

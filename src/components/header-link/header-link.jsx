@@ -6,7 +6,6 @@ export function HeaderLink({active, linkRoute, children}) {
   HeaderLink.propTypes = {
     active: PropTypes.bool.isRequired,
     linkRoute: PropTypes.string,
-    children: PropTypes.element.isRequired
   }
   return (
     <a

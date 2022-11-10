@@ -1,18 +1,18 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import styles from './burger-ingridients.module.css';
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IngridientsCategory} from "../ingridients-category/ingridients-category";
 import {IngredientsItem} from "../ingridients-item/ingridients-item";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
-import {ingredientSetPropType} from "../../utils/types";
+import {IngredientsContext} from "../../context/appContext";
 
-export function BurgerIngredients({ingredients}) {
+export function BurgerIngredients() {
+  const { ingredients } = useContext(IngredientsContext);
+
   const [current, setCurrent] = useState('Булки');
   const [isModalOpen, setModalOpen] = useState(false);
   const [ingredientInfo, setIngredientInfo] = useState({});
-
-  BurgerIngredients.propTypes = ingredientSetPropType;
 
   const filterIngredients = (array, type) => array.filter(item => item.type === type);
   const bun = filterIngredients(ingredients, 'bun');
