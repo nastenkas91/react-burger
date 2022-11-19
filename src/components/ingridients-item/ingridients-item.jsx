@@ -1,29 +1,40 @@
-import React, {useContext} from "react";
+import React from "react";
 import styles from './ingridients-item.module.css';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/types";
-import {OrderContext} from "../../context/appContext";
+import {useDispatch} from "react-redux";
+import {SET_CURRENT_INGREDIENT} from "../../services/actions/ingredients";
+import { useDrag } from "react-dnd";
 
-export function IngredientsItem({item, setModalOpen, setIngredientInfo}) {
-  const { orderDispatcher } = useContext(OrderContext);
+export function IngredientsItem({item, setModalOpen, count}) {
+  const dispatch = useDispatch();
+
+  const [{opacity}, dragRef] = useDrag({
+    type: 'ingredient',
+    item: item,
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0.6 : 1
+    })
+  });
 
   IngredientsItem.propTypes = {
     item: ingredientPropTypes,
     setModalOpen: PropTypes.func.isRequired,
-    setIngredientInfo: PropTypes.func.isRequired
+    count: PropTypes.number
   }
-  let count = 0;
 
   const onIngredientClick = () => {
-    orderDispatcher({type: 'add', payload: item});
-    setIngredientInfo(item);
+    dispatch({
+      type: SET_CURRENT_INGREDIENT,
+      payload: item
+    });
     setModalOpen(true);
   }
 
   return (
-    <div className={`${styles.item__wraper}`} onClick={onIngredientClick}>
+    <div className={`${styles.item__wraper}`} onClick={onIngredientClick} ref={dragRef} style={{opacity}}>
       {count > 0 && (
         <Counter count={count} size={"default"}/>
       )}

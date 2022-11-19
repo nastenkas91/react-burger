@@ -2,7 +2,7 @@ import {URL_API, INGREDIENTS_END_POINT, ORDERS_END_POINT} from "./constants";
 
 const CheckResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
-export function getIngredients() {
+export function fetchIngredients() {
   return fetch(URL_API + INGREDIENTS_END_POINT, {
     headers: {
       'Content-Type': 'application/json'

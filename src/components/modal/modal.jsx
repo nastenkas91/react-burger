@@ -1,11 +1,14 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import * as ReactDOM from 'react-dom';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './modal.module.css';
 import {ModalOverlay} from "../modal-overlay/modal-overlay";
 import PropTypes from "prop-types";
+import {useDispatch} from "react-redux";
+import {REMOVE_CURRENT_INGREDIENT} from "../../services/actions/ingredients";
 
 export function Modal({title, children, setModalOpen}) {
+  const dispatch = useDispatch();
   Modal.propTypes = {
     title: PropTypes.string.isRequired,
     setModalOpen: PropTypes.func.isRequired,
@@ -15,7 +18,10 @@ export function Modal({title, children, setModalOpen}) {
   const modalRoot = document.getElementById("react-modals");
 
   const closeModal = () => {
-    setModalOpen(false)
+    setModalOpen(false);
+    dispatch({
+      type: REMOVE_CURRENT_INGREDIENT
+    })
   }
 
   const handleEscClick = (e) => {
