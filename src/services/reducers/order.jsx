@@ -1,0 +1,40 @@
+import {
+  SEND_ORDER_SUCCESS,
+  SEND_ORDER_FAILED,
+  SEND_ORDER_REQUEST
+} from "../actions/order";
+
+const initialState = {
+  orderNumber: null,
+  orderRequest: false,
+  orderFailed: false
+}
+
+export const order = (state = initialState, action) => {
+  switch (action.type) {
+    case SEND_ORDER_REQUEST: {
+      return {
+        ...state,
+        orderRequest: true,
+      }
+    }
+    case SEND_ORDER_SUCCESS: {
+      return {
+        ...state,
+        orderNumber: action.payload,
+        orderRequest: false,
+        orderFailed: false
+      }
+    }
+    case SEND_ORDER_FAILED: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: true
+      }
+    }
+    default: {
+      return state;
+    }
+  }
+}
