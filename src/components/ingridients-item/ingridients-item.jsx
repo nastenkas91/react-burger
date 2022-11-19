@@ -34,7 +34,7 @@ export function IngredientsItem({item, setModalOpen, count}) {
   }
 
   return (
-    <div className={`${styles.item__wraper}`} onClick={onIngredientClick} ref={dragRef} style={{opacity}}>
+    <div className={`${styles.item__wraper}`} draggable={true} onClick={onIngredientClick} ref={dragRef} style={{opacity}}>
       {count > 0 && (
         <Counter count={count} size={"default"}/>
       )}

@@ -2,7 +2,8 @@ import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
   SET_BUN,
-  REMOVE_BUN
+  REMOVE_BUN,
+  MOVE_INGREDIENT
 } from "../actions/burgerConstructor";
 
 const initialState = {
@@ -24,8 +25,15 @@ export const burgerConstructor = (state = initialState, action) => {
       return {
         ...state,
         selectedIngredients: state.selectedIngredients.filter(el => el.dropId !== action.payload.dropId),
-        //selectedIngredients: state.selectedIngredients.splice(action.index, 1),
         totalPrice: state.totalPrice - action.payload.price
+      }
+    }
+    case MOVE_INGREDIENT: {
+      const ingredients = [...state.selectedIngredients];
+      ingredients.splice(action.payload.dragIndex, 0, ingredients.splice(action.payload.hoverIndex, 1)[0]);
+      return {
+        ...state,
+        selectedIngredients: ingredients,
       }
     }
     case SET_BUN: {

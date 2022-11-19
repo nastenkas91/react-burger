@@ -8,7 +8,12 @@ import {OrderDetails} from "../order-details/order-details";
 import { v4 as uuidv4 } from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {sendOrder} from "../../services/actions/order";
-import {ADD_INGREDIENT, REMOVE_BUN, REMOVE_INGREDIENT, SET_BUN} from "../../services/actions/burgerConstructor";
+import {
+  ADD_INGREDIENT,
+  REMOVE_BUN,
+  REMOVE_INGREDIENT,
+  SET_BUN
+} from "../../services/actions/burgerConstructor";
 import {DraggableConstructorItem} from "../draggable-constructor-item/draggable-constructor-item";
 import { useDrop } from "react-dnd";
 
@@ -84,13 +89,14 @@ export function BurgerConstructor() {
         selectedIngredients.length > 0 ?
         (<div className={`${styles.constructor__container} mt-4 mb-4`}>
         {selectedIngredients.map((elem, index) => {
-
             return (
               <DraggableConstructorItem
                 key={elem.dropId}
-                deleteIngredient={deleteIngredient}
+                id={elem.dropId}
                 index={index}
-                elem={elem}/>
+                elem={elem}
+                deleteIngredient={deleteIngredient}
+              />
             )
           })}
         </div>) : (
