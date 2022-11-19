@@ -3,7 +3,8 @@ import {
   REMOVE_INGREDIENT,
   SET_BUN,
   REMOVE_BUN,
-  MOVE_INGREDIENT
+  MOVE_INGREDIENT,
+  CLEAR_CONSTRUCTOR
 } from "../actions/burgerConstructor";
 
 const initialState = {
@@ -47,6 +48,13 @@ export const burgerConstructor = (state = initialState, action) => {
       return {
         ...state,
         totalPrice: state.totalPrice - action.payload.price * 2,
+        bun: null,
+      }
+    }
+    case CLEAR_CONSTRUCTOR: {
+      return {
+        ...state,
+        selectedIngredients: [],
         bun: null,
       }
     }

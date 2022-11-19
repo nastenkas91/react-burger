@@ -1,7 +1,7 @@
 import {
   SEND_ORDER_SUCCESS,
   SEND_ORDER_FAILED,
-  SEND_ORDER_REQUEST
+  SEND_ORDER_REQUEST,
 } from "../actions/order";
 
 const initialState = {

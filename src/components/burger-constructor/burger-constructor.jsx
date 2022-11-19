@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {sendOrder} from "../../services/actions/order";
 import {
-  ADD_INGREDIENT,
+  ADD_INGREDIENT, CLEAR_CONSTRUCTOR,
   REMOVE_BUN,
   REMOVE_INGREDIENT,
   SET_BUN
@@ -29,6 +29,7 @@ export function BurgerConstructor() {
     const order = { ingredients: [bun._id, ...selectedIngredients.map(el => el._id), bun._id] };
     dispatch(sendOrder(order));
     setModalOpen(true);
+    dispatch({type: CLEAR_CONSTRUCTOR});
   }
 
   const deleteIngredient = (item, itemIndex) => {
