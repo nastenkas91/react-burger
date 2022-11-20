@@ -8,7 +8,7 @@ export const CLEAR_ORDER_NUMBER ='CLEAR_ORDER_NUMBER';
 
 export const sendOrder = (order) => {
   return function (dispatch) {
-    dispatch(sendOrderRequest);
+    dispatch(sendOrderRequest());
     makeOrder(order)
       .then(res => {
         if (res && res.success) {
