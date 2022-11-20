@@ -5,8 +5,8 @@ import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/types";
 import {useDispatch} from "react-redux";
-import {SET_CURRENT_INGREDIENT} from "../../services/actions/ingredients";
 import { useDrag } from "react-dnd";
+import {setCurrentIngredient} from "../../services/actionCreators/ingredients";
 
 export function IngredientsItem({item, setModalOpen, count}) {
   const dispatch = useDispatch();
@@ -19,17 +19,8 @@ export function IngredientsItem({item, setModalOpen, count}) {
     })
   });
 
-  IngredientsItem.propTypes = {
-    item: ingredientPropTypes,
-    setModalOpen: PropTypes.func.isRequired,
-    count: PropTypes.number
-  }
-
   const onIngredientClick = () => {
-    dispatch({
-      type: SET_CURRENT_INGREDIENT,
-      payload: item
-    });
+    dispatch(setCurrentIngredient(item));
     setModalOpen(true);
   }
 
@@ -46,4 +37,10 @@ export function IngredientsItem({item, setModalOpen, count}) {
       <p className={`${styles.item__name} mt-1`}>{item.name}</p>
     </div>
   )
+}
+
+IngredientsItem.propTypes = {
+  item: ingredientPropTypes,
+  setModalOpen: PropTypes.func.isRequired,
+  count: PropTypes.number
 }

@@ -3,10 +3,6 @@ import styles from './ingridients-category.module.css';
 import PropTypes from "prop-types";
 
 export function IngridientsCategory({title, children}) {
-  IngridientsCategory.propTypes = {
-    title: PropTypes.string.isRequired,
-    children: PropTypes.arrayOf(PropTypes.element.isRequired)
-  }
   return (
     <>
       <h2 className={`text text_type_main-medium mb-6`}>{title}</h2>
@@ -15,4 +11,9 @@ export function IngridientsCategory({title, children}) {
       </div>
     </>
   )
+}
+
+IngridientsCategory.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element.isRequired)
 }

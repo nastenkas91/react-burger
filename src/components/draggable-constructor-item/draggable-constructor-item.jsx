@@ -2,19 +2,12 @@ import styles from "./draggable-constructor-item.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useRef, useCallback } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import {MOVE_INGREDIENT} from "../../services/actions/burgerConstructor";
 import {useDispatch} from "react-redux";
 import {ingredientPropTypes} from "../../utils/types";
 import PropTypes from "prop-types";
+import {moveIngredient} from "../../services/actionCreators/burgerConstructor";
 
 export const DraggableConstructorItem = ({elem, deleteIngredient, index, id}) => {
-  DraggableConstructorItem.propTypes = {
-    elem: ingredientPropTypes,
-    deleteIngredient: PropTypes.func.isRequired,
-    index: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
-  }
-
   const dispatch = useDispatch();
   const ref = useRef(null);
 
@@ -27,9 +20,7 @@ export const DraggableConstructorItem = ({elem, deleteIngredient, index, id}) =>
   })
 
   const moveCard = useCallback((dragIndex, hoverIndex) => {
-    dispatch({
-      type: MOVE_INGREDIENT,
-      payload: {dragIndex: dragIndex, hoverIndex: hoverIndex}})
+    dispatch(moveIngredient(dragIndex, hoverIndex))
   }, [dispatch])
 
   const [{handlerId}, drop] = useDrop({
@@ -72,8 +63,15 @@ export const DraggableConstructorItem = ({elem, deleteIngredient, index, id}) =>
         text={elem.name}
         thumbnail={elem.image}
         price={elem.price}
-        handleClose={() => deleteIngredient(elem, index)}
+        handleClose={() => deleteIngredient(elem)}
       />
     </div>
   )
+}
+
+DraggableConstructorItem.propTypes = {
+  elem: ingredientPropTypes,
+  deleteIngredient: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
 }

@@ -5,17 +5,16 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Modal} from '../modal/modal'
 import {OrderDetails} from "../order-details/order-details";
-import { v4 as uuidv4 } from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {sendOrder} from "../../services/actions/order";
-import {
-  ADD_INGREDIENT, CLEAR_CONSTRUCTOR,
-  REMOVE_BUN,
-  REMOVE_INGREDIENT,
-  SET_BUN
-} from "../../services/actions/burgerConstructor";
 import {DraggableConstructorItem} from "../draggable-constructor-item/draggable-constructor-item";
 import { useDrop } from "react-dnd";
+import {
+  addIngredient,
+  clearConstructor,
+  removeBun,
+  removeIngredient, setBun
+} from "../../services/actionCreators/burgerConstructor";
 
 export function BurgerConstructor() {
   const {orderNumber} = useSelector(state => state.order)
@@ -29,34 +28,21 @@ export function BurgerConstructor() {
     const order = { ingredients: [bun._id, ...selectedIngredients.map(el => el._id), bun._id] };
     dispatch(sendOrder(order));
     setModalOpen(true);
-    dispatch({type: CLEAR_CONSTRUCTOR});
+    dispatch(clearConstructor());
   }
 
-  const deleteIngredient = (item, itemIndex) => {
-    item.type === 'bun' ? dispatch({type: REMOVE_BUN}) :
-      dispatch({type: REMOVE_INGREDIENT, payload: item, index: itemIndex})
+  const deleteIngredient = (item) => {
+    dispatch(removeIngredient(item))
   }
 
   const onIngredientDrop = (item) => {
     if (item.type !== 'bun') {
-      dispatch({
-        type: ADD_INGREDIENT,
-        payload: {...item, dropId: uuidv4()},
-      });
+      dispatch(addIngredient(item));
     } else if (item.type === 'bun' && !bun) {
-      dispatch({
-        type: SET_BUN,
-        payload: item
-      });
+      dispatch(setBun(item));
     } else {
-      dispatch({
-        type: REMOVE_BUN,
-        payload: bun
-      });
-      dispatch({
-        type: SET_BUN,
-        payload: item
-      });
+      dispatch(removeBun(bun));
+      dispatch(setBun(item));
     }
   }
 
@@ -78,7 +64,6 @@ export function BurgerConstructor() {
             price={bun.price}
             isLocked={true}
             type={'top'}
-            handleClose={() => deleteIngredient(bun)}
             />
         </div>) : (
           <div className={`${styles.constructor__bunContainer} mr-4`}>
@@ -115,7 +100,6 @@ export function BurgerConstructor() {
             price={bun.price}
             isLocked={true}
             type={'bottom'}
-            handleClose={() => deleteIngredient(bun)}
           />
         </div>) : (
           <div className={`${styles.constructor__bunContainer} mr-4`}>

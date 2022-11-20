@@ -3,10 +3,6 @@ import styles from './header-link.module.css'
 import PropTypes from "prop-types";
 
 export function HeaderLink({active, linkRoute, children}) {
-  HeaderLink.propTypes = {
-    active: PropTypes.bool.isRequired,
-    linkRoute: PropTypes.string,
-  }
   return (
     <a
       href={linkRoute}
@@ -15,4 +11,9 @@ export function HeaderLink({active, linkRoute, children}) {
       {children}
     </a>
   )
+}
+
+HeaderLink.propTypes = {
+  active: PropTypes.bool.isRequired,
+  linkRoute: PropTypes.string,
 }

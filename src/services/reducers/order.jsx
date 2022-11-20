@@ -7,7 +7,8 @@ import {
 const initialState = {
   orderNumber: null,
   orderRequest: false,
-  orderFailed: false
+  orderFailed: false,
+  isModalOpen: false
 }
 
 export const order = (state = initialState, action) => {

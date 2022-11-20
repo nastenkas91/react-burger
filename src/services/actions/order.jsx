@@ -1,4 +1,5 @@
 import {makeOrder} from "../../utils/api";
+import {sendOrderFailed, sendOrderRequest, sendOrderSuccess} from "../actionCreators/order";
 
 export const SEND_ORDER_REQUEST = 'SEND_ORDER_REQUEST';
 export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS';
@@ -6,26 +7,17 @@ export const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED';
 
 export const sendOrder = (order) => {
   return function (dispatch) {
-    dispatch({
-      type: SEND_ORDER_REQUEST
-    });
+    dispatch(sendOrderRequest);
     makeOrder(order)
       .then(res => {
         if (res && res.success) {
-          dispatch({
-            type: SEND_ORDER_SUCCESS,
-            payload: res.order.number
-          })
+          dispatch(sendOrderSuccess(res.order.number))
         } else {
-          dispatch({
-            type: SEND_ORDER_FAILED,
-          })
+          dispatch(sendOrderFailed)
         }
       })
       .catch(err => {
-        dispatch({
-          type: SEND_ORDER_FAILED,
-        })
+        dispatch(sendOrderFailed)
       })
     }
   }

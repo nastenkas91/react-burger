@@ -1,4 +1,4 @@
-import {useEffect, useReducer, useState} from "react";
+import {useEffect} from "react";
 import {AppHeader} from "../app-header/app-header";
 import {ConstructorPage} from "../constructor-page/constructor-page";
 import {getIngredients} from "../../services/actions/ingredients";
