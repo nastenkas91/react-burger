@@ -16,8 +16,11 @@ import {
   removeIngredient, setBun
 } from "../../services/actionCreators/burgerConstructor";
 
+import {Oval} from "react-loader-spinner";
+
 export function BurgerConstructor() {
   const {orderNumber} = useSelector(state => state.order)
+  const {orderRequest} = useSelector(state => state.order)
 
   const {selectedIngredients, bun, totalPrice} = useSelector(state => state.burgerConstructor);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -112,7 +115,12 @@ export function BurgerConstructor() {
         </span>
         <Button disabled={!bun} htmlType={"submit"} type={"primary"} size={"large"} onClick={onMakeOrderClick}>Оформить заказ</Button>
       </div>
-      {isModalOpen && (
+      {
+        orderRequest && (
+          <Oval color={"#000"} secondaryColor={"#fff"} />
+        )
+      }
+      {orderNumber && (
         <Modal title={''} setModalOpen={setModalOpen}>
           <OrderDetails orderId={orderNumber} />
         </Modal>

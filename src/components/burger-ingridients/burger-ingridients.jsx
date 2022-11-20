@@ -6,11 +6,10 @@ import {IngredientsItem} from "../ingridients-item/ingridients-item";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
 import {useSelector} from "react-redux";
-import { useInView } from "react-intersection-observer";
 
 export function BurgerIngredients() {
   const {ingredients, currentIngredient} = useSelector(state => state.ingredients);
-  const {bun, selectedIngredients} = useSelector(state => state.burgerConstructor)
+  const {bun, selectedIngredients} = useSelector(state => state.burgerConstructor);
 
   const [current, setCurrent] = useState('buns');
   const [isModalOpen, setModalOpen] = useState(false);
