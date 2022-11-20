@@ -2,6 +2,7 @@ import {
   SEND_ORDER_SUCCESS,
   SEND_ORDER_FAILED,
   SEND_ORDER_REQUEST,
+  CLEAR_ORDER_NUMBER
 } from "../actions/order";
 
 const initialState = {
@@ -32,6 +33,12 @@ export const order = (state = initialState, action) => {
         ...state,
         orderRequest: false,
         orderFailed: true
+      }
+    }
+    case CLEAR_ORDER_NUMBER: {
+      return {
+        ...state,
+        orderNumber: null,
       }
     }
     default: {

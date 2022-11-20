@@ -15,6 +15,7 @@ import {
   removeBun,
   removeIngredient, setBun
 } from "../../services/actionCreators/burgerConstructor";
+import {clearOrderNumber} from "../../services/actionCreators/order";
 
 export function BurgerConstructor() {
   const {orderNumber} = useSelector(state => state.order)
@@ -26,9 +27,10 @@ export function BurgerConstructor() {
 
   const onMakeOrderClick = () => {
     const order = { ingredients: [bun._id, ...selectedIngredients.map(el => el._id), bun._id] };
+    dispatch(clearOrderNumber());
     dispatch(sendOrder(order));
-    setModalOpen(true);
     dispatch(clearConstructor());
+    setModalOpen(true);
   }
 
   const deleteIngredient = (item) => {
