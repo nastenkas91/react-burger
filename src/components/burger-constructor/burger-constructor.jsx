@@ -110,7 +110,7 @@ export function BurgerConstructor() {
         <span className={`text text_type_digits-medium mr-10`}>
           {totalPrice} <CurrencyIcon type={"primary"} />
         </span>
-        <Button htmlType={"submit"} type={"primary"} size={"large"} onClick={onMakeOrderClick}>Оформить заказ</Button>
+        <Button disabled={!bun} htmlType={"submit"} type={"primary"} size={"large"} onClick={onMakeOrderClick}>Оформить заказ</Button>
       </div>
       {isModalOpen && (
         <Modal title={''} setModalOpen={setModalOpen}>

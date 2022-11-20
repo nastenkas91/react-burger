@@ -6,6 +6,7 @@ import {IngredientsItem} from "../ingridients-item/ingridients-item";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
 import {useSelector} from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 export function BurgerIngredients() {
   const {ingredients, currentIngredient} = useSelector(state => state.ingredients);
@@ -81,7 +82,7 @@ export function BurgerIngredients() {
         </li>
       </ul>
 
-      <ul className={`${styles.ingridients__container} scrollArea`} onScroll={changeTub}>
+      <ul className={`${styles.ingridients__container} scrollArea`} onScroll={changeTub} >
         <li className={`${styles.ingridients__navItem} nav-item bunSection`} ref={bunRef} id={'buns'}>
           <IngridientsCategory title={'Булки'}>
           {
