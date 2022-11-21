@@ -56,6 +56,7 @@ export const burgerConstructor = (state = initialState, action) => {
         ...state,
         selectedIngredients: [],
         bun: null,
+        totalPrice: 0
       }
     }
     default: {

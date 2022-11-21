@@ -1,9 +1,8 @@
 import styles from './order-details.module.css';
 import doneIcon from '../../images/done.svg';
-import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
 
-export function OrderDetails({orderId}) {
+export function OrderDetails() {
   const {orderRequest, orderNumber} = useSelector(state => state.order)
   return (
     <div className={`${styles.order__container}`}>
@@ -14,7 +13,7 @@ export function OrderDetails({orderId}) {
       }
       {
         orderNumber && (
-          <p className={`${styles.order__ident} text text_type_digits-large mt-4`}>{orderId}</p>
+          <p className={`${styles.order__ident} text text_type_digits-large mt-4`}>{orderNumber}</p>
         )
       }
       <h3 className={`text text_type_main-medium mt-8`}>идентификатор заказа</h3>
@@ -23,8 +22,4 @@ export function OrderDetails({orderId}) {
       <p className={`text text_type_main-default mb-20 ${styles.order__wait}`}>Дождитесь готовности на орбитальной станции</p>
     </div>
   )
-}
-
-OrderDetails.propTypes = {
-  orderId: PropTypes.number.isRequired
 }

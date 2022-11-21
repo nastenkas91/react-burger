@@ -12,13 +12,12 @@ export function Modal({title, children, setModalOpen}) {
     setModalOpen(false);
   }
 
-  const handleEscClick = (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
-    }
-  }
-
   useEffect(() => {
+    const handleEscClick = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    }
     document.addEventListener('keydown', handleEscClick);
 
     return () => {

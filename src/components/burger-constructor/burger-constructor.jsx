@@ -18,7 +18,6 @@ import {
 import {clearOrderNumber} from "../../services/actionCreators/order";
 
 export function BurgerConstructor() {
-  const {orderNumber} = useSelector(state => state.order)
 
   const {selectedIngredients, bun, totalPrice} = useSelector(state => state.burgerConstructor);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -116,7 +115,7 @@ export function BurgerConstructor() {
       </div>
       {isModalOpen && (
         <Modal title={''} setModalOpen={setModalOpen}>
-          <OrderDetails orderId={orderNumber} />
+          <OrderDetails />
         </Modal>
       )}
     </section>
