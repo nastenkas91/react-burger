@@ -1,21 +1,41 @@
 import styles from './reset-password.module.css';
-import {EmailInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink} from "react-router-dom";
 import {useInputChange} from "../../utils/hooks";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
+import {setNewPassword} from "../../utils/api";
 
 export const ResetPassword = () => {
   const {values, formIsValid, handleChange} = useInputChange({})
+  function setPassword() {
+    const request = {
+      "password": values['password'],
+      "token": values['code']
+    }
+
+    setNewPassword(request)
+      .then(res => {
+        if(res && res.success) {
+          console.log(res.message)
+        }
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
     <PageWithForm>
-      <Form formIsValid={formIsValid} formTitle={'Восстановление пароля'} buttonTitle={'Сохранить'}>
-        <EmailInput
+      <Form
+        formIsValid={formIsValid}
+        formTitle={'Восстановление пароля'}
+        buttonTitle={'Сохранить'}
+        onSubmit={setPassword}
+      >
+        <PasswordInput
           extraClass={`mb-6`}
-          name={'email'}
-          value={values['email'] || ''}
-          placeholder={'Введите новый пароль'}
+          name={'password'}
+          value={values['password'] || ''}
+          icon={'ShowIcon'}
           onChange={handleChange}
         />
         <Input

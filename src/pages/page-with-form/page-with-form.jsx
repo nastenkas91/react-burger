@@ -1,4 +1,5 @@
 import styles from './page-with-form.module.css';
+import PropTypes from "prop-types";
 
 export const PageWithForm = ({children}) => {
   return (
@@ -8,4 +9,8 @@ export const PageWithForm = ({children}) => {
     </div>
   </section>
   )
+}
+
+PageWithForm.propTypes = {
+  children: PropTypes.node.isRequired
 }

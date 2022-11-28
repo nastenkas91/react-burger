@@ -1,4 +1,4 @@
-import {URL_API, INGREDIENTS_END_POINT, ORDERS_END_POINT} from "./constants";
+import {URL_API, INGREDIENTS_END_POINT, ORDERS_END_POINT, PASSWORD_RESET, NEW_PASSWORD} from "./constants";
 
 const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
@@ -23,3 +23,23 @@ export function makeOrder(order) {
     body: JSON.stringify(order)
   })
 };
+
+export function resetPassword(email) {
+  return request(URL_API + PASSWORD_RESET, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(email)
+  })
+}
+
+export function setNewPassword(req) {
+  return request(URL_API + NEW_PASSWORD, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req)
+  })
+}
