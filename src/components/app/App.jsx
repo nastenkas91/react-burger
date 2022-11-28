@@ -6,6 +6,8 @@ import {useDispatch} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 import {Login} from "../../pages/login/login";
 import {Register} from "../../pages/register/register";
+import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
+import {ResetPassword} from "../../pages/reset-password/reset-password";
 
 export function App() {
   const dispatch = useDispatch();
@@ -28,10 +30,10 @@ export function App() {
           <Register />
         </Route>
         <Route path={'/forgot-password'} exact={true}>
-          <ConstructorPage />
+          <ForgotPassword />
         </Route>
         <Route path={'/reset-password'} exact={true}>
-          <ConstructorPage />
+          <ResetPassword />
         </Route>
         <Route path={'/profile'} exact={true}>
           <ConstructorPage />
