@@ -68,7 +68,7 @@ export function BurgerConstructor() {
             />
         </div>) : (
           <div className={`${styles.constructor__bunContainer} mr-4`}>
-            <p className={`text_type_main-medium`}>Перетащите булку</p>
+            <p className={`text_type_main-medium`}>Добавьте булку</p>
           </div>
           )
       }
@@ -88,7 +88,7 @@ export function BurgerConstructor() {
           })}
         </div>) : (
             <div className={`${styles.constructor__ingredientContainer} mr-4 mt-4 mb-4`}>
-              <p className={`text_type_main-medium`}>Перетащите ингредиент</p>
+              <p className={`text_type_main-medium`}>Добавьте ингредиент</p>
             </div>
           )
       }
@@ -104,7 +104,7 @@ export function BurgerConstructor() {
           />
         </div>) : (
           <div className={`${styles.constructor__bunContainer} mr-4`}>
-            <p className={`text_type_main-medium`}>Перетащите булку</p>
+            <p className={`text_type_main-medium`}>Добавьте булку</p>
           </div>
           )}
       <div className={`${styles.constructor__info} mt-10`}>

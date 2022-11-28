@@ -1,0 +1,40 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  height: 80vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.form__title {
+  text-align: center;
+}
+
+.form__input {
+
+}
+
+.form__submitBtn {
+  width: 128px;
+}
+
+.text {
+  text-align: center;
+}
+
+.link {
+  text-decoration: none;
+}
