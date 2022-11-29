@@ -8,6 +8,7 @@ import {Login} from "../../pages/login/login";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
+import {Profile} from "../../pages/profile/profile";
 
 export function App() {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ export function App() {
           <ResetPassword />
         </Route>
         <Route path={'/profile'} exact={true}>
-          <ConstructorPage />
+          <Profile />
         </Route>
         <Route path={'/ingredients/:id'} exact={true}>
           <ConstructorPage />

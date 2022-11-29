@@ -1,0 +1,54 @@
+.profile {
+  display: flex;
+  justify-content: center;
+  padding-top: 120px;
+}
+
+.profile__container {
+  display: grid;
+  gap: 80px 60px;
+  grid-template-columns: 320px 480px 320px;
+}
+
+.profile__leftWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__nav {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile__listItem {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  height: 64px;
+  padding: 0;
+  margin: 0;
+}
+
+.profile__link {
+  color: #8585AD;
+  text-decoration: none;
+}
+
+.profile__link_active {
+  color: #F2F2F3;
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px
+}
+
+.profile__text {
+  margin-top: 80px;
+  opacity: .4;
+  padding: 0;
+}
