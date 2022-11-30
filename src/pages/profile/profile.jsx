@@ -1,10 +1,42 @@
 import styles from './profile.module.css'
-import {NavLink} from "react-router-dom";
-import {Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useInputChange} from "../../utils/hooks";
+import {NavLink, useHistory} from "react-router-dom";
+import {EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {getCookie} from "../../utils/cookies";
+import {useDispatch, useSelector} from "react-redux";
+import {logout, register} from "../../services/actions/auth";
+import {useState} from "react";
+import {setRegistrationForm} from "../../services/actionCreators/auth";
 
 export const Profile = () => {
-  const {values, handleChange} = useInputChange({})
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const {name, email, password} = useSelector(state => state.profileReducer.form)
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  function handleFormValidation(e) {
+    setFormIsValid(e.target.closest('.form').checkValidity());
+  }
+  const handleFormChange = (e) => {
+    dispatch(setRegistrationForm(e.target.name, e.target.value));
+    handleFormValidation(e);
+  }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    dispatch(register({
+        "email": email,
+        "password": password,
+        "name": name
+      }
+    ));
+    history.replace('/')
+  }
+
+  const handleLogout = () => {
+    const token = getCookie('refreshToken');
+    dispatch(logout({
+      "token": token
+    } ));
+  }
 
   return (
     <section className={`${styles.profile}`}>
@@ -33,10 +65,11 @@ export const Profile = () => {
           </li>
           <li className={`${styles.profile__listItem}`}>
             <NavLink
-              to={'/'}
+              to={'/login'}
               exact={true}
               className={`${styles.profile__link} text text_type_main-medium`}
               activeClassName={`${styles.profile__link_active}`}
+              onClick={handleLogout}
             >
               Выход
             </NavLink>
@@ -47,26 +80,25 @@ export const Profile = () => {
             изменить свои персональные данные
           </p>
         </div>
-        <form className={`${styles.profile__form} form`}>
+        <form className={`${styles.profile__form} form`} onSubmit={handleFormSubmit}>
           <Input
             name={'name'}
-            value={values['name'] || ''}
-            onChange={handleChange}
+            value={name}
+            onChange={handleFormChange}
             placeholder={'Имя'}
             icon={'EditIcon'}
           />
-          <Input
-            name={'login'}
-            value={values['login'] || ''}
-            onChange={handleChange}
+          <EmailInput
+            name={'email'}
+            value={email}
+            onChange={handleFormChange}
             placeholder={'Логин'}
             icon={'EditIcon'}
-            //onIconClick={}
           />
           <PasswordInput
             name={'password'}
-            value={values['password'] || ''}
-            onChange={handleChange}
+            value={password}
+            onChange={handleFormChange}
             placeholder={'Пароль'}
             icon={'EditIcon'}
           />

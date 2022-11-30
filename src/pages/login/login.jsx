@@ -1,28 +1,54 @@
 import styles from './login.module.css';
 import {PasswordInput, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink} from "react-router-dom";
-import {useInputChange} from '../../utils/hooks';
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
+import {useDispatch, useSelector} from "react-redux";
+import {useState} from "react";
+import {setLoginForm} from "../../services/actionCreators/auth";
+import {login} from "../../services/actions/auth";
 
 export const Login = () => {
-  const {values, formIsValid, handleChange} = useInputChange({})
+  const dispatch = useDispatch();
+  const {email, password} = useSelector(state => state.loginReducer.form)
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  function handleFormValidation(e) {
+    setFormIsValid(e.target.closest('.form').checkValidity());
+  }
+  const handleFormChange = (e) => {
+    dispatch(setLoginForm(e.target.name, e.target.value));
+    handleFormValidation(e);
+  }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login({
+        "email": email,
+        "password": password,
+      }
+    ))
+  }
 
   return (
     <PageWithForm>
-      <Form formIsValid={formIsValid} formTitle={'Вход'} buttonTitle={'Войти'}>
+      <Form
+        formIsValid={formIsValid}
+        formTitle={'Вход'}
+        buttonTitle={'Войти'}
+        onSubmit={handleFormSubmit}
+      >
         <EmailInput
           extraClass={`mb-6`}
           name={'email'}
-          value={values['email'] || ''}
-          onChange={handleChange}
+          value={email}
+          onChange={handleFormChange}
         />
         <PasswordInput
           extraClass={`mb-6`}
           name={'password'}
-          value={values['password'] || ''}
+          value={password}
           icon={'ShowIcon'}
-          onChange={handleChange}
+          onChange={handleFormChange}
         />
       </Form>
       <p className={`${styles.text} text text_type_main-default text_color_inactive mb-4`}>

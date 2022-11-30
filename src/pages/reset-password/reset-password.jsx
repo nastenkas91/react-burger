@@ -1,26 +1,32 @@
 import styles from './reset-password.module.css';
 import {Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink} from "react-router-dom";
-import {useInputChange} from "../../utils/hooks";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
-import {setNewPassword} from "../../utils/api";
+import {sendNewPassword} from "../../services/actions/auth";
+import {useDispatch, useSelector} from "react-redux";
+import {useState} from "react";
+import {setNewPasswordForm} from "../../services/actionCreators/auth";
 
 export const ResetPassword = () => {
-  const {values, formIsValid, handleChange} = useInputChange({})
-  function setPassword() {
-    const request = {
-      "password": values['password'],
-      "token": values['code']
-    }
+  const dispatch = useDispatch();
+  const {password, token} = useSelector(state => state.newPasswordReducer.form)
+  const [formIsValid, setFormIsValid] = useState(false);
 
-    setNewPassword(request)
-      .then(res => {
-        if(res && res.success) {
-          console.log(res.message)
-        }
-      })
-      .catch(err => console.log(err))
+  function handleFormValidation(e) {
+    setFormIsValid(e.target.closest('.form').checkValidity());
+  }
+  const handleFormChange = (e) => {
+    dispatch(setNewPasswordForm(e.target.name, e.target.value));
+    handleFormValidation(e);
+  }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    dispatch(sendNewPassword({
+        "password": password,
+        "token": token
+      }
+    ))
   }
 
   return (
@@ -29,22 +35,22 @@ export const ResetPassword = () => {
         formIsValid={formIsValid}
         formTitle={'Восстановление пароля'}
         buttonTitle={'Сохранить'}
-        onSubmit={setPassword}
+        onSubmit={handleFormSubmit}
       >
         <PasswordInput
           extraClass={`mb-6`}
           name={'password'}
-          value={values['password'] || ''}
+          value={password}
           icon={'ShowIcon'}
-          onChange={handleChange}
+          onChange={handleFormChange}
         />
         <Input
           type={'text'}
           placeholder={'Введите код из письма'}
           extraClass={`mb-6`}
           name={'code'}
-          value={values['code'] || ''}
-          onChange={handleChange}
+          value={token}
+          onChange={handleFormChange}
         />
       </Form>
       <p className={`${styles.text} text text_type_main-default text_color_inactive mb-4`}>
