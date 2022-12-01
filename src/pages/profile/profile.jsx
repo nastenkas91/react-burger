@@ -1,41 +1,53 @@
 import styles from './profile.module.css'
 import {NavLink, useHistory} from "react-router-dom";
-import {EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {getCookie} from "../../utils/cookies";
 import {useDispatch, useSelector} from "react-redux";
-import {logout, register} from "../../services/actions/auth";
+import {getUser, logout, updateUserInfo} from "../../services/actions/auth";
 import {useState} from "react";
-import {setRegistrationForm} from "../../services/actionCreators/auth";
+import {resetProfileInfo, setProfileInfoForm} from "../../services/actionCreators/auth";
+import {useEffect} from "react";
 
 export const Profile = () => {
+  const [isModified, setIsModified] = useState(false)
   const dispatch = useDispatch();
   const history = useHistory();
   const {name, email, password} = useSelector(state => state.profileReducer.form)
   const [formIsValid, setFormIsValid] = useState(false);
 
+  useEffect(() => {
+    dispatch(getUser())
+  }, [])
+
   function handleFormValidation(e) {
     setFormIsValid(e.target.closest('.form').checkValidity());
   }
   const handleFormChange = (e) => {
-    dispatch(setRegistrationForm(e.target.name, e.target.value));
+    dispatch(setProfileInfoForm(e.target.name, e.target.value));
     handleFormValidation(e);
+    setIsModified(true);
   }
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(register({
+    dispatch(updateUserInfo({
         "email": email,
         "password": password,
         "name": name
       }
     ));
-    history.replace('/')
+  }
+
+  const handleCancelClick = () => {
+    dispatch(resetProfileInfo());
+    setIsModified(false);
   }
 
   const handleLogout = () => {
     const token = getCookie('refreshToken');
     dispatch(logout({
       "token": token
-    } ));
+    }));
+    history.replace("/login")
   }
 
   return (
@@ -102,6 +114,13 @@ export const Profile = () => {
             placeholder={'Пароль'}
             icon={'EditIcon'}
           />
+          {
+            isModified &&
+            <div className={`${styles.profile__changeButtons} `}>
+              <Button htmlType={"button"} type={'secondary'} onClick={handleCancelClick}>Отмена</Button>
+              <Button disabled={!formIsValid} htmlType={'submit'} type={'primary'} onSubmit={handleFormSubmit}>Сохранить</Button>
+            </div>
+          }
         </form>
       </div>
     </section>

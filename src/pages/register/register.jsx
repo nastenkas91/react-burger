@@ -1,14 +1,16 @@
 import styles from './register.module.css';
 import {Input, PasswordInput, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink, Redirect, useHistory} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {setRegistrationForm} from "../../services/actionCreators/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {register} from "../../services/actions/auth";
+import {isAuth} from "../../utils/utils";
 
 export const Register = () => {
+  let loggedin = isAuth();
   const dispatch = useDispatch();
   const history = useHistory();
   const {name, email, password} = useSelector(state => state.registrationReducer.form)
@@ -29,7 +31,12 @@ export const Register = () => {
         "name": name
       }
     ));
-    history.replace('/')
+  }
+
+  if (loggedin) {
+    return (
+      <Redirect to={{pathname: '/'}} />
+    )
   }
 
   return (

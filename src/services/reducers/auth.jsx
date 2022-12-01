@@ -62,7 +62,7 @@ const loginFormState = {
 
 const resetPasswordFormState = {
   sendRequest: false,
-  failedRequest: false,
+  successfulRequest: false,
   form: {
     email: '',
   },
@@ -78,7 +78,6 @@ const newPasswordFormState = {
 };
 
 const profileState = {
-  isAuth: !!getCookie('accessToken'),
   sendRequest: false,
   failedRequest: false,
   user: {
@@ -177,6 +176,11 @@ export const loginReducer = (state = loginFormState, action) => {
       return {
         ...state,
         sendLogoutRequest: false,
+        user: {
+          ...state.user,
+          email: '',
+          name: '',
+        }
       }
     }
     case LOGOUT_REQUEST_FAILED: {
@@ -216,13 +220,14 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
           email: '',
         },
         sendRequest: false,
+        successfulRequest: true,
       }
     }
     case RESET_PASSWORD_FAILED: {
       return {
         ...state,
         sendRequest: false,
-        failedRequest: true,
+        successfulRequest: false,
       }
     }
     default: {
@@ -252,7 +257,8 @@ export const newPasswordReducer = (state = newPasswordFormState, action) => {
       return {
         ...state,
         form: {
-          email: '',
+          password: '',
+          token: ''
         },
         sendRequest: false,
       }
@@ -309,6 +315,7 @@ export const profileReducer = (state = profileState, action) => {
       return {
         ...state,
         form: {
+          ...state.form,
           email: state.user.email,
           name: state.user.name,
           password: ''

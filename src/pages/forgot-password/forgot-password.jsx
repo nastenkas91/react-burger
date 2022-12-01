@@ -1,14 +1,16 @@
 import styles from './forgot-password.module.css';
 import {EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink, Redirect, useHistory} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
-import {setRegistrationForm} from "../../services/actionCreators/auth";
 import {resetPassword} from "../../services/actions/auth";
+import {setResetPasswordForm} from "../../services/actionCreators/auth";
+import {isAuth} from "../../utils/utils";
 
 export const ForgotPassword = () => {
+  let loggedin = isAuth();
   const history = useHistory();
   const dispatch = useDispatch();
   const {email} = useSelector(state => state.resetPasswordReducer.form)
@@ -18,7 +20,7 @@ export const ForgotPassword = () => {
     setFormIsValid(e.target.closest('.form').checkValidity());
   }
   const handleFormChange = (e) => {
-    dispatch(setRegistrationForm(e.target.name, e.target.value));
+    dispatch(setResetPasswordForm(e.target.name, e.target.value));
     handleFormValidation(e);
   }
   const handleFormSubmit = (e) => {
@@ -27,7 +29,16 @@ export const ForgotPassword = () => {
         "email": email,
       }
     ));
-    history.push('/reset-password')
+    history.push({
+      pathname: '/reset-password',
+      state: {from: '/forgot-password'}
+    })
+  }
+
+  if (loggedin) {
+    return (
+      <Redirect to={{pathname: '/'}} />
+    )
   }
 
   return (

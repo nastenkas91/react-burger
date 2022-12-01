@@ -5,9 +5,16 @@ import {IngridientsCategory} from "../ingridients-category/ingridients-category"
 import {IngredientsItem} from "../ingridients-item/ingridients-item";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {getIngredients} from "../../services/actions/ingredients";
 
 export function BurgerIngredients() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
+
   const {ingredients, currentIngredient} = useSelector(state => state.ingredients);
   const {bun, selectedIngredients} = useSelector(state => state.burgerConstructor);
 

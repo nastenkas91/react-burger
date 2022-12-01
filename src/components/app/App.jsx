@@ -1,34 +1,22 @@
-import {useEffect} from "react";
 import {AppHeader} from "../app-header/app-header";
 import {ConstructorPage} from "../../pages/constructor-page/constructor-page";
-import {getIngredients} from "../../services/actions/ingredients";
-import {useDispatch, useSelector} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 import {Login} from "../../pages/login/login";
 import {Register} from "../../pages/register/register";
 import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
 import {Profile} from "../../pages/profile/profile";
-import {getUser} from "../../services/actions/auth";
-import {getCookie} from "../../utils/cookies";
+import {ProtectedRoute} from "../protected-route/protected-route";
 
 export function App() {
-  const dispatch = useDispatch();
-  const {isAuth} = useSelector(state => state.profileReducer);
-  const token = getCookie('accessToken');
-
-  useEffect(() => {
-    dispatch(getIngredients());
-    dispatch(getUser(token))
-  }, [])
 
   return (
     <>
       <AppHeader />
       <Switch>
-        <Route path={'/'} exact={true}>
+        <ProtectedRoute  path={'/'} exact={true}>
           <ConstructorPage />
-        </Route>
+        </ProtectedRoute>
         <Route path={'/login'} exact={true}>
           <Login />
         </Route>
@@ -41,12 +29,12 @@ export function App() {
         <Route path={'/reset-password'} exact={true}>
           <ResetPassword />
         </Route>
-        <Route path={'/profile'} exact={true}>
+        <ProtectedRoute path={'/profile'} exact={true}>
           <Profile />
-        </Route>
-        <Route path={'/ingredients/:id'} exact={true}>
+        </ProtectedRoute>
+        <ProtectedRoute path={'/ingredients/:id'} exact={true}>
           <ConstructorPage />
-        </Route>
+        </ProtectedRoute>
         <Route>
           <ConstructorPage />
         </Route>

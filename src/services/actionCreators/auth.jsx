@@ -156,9 +156,10 @@ export const setNewPasswordForm = (field, value) => {
   }
 };
 
-export const newPasswordRequest = () => {
+export const newPasswordRequest = (data) => {
   return {
     type: NEW_PASSWORD_REQUEST,
+    payload: data
   }
 };
 
@@ -182,10 +183,10 @@ export const getUserProfileRequest = (token) => {
   }
 };
 
-export const getUserProfileSuccess = (data) => {
+export const getUserProfileSuccess = (user) => {
   return {
     type: GET_USER_SUCCESS,
-    payload: data
+    payload: user
   }
 };
 
@@ -212,9 +213,10 @@ export const changeProfileInfoRequest = () => {
   }
 };
 
-export const changeProfileInfoSuccess = () => {
+export const changeProfileInfoSuccess = (user) => {
   return {
     type: PROFILE_SUBMIT_SUCCESS,
+    payload: user
   }
 };
 
@@ -235,5 +237,17 @@ export const sendTokenRequest = (req) => {
   return {
     type: TOKEN_REQUEST,
     payload: {req}
+  }
+};
+
+export const tokenRequestSuccess = () => {
+  return {
+    type: TOKEN_REQUEST_SUCCESS,
+  }
+};
+
+export const tokenRequestFailed = () => {
+  return {
+    type: TOKEN_REQUEST_FAILED,
   }
 };

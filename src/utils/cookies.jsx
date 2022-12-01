@@ -1,3 +1,5 @@
+import {wrapMergePropsFunc} from "react-redux/es/connect/mergeProps";
+
 export function setCookie(name, value, props) {
   props = props || {};
   let exp = props.expires;
@@ -27,3 +29,7 @@ export function getCookie(name) {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
+
+export function deleteCookie(name) {
+  return setCookie(name, '', {expires: -1})
+}

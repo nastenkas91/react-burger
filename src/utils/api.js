@@ -10,12 +10,34 @@ import {
   TOKEN_END_POINT,
   USER_END_POINT
 } from "./constants";
+import {getCookie, setCookie} from "./cookies";
 
-const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+const checkResponse = (res) => res.ok ? res.json() : res.json().then(err => Promise.reject(err));
 
 const request = (url, options) => {
   return fetch(url, options).then(checkResponse)
 }
+
+export const fetchWithRefresh = async (url, options) => {
+  try {
+    const res = await fetch(url, options);
+    return await checkResponse(res);
+  } catch (err) {
+    if (err.message === 'jwt expired') {
+      const refreshedData = await getNewTokenRequest();
+      if (!refreshedData.success) {
+        Promise.reject(refreshedData)
+      }
+      setCookie('refreshToken', refreshedData.refreshToken);
+      setCookie('accessToken', refreshedData.accessToken);
+      options.headers.authorization = refreshedData.accessToken;
+      const res = await fetch(url, options);
+      return await checkResponse(res);
+    } else {
+      return Promise.reject(err)
+    }
+  }
+};
 
 export function fetchIngredients() {
   return request(URL_API + INGREDIENTS_END_POINT, {
@@ -43,7 +65,7 @@ export function resetPasswordRequest(email) {
     },
     body: JSON.stringify(email)
   })
-}
+};
 
 export function setNewPasswordRequest(req) {
   return request(URL_API + NEW_PASSWORD, {
@@ -53,7 +75,7 @@ export function setNewPasswordRequest(req) {
     },
     body: JSON.stringify(req)
   })
-}
+};
 
 export function loginRequest(req) {
   return request(URL_API + LOGIN_END_POINT, {
@@ -63,7 +85,7 @@ export function loginRequest(req) {
     },
     body: JSON.stringify(req)
   })
-}
+};
 
 export function registerRequest(req) {
   return request(URL_API + REGISTRATION_END_POINT, {
@@ -73,7 +95,7 @@ export function registerRequest(req) {
     },
     body: JSON.stringify(req)
   })
-}
+};
 
 export function logoutRequest(req) {
   return request(URL_API + LOGOUT_END_POINT, {
@@ -83,38 +105,42 @@ export function logoutRequest(req) {
     },
     body: JSON.stringify(req)
   })
-}
+};
 
-export function getNewTokenRequest(req) {
+export function getNewTokenRequest() {
   return request(URL_API + TOKEN_END_POINT, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(req)
+    body: JSON.stringify({
+      "token": `${getCookie('refreshToken')}`
+    } )
   })
-}
+};
 
-export function getUserInfoRequest(token) {
-  return request(URL_API + USER_END_POINT, {
+export function getUserInfoRequest() {
+  return fetchWithRefresh(URL_API + USER_END_POINT, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'authorization': `Bearer ${token}`
+      'authorization': `Bearer ${getCookie('accessToken')}`
     },
   })
-}
+};
 
-export function updateUserInfoRequest(token, req) {
-  return request(URL_API + USER_END_POINT, {
+export function updateUserInfoRequest(req) {
+  return fetchWithRefresh(URL_API + USER_END_POINT, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      'authorization': token
+      'authorization': `Bearer ${getCookie('accessToken')}`
     },
     body: JSON.stringify(req)
   })
-}
+};
+
+
 
 
 

@@ -47,6 +47,11 @@
   gap: 24px
 }
 
+.profile__changeButtons {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .profile__text {
   margin-top: 80px;
   opacity: .4;

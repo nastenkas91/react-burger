@@ -6,6 +6,7 @@ import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 
 export function ConstructorPage() {
+
   return (
     <main className={`${styles.constructor__container}`}>
       <DndProvider backend={HTML5Backend}>

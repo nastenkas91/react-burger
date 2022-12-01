@@ -18,9 +18,21 @@ import {
   setProfileInfoForm,
   getUserProfileSuccess,
   getUserProfileFailed,
+  changeProfileInfoRequest,
+  changeProfileInfoSuccess,
+  changeProfileInfoFailed,
 } from "../actionCreators/auth";
-import {loginRequest, logoutRequest, registerRequest, resetPasswordRequest, getNewTokenRequest, getUserInfoRequest, updateUserInfoRequest} from "../../utils/api";
-import {setCookie} from "../../utils/cookies";
+import {
+  loginRequest,
+  logoutRequest,
+  registerRequest,
+  resetPasswordRequest,
+  getNewTokenRequest,
+  getUserInfoRequest,
+  updateUserInfoRequest,
+  setNewPasswordRequest
+} from "../../utils/api";
+import {deleteCookie, setCookie} from "../../utils/cookies";
 
 export const SET_REGISTRATION_FORM = 'SET_REGISTRATION_FORM';
 export const SEND_REGISTRATION_REQUEST = 'SEND_REGISTRATION_REQUEST';
@@ -107,8 +119,8 @@ export const logout = (token) => {
       .then(res => {
         if(res && res.success) {
           console.log(res);
-          setCookie('accessToken', '');
-          setCookie('refreshToken', '');
+          deleteCookie('accessToken');
+          deleteCookie('refreshToken');
           dispatch(logoutSuccess())
         }
         else {
@@ -139,7 +151,7 @@ export const resetPassword = (email) => {
 export const sendNewPassword = (data) => {
   return function (dispatch) {
     dispatch(newPasswordRequest());
-    newPasswordRequest(data)
+    setNewPasswordRequest(data)
       .then(res => {
         if(res && res.success) {
           console.log(res);
@@ -162,12 +174,29 @@ export const getUser = (token) => {
           console.log(res);
           setProfileInfoForm(res.user)
           dispatch(getUserProfileSuccess(res.user))
-        }
-        else {
+        } else {
           dispatch(getUserProfileFailed())
         }
       })
       .catch(dispatch(getUserProfileFailed()))
   }
 };
+
+export const updateUserInfo = (data) => {
+  return function (dispatch) {
+    dispatch(changeProfileInfoRequest());
+    updateUserInfoRequest(data)
+      .then(res => {
+        if(res && res.success) {
+          console.log(res);
+          dispatch(changeProfileInfoSuccess(res.user))
+        }
+        else {
+          dispatch(changeProfileInfoFailed())
+        }
+      })
+      .catch(dispatch(changeProfileInfoFailed()))
+  }
+};
+
 

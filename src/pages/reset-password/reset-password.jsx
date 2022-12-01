@@ -1,14 +1,18 @@
 import styles from './reset-password.module.css';
 import {Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect, useHistory, useLocation} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {sendNewPassword} from "../../services/actions/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {setNewPasswordForm} from "../../services/actionCreators/auth";
+import {isAuth} from "../../utils/utils";
 
 export const ResetPassword = () => {
+  let loggedin = isAuth();
+  const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const {password, token} = useSelector(state => state.newPasswordReducer.form)
   const [formIsValid, setFormIsValid] = useState(false);
@@ -26,7 +30,20 @@ export const ResetPassword = () => {
         "password": password,
         "token": token
       }
-    ))
+    ));
+    history.push({pathname: '/login'})
+  }
+
+  if (loggedin) {
+    return (
+      <Redirect to={{pathname: '/'}} />
+    )
+  }
+
+  if (location.state?.from !== '/forgot-password') {
+    return (
+      <Redirect to={{pathname: '/forgot-password'}} />
+    )
   }
 
   return (
@@ -48,7 +65,7 @@ export const ResetPassword = () => {
           type={'text'}
           placeholder={'Введите код из письма'}
           extraClass={`mb-6`}
-          name={'code'}
+          name={'token'}
           value={token}
           onChange={handleFormChange}
         />
