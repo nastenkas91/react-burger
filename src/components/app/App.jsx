@@ -14,9 +14,9 @@ export function App() {
     <>
       <AppHeader />
       <Switch>
-        <ProtectedRoute path={'/'} exact={true}>
+        <Route path={'/'} exact={true}>
           <ConstructorPage />
-        </ProtectedRoute>
+        </Route>
         <Route path={'/login'} exact={true}>
           <Login />
         </Route>

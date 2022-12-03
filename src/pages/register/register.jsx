@@ -12,7 +12,7 @@ import {isAuth} from "../../utils/utils";
 export const Register = () => {
   let isLoggedIn = isAuth();
   const dispatch = useDispatch();
-  const {name, email, password} = useSelector(state => state.loginReducer().registrationForm)
+  const {name, email, password} = useSelector(state => state.loginReducer.registrationForm)
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e) {
