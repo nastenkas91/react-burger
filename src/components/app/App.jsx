@@ -34,6 +34,9 @@ export function App() {
         <ProtectedRoute path={'/profile'} exact={true}>
           <Profile />
         </ProtectedRoute>
+        <ProtectedRoute path={'/profile/orders'} exact={true}>
+          <Profile />
+        </ProtectedRoute>
         <ProtectedRoute path={'/ingredients/:id'} exact={true}>
           <ConstructorPage />
         </ProtectedRoute>

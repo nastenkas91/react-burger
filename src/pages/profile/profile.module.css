@@ -10,16 +10,3 @@
   grid-template-columns: 320px 480px 320px;
 }
 
-
-
-.profile__form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px
-}
-
-.profile__changeButtons {
-  display: flex;
-  justify-content: flex-end;
-}
-

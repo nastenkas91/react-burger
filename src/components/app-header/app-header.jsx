@@ -9,7 +9,7 @@ import {NavLink, useRouteMatch} from "react-router-dom";
 export function AppHeader() {
   const isConstructor = !!useRouteMatch({path: '/', exact: true});
   const isFeed = !!useRouteMatch({path: '/feed'});
-  const isProfile = !!useRouteMatch({path: '/profile'});
+  const isProfile = !!useRouteMatch({path: '/profile'})
 
   return (
     <header className={`${styles.header} p-4`}>
@@ -46,7 +46,6 @@ export function AppHeader() {
         <div className={`${styles.header__right}`}>
           <NavLink
             to={'/profile'}
-            exact={true}
             className={`${styles.link} text text_type_main-default`}
             activeClassName={`${styles.link_active}`}
           >

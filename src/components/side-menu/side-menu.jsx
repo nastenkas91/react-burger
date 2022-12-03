@@ -28,7 +28,7 @@ export const SideMenu = () => {
         </li>
         <li className={`${styles.nav__listItem}`}>
           <NavLink
-            to={'/orders'}
+            to={'/profile/orders'}
             exact={true}
             className={`${styles.nav__link} text text_type_main-medium`}
             activeClassName={`${styles.nav__link_active}`}
