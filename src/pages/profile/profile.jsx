@@ -1,17 +1,15 @@
 import styles from './profile.module.css'
-import {NavLink, useHistory} from "react-router-dom";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {getCookie} from "../../utils/cookies";
 import {useDispatch, useSelector} from "react-redux";
-import {getUser, logout, updateUserInfo} from "../../services/actions/auth";
+import {getUser, updateUserInfo} from "../../services/actions/auth";
 import {useState} from "react";
-import {resetProfileInfo, setProfileInfoForm} from "../../services/actionCreators/auth";
+import {setProfileInfoForm} from "../../services/actionCreators/auth";
 import {useEffect} from "react";
+import {SideMenu} from "../../components/side-menu/side-menu";
 
 export const Profile = () => {
   const [isModified, setIsModified] = useState(false)
   const dispatch = useDispatch();
-  const history = useHistory();
   const {name, email, password} = useSelector(state => state.profileReducer.form)
   const [formIsValid, setFormIsValid] = useState(false);
 
@@ -35,63 +33,18 @@ export const Profile = () => {
         "name": name
       }
     ));
-  }
-
-  const handleCancelClick = () => {
-    dispatch(resetProfileInfo());
     setIsModified(false);
   }
 
-  const handleLogout = () => {
-    const token = getCookie('refreshToken');
-    dispatch(logout({
-      "token": token
-    }));
-    history.replace("/login")
+  const handleCancelClick = () => {
+    dispatch(getUser());
+    setIsModified(false);
   }
 
   return (
     <section className={`${styles.profile}`}>
       <div className={`${styles.profile__container}`}>
-        <div className={`${styles.profile__leftWrap}`}>
-          <ul className={`${styles.profile__nav}`}>
-          <li className={`${styles.profile__listItem}`}>
-            <NavLink
-              to={'/profile'}
-              exact={true}
-              className={`${styles.profile__link} text text_type_main-medium`}
-              activeClassName={`${styles.profile__link_active}`}
-            >
-              Профиль
-            </NavLink>
-          </li>
-          <li className={`${styles.profile__listItem}`}>
-            <NavLink
-              to={'/orders'}
-              exact={true}
-              className={`${styles.profile__link} text text_type_main-medium`}
-              activeClassName={`${styles.profile__link_active}`}
-            >
-              История заказов
-            </NavLink>
-          </li>
-          <li className={`${styles.profile__listItem}`}>
-            <NavLink
-              to={'/login'}
-              exact={true}
-              className={`${styles.profile__link} text text_type_main-medium`}
-              activeClassName={`${styles.profile__link_active}`}
-              onClick={handleLogout}
-            >
-              Выход
-            </NavLink>
-          </li>
-        </ul>
-          <p className={`${styles.profile__text} text text_type_main-default text_color_inactive`}>
-            В этом разделе вы можете
-            изменить свои персональные данные
-          </p>
-        </div>
+        <SideMenu />
         <form className={`${styles.profile__form} form`} onSubmit={handleFormSubmit}>
           <Input
             name={'name'}

@@ -7,9 +7,9 @@ import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
 import {ResetPassword} from "../../pages/reset-password/reset-password";
 import {Profile} from "../../pages/profile/profile";
 import {ProtectedRoute} from "../protected-route/protected-route";
+import {NotFound} from "../../pages/not-found/not-found";
 
 export function App() {
-
   return (
     <>
       <AppHeader />
@@ -29,6 +29,8 @@ export function App() {
         <Route path={'/reset-password'} exact={true}>
           <ResetPassword />
         </Route>
+        <ProtectedRoute path={'/feed'} exact={true}>
+        </ProtectedRoute>
         <ProtectedRoute path={'/profile'} exact={true}>
           <Profile />
         </ProtectedRoute>
@@ -36,7 +38,7 @@ export function App() {
           <ConstructorPage />
         </ProtectedRoute>
         <Route>
-          <ConstructorPage />
+          <NotFound />
         </Route>
       </Switch>
     </>

@@ -10,7 +10,8 @@ import {setNewPasswordForm} from "../../services/actionCreators/auth";
 import {isAuth} from "../../utils/utils";
 
 export const ResetPassword = () => {
-  let loggedin = isAuth();
+  //let isLoggedIn = isAuth();
+  const {isLoggedIn} = useSelector(state => state.loginReducer)
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export const ResetPassword = () => {
     history.push({pathname: '/login'})
   }
 
-  if (loggedin) {
+  if (isLoggedIn) {
     return (
       <Redirect to={{pathname: '/'}} />
     )

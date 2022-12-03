@@ -66,7 +66,6 @@ export const SET_PROFILE_FORM = 'SET_PROFILE_FORM';
 export const PROFILE_FORM_SUBMIT = 'PROFILE_FORM_SUBMIT';
 export const PROFILE_SUBMIT_SUCCESS = 'PROFILE_SUBMIT_SUCCESS';
 export const PROFILE_SUBMIT_FAILED = 'PROFILE_SUBMIT_FAILED';
-export const RESET_PROFILE_FORM = 'SET_PROFILE_FORM';
 
 export const TOKEN_REQUEST = 'TOKEN_REQUEST';
 export const TOKEN_REQUEST_SUCCESS = 'TOKEN_REQUEST_SUCCESS';
@@ -78,7 +77,6 @@ export const register = (user) => {
     registerRequest(user)
       .then(res => {
         if(res && res.success) {
-          console.log(res);
           const token = res.accessToken.split('Bearer ')[1];
           setCookie('accessToken', token);
           setCookie('refreshToken', res.refreshToken);
@@ -98,7 +96,6 @@ export const login = (user) => {
     loginRequest(user)
       .then(res => {
         if(res && res.success) {
-          console.log(res);
           const token = res.accessToken.split('Bearer ')[1];
           setCookie('accessToken', token);
           setCookie('refreshToken', res.refreshToken);
@@ -118,7 +115,6 @@ export const logout = (token) => {
     logoutRequest(token)
       .then(res => {
         if(res && res.success) {
-          console.log(res);
           deleteCookie('accessToken');
           deleteCookie('refreshToken');
           dispatch(logoutSuccess())
@@ -137,7 +133,6 @@ export const resetPassword = (email) => {
     resetPasswordRequest(email)
       .then(res => {
         if(res && res.success) {
-          console.log(res);
           dispatch(ResetPasswordSuccess())
         }
         else {
@@ -154,7 +149,6 @@ export const sendNewPassword = (data) => {
     setNewPasswordRequest(data)
       .then(res => {
         if(res && res.success) {
-          console.log(res);
           dispatch(newPasswordSuccess())
         }
         else {
@@ -171,7 +165,6 @@ export const getUser = (token) => {
     getUserInfoRequest(token)
       .then(res => {
         if(res && res.success) {
-          console.log(res);
           setProfileInfoForm(res.user)
           dispatch(getUserProfileSuccess(res.user))
         } else {
@@ -188,7 +181,6 @@ export const updateUserInfo = (data) => {
     updateUserInfoRequest(data)
       .then(res => {
         if(res && res.success) {
-          console.log(res);
           dispatch(changeProfileInfoSuccess(res.user))
         }
         else {

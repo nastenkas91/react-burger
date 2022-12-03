@@ -31,30 +31,28 @@ import {
   PROFILE_FORM_SUBMIT,
   PROFILE_SUBMIT_SUCCESS,
   PROFILE_SUBMIT_FAILED,
-  RESET_PROFILE_FORM,
 
   TOKEN_REQUEST,
   TOKEN_REQUEST_SUCCESS,
   TOKEN_REQUEST_FAILED,
 } from '../actions/auth';
-import {getCookie} from "../../utils/cookies";
 
-const registrationFormState = {
-  sendRequest: false,
-  failedRequest: false,
-  form: {
-    email: '',
-    name: '',
-    password: ''
-  },
-};
-
-const loginFormState = {
+const loginState = {
+  isLoggedIn: false,
   sendLoginRequest: false,
   failedLoginRequest: false,
   sendLogoutRequest: false,
   failedLogoutRequest: false,
-  form: {
+  sendRefreshTokenRequest: false,
+  failedRefreshTokenRequest: false,
+  sendRequest: false,
+  failedRequest: false,
+  registrationForm: {
+    email: '',
+    name: '',
+    password: ''
+  },
+  loginForm: {
     email: '',
     password: ''
   },
@@ -81,8 +79,8 @@ const profileState = {
   sendRequest: false,
   failedRequest: false,
   user: {
-    email: '',
-    name: '',
+    userEmail: '',
+    userName: '',
   },
   form: {
     email: '',
@@ -91,13 +89,13 @@ const profileState = {
   },
 };
 
-export const registrationReducer = (state = registrationFormState, action) => {
+export const loginReducer = (state = loginState, action) => {
   switch (action.type) {
     case SET_REGISTRATION_FORM: {
       return {
         ...state,
-        form: {
-          ...state.form,
+        registrationForm: {
+          ...state.registrationForm,
           [action.payload.field]: action.payload.value
         }
       }
@@ -111,12 +109,14 @@ export const registrationReducer = (state = registrationFormState, action) => {
     case REGISTRATION_REQUEST_SUCCESS: {
       return {
         ...state,
-        form: {
+        registrationForm: {
+          ...state.registrationForm,
           email: '',
           name: '',
           password: ''
         },
         sendRequest: false,
+        isLoggedIn: true,
       }
     }
     case REGISTRATION_REQUEST_FAILED: {
@@ -126,19 +126,11 @@ export const registrationReducer = (state = registrationFormState, action) => {
         failedRequest: true,
       }
     }
-    default: {
-      return state;
-    }
-  }
-}
-
-export const loginReducer = (state = loginFormState, action) => {
-  switch (action.type) {
     case SET_LOGIN_FORM: {
       return {
         ...state,
-        form: {
-          ...state.form,
+        loginForm: {
+          ...state.loginForm,
           [action.payload.field]: action.payload.value
         }
       }
@@ -152,11 +144,12 @@ export const loginReducer = (state = loginFormState, action) => {
     case LOGIN_REQUEST_SUCCESS: {
       return {
         ...state,
-        form: {
+        loginForm: {
           email: '',
           password: ''
         },
         sendLoginRequest: false,
+        isLoggedIn: true,
       }
     }
     case LOGIN_REQUEST_FAILED: {
@@ -164,6 +157,28 @@ export const loginReducer = (state = loginFormState, action) => {
         ...state,
         sendLoginRequest: false,
         failedLoginRequest: true,
+      }
+    }
+    case TOKEN_REQUEST: {
+      return {
+        ...state,
+        sendRefreshTokenRequest: true,
+      }
+    }
+    case TOKEN_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        sendRefreshTokenRequest: false,
+        failedRefreshTokenRequest: false,
+        isLoggedIn: true,
+      }
+    }
+    case TOKEN_REQUEST_FAILED: {
+      return {
+        ...state,
+        sendRefreshTokenRequest: false,
+        failedRefreshTokenRequest: true,
+        isLoggedIn: false,
       }
     }
     case SEND_LOGOUT_REQUEST: {
@@ -180,7 +195,8 @@ export const loginReducer = (state = loginFormState, action) => {
           ...state.user,
           email: '',
           name: '',
-        }
+        },
+        isLoggedIn: false,
       }
     }
     case LOGOUT_REQUEST_FAILED: {
@@ -188,6 +204,7 @@ export const loginReducer = (state = loginFormState, action) => {
         ...state,
         sendLogoutRequest: false,
         failedLogoutRequest: true,
+        isLoggedIn: true,
       }
     }
     default: {
@@ -311,18 +328,6 @@ export const profileReducer = (state = profileState, action) => {
         failedRequest: true,
       }
     }
-    case RESET_PROFILE_FORM: {
-      return {
-        ...state,
-        form: {
-          ...state.form,
-          email: state.user.email,
-          name: state.user.name,
-          password: ''
-        },
-        sendRequest: false,
-      }
-    }
     case GET_USER_REQUEST: {
       return {
         ...state,
@@ -333,8 +338,8 @@ export const profileReducer = (state = profileState, action) => {
       return {
         ...state,
         user: {
-          email: action.payload.email,
-          name: action.payload.name,
+          userEmail: action.payload.email,
+          userName: action.payload.name,
         },
         form: {
           email: action.payload.email,

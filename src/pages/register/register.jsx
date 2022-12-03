@@ -10,10 +10,11 @@ import {register} from "../../services/actions/auth";
 import {isAuth} from "../../utils/utils";
 
 export const Register = () => {
-  let loggedin = isAuth();
+  //let isLoggedIn = isAuth();
+  const {isLoggedIn} = useSelector(state => state.loginReducer)
   const dispatch = useDispatch();
   const history = useHistory();
-  const {name, email, password} = useSelector(state => state.registrationReducer.form)
+  const {name, email, password} = useSelector(state => state.loginReducer().registrationForm)
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e) {
@@ -33,7 +34,7 @@ export const Register = () => {
     ));
   }
 
-  if (loggedin) {
+  if (isLoggedIn) {
     return (
       <Redirect to={{pathname: '/'}} />
     )

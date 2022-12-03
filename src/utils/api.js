@@ -29,7 +29,7 @@ export const fetchWithRefresh = async (url, options) => {
         Promise.reject(refreshedData)
       }
       setCookie('refreshToken', refreshedData.refreshToken);
-      setCookie('accessToken', refreshedData.accessToken);
+      setCookie('accessToken', refreshedData.accessToken.split('Bearer ')[1]);
       options.headers.authorization = refreshedData.accessToken;
       const res = await fetch(url, options);
       return await checkResponse(res);

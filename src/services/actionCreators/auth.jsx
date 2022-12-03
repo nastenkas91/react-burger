@@ -31,7 +31,6 @@ import {
   PROFILE_FORM_SUBMIT,
   PROFILE_SUBMIT_SUCCESS,
   PROFILE_SUBMIT_FAILED,
-  RESET_PROFILE_FORM,
 
   TOKEN_REQUEST,
   TOKEN_REQUEST_SUCCESS,
@@ -176,10 +175,9 @@ export const newPasswordFailed = () => {
 };
 
 //Get profile info
-export const getUserProfileRequest = (token) => {
+export const getUserProfileRequest = () => {
   return {
     type: GET_USER_REQUEST,
-    payload: token
   }
 };
 
@@ -226,17 +224,10 @@ export const changeProfileInfoFailed = () => {
   }
 };
 
-export const resetProfileInfo = () => {
-  return {
-    type: RESET_PROFILE_FORM,
-  }
-};
-
 //Request new token
-export const sendTokenRequest = (req) => {
+export const sendTokenRequest = () => {
   return {
     type: TOKEN_REQUEST,
-    payload: {req}
   }
 };
 

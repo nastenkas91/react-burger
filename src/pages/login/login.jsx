@@ -10,10 +10,11 @@ import {login} from "../../services/actions/auth";
 import {isAuth} from "../../utils/utils";
 
 export const Login = () => {
-  let loggedin = isAuth();
+  //let isLoggedIn = isAuth();
+  //const {isLoggedIn} = useSelector(state => state.loginReducer)
   const dispatch = useDispatch();
   const location = useLocation();
-  const {email, password} = useSelector(state => state.loginReducer.form)
+  const {email, password} = useSelector(state => state.loginReducer.loginForm)
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e) {
@@ -34,11 +35,11 @@ export const Login = () => {
 
   const nextPage = location.state?.from.pathname || '/';
 
-  if (loggedin) {
-    return (
-      <Redirect to={nextPage} />
-    )
-  }
+  // if (isLoggedIn) {
+  //   return (
+  //     <Redirect to={nextPage} />
+  //   )
+  // }
 
   return (
     <PageWithForm>
