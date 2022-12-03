@@ -16,20 +16,27 @@ import {
   removeIngredient, setBun
 } from "../../services/actionCreators/burgerConstructor";
 import {clearOrderNumber} from "../../services/actionCreators/order";
+import {isAuth} from "../../utils/utils";
+import {useHistory} from "react-router-dom";
 
 export function BurgerConstructor() {
-
+  let isLoggedIn = isAuth();
+  const history = useHistory();
   const {selectedIngredients, bun, totalPrice} = useSelector(state => state.burgerConstructor);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
   const onMakeOrderClick = () => {
-    const order = { ingredients: [bun._id, ...selectedIngredients.map(el => el._id), bun._id] };
-    dispatch(clearOrderNumber());
-    dispatch(sendOrder(order));
-    dispatch(clearConstructor());
-    setModalOpen(true);
+    if (isLoggedIn) {
+      const order = {ingredients: [bun._id, ...selectedIngredients.map(el => el._id), bun._id]};
+      dispatch(clearOrderNumber());
+      dispatch(sendOrder(order));
+      dispatch(clearConstructor());
+      setModalOpen(true);
+    } else {
+      history.push('/login')
+    }
   }
 
   const deleteIngredient = (item) => {

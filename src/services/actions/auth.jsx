@@ -109,10 +109,10 @@ export const login = (user) => {
   }
 };
 
-export const logout = (token) => {
+export const logout = () => {
   return function (dispatch) {
     dispatch(sendLogoutRequest());
-    logoutRequest(token)
+    logoutRequest()
       .then(res => {
         if(res && res.success) {
           deleteCookie('accessToken');

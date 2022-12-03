@@ -10,8 +10,7 @@ import {setNewPasswordForm} from "../../services/actionCreators/auth";
 import {isAuth} from "../../utils/utils";
 
 export const ResetPassword = () => {
-  //let isLoggedIn = isAuth();
-  const {isLoggedIn} = useSelector(state => state.loginReducer)
+  let isLoggedIn = isAuth();
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();

@@ -97,13 +97,15 @@ export function registerRequest(req) {
   })
 };
 
-export function logoutRequest(req) {
+export function logoutRequest() {
   return request(URL_API + LOGOUT_END_POINT, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(req)
+    body: JSON.stringify({
+      "token": getCookie('refreshToken')
+    })
   })
 };
 

@@ -10,8 +10,7 @@ import {login} from "../../services/actions/auth";
 import {isAuth} from "../../utils/utils";
 
 export const Login = () => {
-  //let isLoggedIn = isAuth();
-  //const {isLoggedIn} = useSelector(state => state.loginReducer)
+  let isLoggedIn = isAuth();
   const dispatch = useDispatch();
   const location = useLocation();
   const {email, password} = useSelector(state => state.loginReducer.loginForm)
@@ -35,11 +34,11 @@ export const Login = () => {
 
   const nextPage = location.state?.from.pathname || '/';
 
-  // if (isLoggedIn) {
-  //   return (
-  //     <Redirect to={nextPage} />
-  //   )
-  // }
+  if (isLoggedIn) {
+    return (
+      <Redirect to={nextPage} />
+    )
+  }
 
   return (
     <PageWithForm>

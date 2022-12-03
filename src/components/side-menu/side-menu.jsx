@@ -1,6 +1,5 @@
 import styles from "./side-menu.module.css";
 import {NavLink, useHistory} from "react-router-dom";
-import {getCookie} from "../../utils/cookies";
 import {logout} from "../../services/actions/auth";
 import {useDispatch} from "react-redux";
 
@@ -10,10 +9,7 @@ export const SideMenu = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    const token = getCookie('refreshToken');
-    dispatch(logout({
-      "token": token
-    }));
+    dispatch(logout());
     history.replace({pathname: "/login"})
   }
 

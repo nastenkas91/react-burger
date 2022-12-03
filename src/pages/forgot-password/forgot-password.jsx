@@ -10,8 +10,7 @@ import {setResetPasswordForm} from "../../services/actionCreators/auth";
 import {isAuth} from "../../utils/utils";
 
 export const ForgotPassword = () => {
-  //let isLoggedIn = isAuth();
-  //const {isLoggedIn} = useSelector(state => state.loginReducer)
+  let isLoggedIn = isAuth();
   const history = useHistory();
   const dispatch = useDispatch();
   const {email} = useSelector(state => state.resetPasswordReducer.form)
@@ -36,11 +35,11 @@ export const ForgotPassword = () => {
     })
   }
 
-  // if (isLoggedIn) {
-  //   return (
-  //     <Redirect to={{pathname: '/'}} />
-  //   )
-  // }
+  if (isLoggedIn) {
+    return (
+      <Redirect to={{pathname: '/'}} />
+    )
+  }
 
   return (
     <PageWithForm>

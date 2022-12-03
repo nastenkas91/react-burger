@@ -1,6 +1,6 @@
 import styles from './register.module.css';
 import {Input, PasswordInput, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {NavLink, Redirect, useHistory} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {setRegistrationForm} from "../../services/actionCreators/auth";
@@ -10,10 +10,8 @@ import {register} from "../../services/actions/auth";
 import {isAuth} from "../../utils/utils";
 
 export const Register = () => {
-  //let isLoggedIn = isAuth();
-  const {isLoggedIn} = useSelector(state => state.loginReducer)
+  let isLoggedIn = isAuth();
   const dispatch = useDispatch();
-  const history = useHistory();
   const {name, email, password} = useSelector(state => state.loginReducer().registrationForm)
   const [formIsValid, setFormIsValid] = useState(false);
 
