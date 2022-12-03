@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {setNewPasswordForm} from "../../services/actionCreators/auth";
 import {isAuth} from "../../utils/utils";
+import {Spinner} from "../../components/spinner/spinner";
 
 export const ResetPassword = () => {
   let isLoggedIn = isAuth();
@@ -15,6 +16,7 @@ export const ResetPassword = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const {password, token} = useSelector(state => state.newPasswordReducer.form)
+  const {sendRequest, error} = useSelector(state => state.newPasswordReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e) {
@@ -31,7 +33,6 @@ export const ResetPassword = () => {
         "token": token
       }
     ));
-    history.push({pathname: '/login'})
   }
 
   if (isLoggedIn) {
@@ -69,11 +70,18 @@ export const ResetPassword = () => {
           value={token}
           onChange={handleFormChange}
         />
+        {
+          error && <p className={`${styles.text} text text_type_main-default text_color_error mb-4`}>{error}</p>
+        }
       </Form>
       <p className={`${styles.text} text text_type_main-default text_color_inactive mb-4`}>
         Вспомнили пароль?
         <NavLink className={`${styles.link} text text_color_accent`} to={'/login'}> Войти</NavLink>
       </p>
+      {
+        sendRequest &&
+        <Spinner />
+      }
     </PageWithForm>
 
   )

@@ -11,10 +11,28 @@ import {NotFound} from "../../pages/not-found/not-found";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
 import {Modal} from "../modal/modal";
 import {Ingredient} from "../../pages/ingredient/ingredient";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {getIngredients} from "../../services/actions/ingredients";
+import {getUser} from "../../services/actions/auth";
+import {isAuth} from "../../utils/utils";
+import {Spinner} from "../spinner/spinner";
 
 export function App() {
+  let isLoggedIn = isAuth();
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const{ingredientsRequest} = useSelector(state => state.ingredients)
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
+
+  useEffect(() => {
+    isLoggedIn && dispatch(getUser());
+  }, [isLoggedIn]);
+
   const background = location.state && location.state.background;
   const handleModalClose = () => {
     history.goBack();
@@ -71,6 +89,11 @@ export function App() {
           }
         />
       )}
+
+      {
+        ingredientsRequest &&
+        <Spinner />
+      }
     </>
   );
 }

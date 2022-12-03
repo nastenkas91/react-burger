@@ -8,11 +8,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {register} from "../../services/actions/auth";
 import {isAuth} from "../../utils/utils";
+import {Spinner} from "../../components/spinner/spinner";
 
 export const Register = () => {
   let isLoggedIn = isAuth();
   const dispatch = useDispatch();
-  const {name, email, password} = useSelector(state => state.loginReducer.registrationForm)
+  const {name, email, password} = useSelector(state => state.loginReducer.registrationForm);
+  const {sendRequest, error} = useSelector(state => state.loginReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e) {
@@ -70,11 +72,18 @@ export const Register = () => {
           onChange={handleFormChange}
           required={true}
         />
+        {
+          error && <p className={`${styles.text} text text_type_main-default text_color_error mb-4`}>{error}</p>
+        }
       </Form>
       <p className={`${styles.text} text text_type_main-default text_color_inactive mb-4`}>
         Уже зарегистрированы?
         <NavLink className={`${styles.link} text text_color_accent`} to={'/login'}> Войти</NavLink>
       </p>
+      {
+        sendRequest &&
+        <Spinner />
+      }
     </PageWithForm>
 
   )

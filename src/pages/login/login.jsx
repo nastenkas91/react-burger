@@ -8,12 +8,14 @@ import {useState} from "react";
 import {setLoginForm} from "../../services/actionCreators/auth";
 import {login} from "../../services/actions/auth";
 import {isAuth} from "../../utils/utils";
+import {Spinner} from "../../components/spinner/spinner";
 
 export const Login = () => {
   let isLoggedIn = isAuth();
   const dispatch = useDispatch();
   const location = useLocation();
   const {email, password} = useSelector(state => state.loginReducer.loginForm)
+  const {sendLoginRequest, error} = useSelector(state => state.loginReducer)
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e) {
@@ -61,6 +63,9 @@ export const Login = () => {
           icon={'ShowIcon'}
           onChange={handleFormChange}
         />
+        {
+          error && <p className={`${styles.text} text text_type_main-default text_color_error mb-4`}>{error}</p>
+        }
       </Form>
       <p className={`${styles.text} text text_type_main-default text_color_inactive mb-4`}>
         Вы — новый пользователь?
@@ -70,6 +75,10 @@ export const Login = () => {
         Забыли пароль?
         <NavLink className={`${styles.link} text text_color_accent`} to={'/forgot-password'}> Восстановить пароль</NavLink>
       </p>
+      {
+        sendLoginRequest &&
+        <Spinner />
+      }
     </PageWithForm>
   )
 }

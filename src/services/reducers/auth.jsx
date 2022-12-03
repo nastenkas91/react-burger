@@ -56,7 +56,7 @@ const loginState = {
     email: '',
     password: ''
   },
-  error: ''
+  error: null
 };
 
 const resetPasswordFormState = {
@@ -65,6 +65,7 @@ const resetPasswordFormState = {
   form: {
     email: '',
   },
+  error: null
 };
 
 const newPasswordFormState = {
@@ -74,6 +75,7 @@ const newPasswordFormState = {
     password: '',
     token: ''
   },
+  error: null
 };
 
 const profileState = {
@@ -88,6 +90,7 @@ const profileState = {
     name: '',
     password: ''
   },
+  error: null
 };
 
 export const loginReducer = (state = loginState, action) => {
@@ -118,6 +121,7 @@ export const loginReducer = (state = loginState, action) => {
         },
         sendRequest: false,
         isLoggedIn: true,
+        error: null
       }
     }
     case REGISTRATION_REQUEST_FAILED: {
@@ -125,6 +129,7 @@ export const loginReducer = (state = loginState, action) => {
         ...state,
         sendRequest: false,
         failedRequest: true,
+        error: action.payload
       }
     }
     case SET_LOGIN_FORM: {
@@ -151,6 +156,7 @@ export const loginReducer = (state = loginState, action) => {
         },
         sendLoginRequest: false,
         isLoggedIn: true,
+        error: null
       }
     }
     case LOGIN_REQUEST_FAILED: {
@@ -158,6 +164,7 @@ export const loginReducer = (state = loginState, action) => {
         ...state,
         sendLoginRequest: false,
         failedLoginRequest: true,
+        error: action.payload
       }
     }
     case TOKEN_REQUEST: {
@@ -172,6 +179,7 @@ export const loginReducer = (state = loginState, action) => {
         sendRefreshTokenRequest: false,
         failedRefreshTokenRequest: false,
         isLoggedIn: true,
+        error: null
       }
     }
     case TOKEN_REQUEST_FAILED: {
@@ -180,6 +188,7 @@ export const loginReducer = (state = loginState, action) => {
         sendRefreshTokenRequest: false,
         failedRefreshTokenRequest: true,
         isLoggedIn: false,
+        error: action.payload
       }
     }
     case SEND_LOGOUT_REQUEST: {
@@ -198,6 +207,7 @@ export const loginReducer = (state = loginState, action) => {
           name: '',
         },
         isLoggedIn: false,
+        error: null
       }
     }
     case LOGOUT_REQUEST_FAILED: {
@@ -206,6 +216,7 @@ export const loginReducer = (state = loginState, action) => {
         sendLogoutRequest: false,
         failedLogoutRequest: true,
         isLoggedIn: true,
+        error: action.payload
       }
     }
     default: {
@@ -239,6 +250,7 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
         },
         sendRequest: false,
         successfulRequest: true,
+        error: null
       }
     }
     case RESET_PASSWORD_FAILED: {
@@ -246,6 +258,7 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
         ...state,
         sendRequest: false,
         successfulRequest: false,
+        error: action.payload
       }
     }
     default: {
@@ -279,6 +292,7 @@ export const newPasswordReducer = (state = newPasswordFormState, action) => {
           token: ''
         },
         sendRequest: false,
+        error: null
       }
     }
     case NEW_PASSWORD_FAILED: {
@@ -286,6 +300,7 @@ export const newPasswordReducer = (state = newPasswordFormState, action) => {
         ...state,
         sendRequest: false,
         failedRequest: true,
+        error: action.payload
       }
     }
     default: {
@@ -320,6 +335,7 @@ export const profileReducer = (state = profileState, action) => {
           password: ''
         },
         sendRequest: false,
+        error: null
       }
     }
     case PROFILE_SUBMIT_FAILED: {
@@ -327,6 +343,7 @@ export const profileReducer = (state = profileState, action) => {
         ...state,
         sendRequest: false,
         failedRequest: true,
+        error: action.payload
       }
     }
     case GET_USER_REQUEST: {
@@ -348,6 +365,7 @@ export const profileReducer = (state = profileState, action) => {
           password: ''
         },
         sendRequest: false,
+        error: null
       }
     }
     case GET_USER_FAILED: {
@@ -355,6 +373,7 @@ export const profileReducer = (state = profileState, action) => {
         ...state,
         sendRequest: false,
         failedRequest: true,
+        error: action.payload
       }
     }
     default: {

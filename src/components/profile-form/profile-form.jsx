@@ -4,10 +4,12 @@ import {useState} from "react";
 import {setProfileInfoForm} from "../../services/actionCreators/auth";
 import {getUser, updateUserInfo} from "../../services/actions/auth";
 import {useDispatch, useSelector} from "react-redux";
+import {Spinner} from "../spinner/spinner";
 
 export const ProfileForm = () => {
   const dispatch = useDispatch();
   const {name, email, password} = useSelector(state => state.profileReducer.form)
+  const {sendRequest, error} = useSelector(state => state.profileReducer)
   const [formIsValid, setFormIsValid] = useState(false);
   const [isModified, setIsModified] = useState(false)
 
@@ -59,11 +61,18 @@ export const ProfileForm = () => {
         icon={'EditIcon'}
       />
       {
+        error && <p className={`${styles.text} text text_type_main-default text_color_error mb-4`}>{error}</p>
+      }
+      {
         isModified &&
         <div className={`${styles.profile__changeButtons} `}>
           <Button htmlType={"button"} type={'secondary'} onClick={handleCancelClick}>Отмена</Button>
           <Button disabled={!formIsValid} htmlType={'submit'} type={'primary'} onSubmit={handleFormSubmit}>Сохранить</Button>
         </div>
+      }
+      {
+        sendRequest &&
+        <Spinner />
       }
     </form>
   )

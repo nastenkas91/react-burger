@@ -1,17 +1,13 @@
 import styles from './profile.module.css'
-import {useDispatch} from "react-redux";
-import {getUser} from "../../services/actions/auth";
-import {useEffect} from "react";
 import {SideMenu} from "../../components/side-menu/side-menu";
 import {ProfileForm} from "../../components/profile-form/profile-form";
 import {useLocation} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {Spinner} from "../../components/spinner/spinner";
 
 export const Profile = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUser())
-  }, [])
+  const {sendLogoutRequest} = useSelector(state => state.loginReducer);
 
   return (
     <section className={`${styles.profile}`}>
@@ -21,6 +17,10 @@ export const Profile = () => {
           location.pathname === '/profile' && <ProfileForm />
         }
       </div>
+      {
+        sendLogoutRequest &&
+          <Spinner />
+      }
     </section>
   )
 }

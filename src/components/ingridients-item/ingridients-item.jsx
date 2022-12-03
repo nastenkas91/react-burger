@@ -49,6 +49,5 @@ export function IngredientsItem({item, count}) {
 
 IngredientsItem.propTypes = {
   item: ingredientPropTypes,
-  setModalOpen: PropTypes.func.isRequired,
   count: PropTypes.number
 }

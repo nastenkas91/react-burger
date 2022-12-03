@@ -60,9 +60,10 @@ export const registrationRequestSuccess = () => {
   }
 };
 
-export const registrationRequestFailed = () => {
+export const registrationRequestFailed = (err) => {
   return {
     type: REGISTRATION_REQUEST_FAILED,
+    payload: err
   }
 };
 
@@ -89,9 +90,10 @@ export const loginRequestSuccess = () => {
   }
 };
 
-export const loginRequestFailed = () => {
+export const loginRequestFailed = (err) => {
   return {
     type: LOGIN_REQUEST_FAILED,
+    payload: err
   }
 };
 
@@ -109,9 +111,10 @@ export const logoutSuccess = () => {
   }
 };
 
-export const logoutFailed = () => {
+export const logoutFailed = (err) => {
   return {
     type: LOGOUT_REQUEST_FAILED,
+    payload: err
   }
 };
 
@@ -138,9 +141,10 @@ export const ResetPasswordSuccess = () => {
   }
 };
 
-export const ResetPasswordFailed = () => {
+export const ResetPasswordFailed = (err) => {
   return {
     type: RESET_PASSWORD_FAILED,
+    payload: err
   }
 };
 
@@ -168,9 +172,10 @@ export const newPasswordSuccess = () => {
   }
 };
 
-export const newPasswordFailed = () => {
+export const newPasswordFailed = (err) => {
   return {
     type: NEW_PASSWORD_FAILED,
+    payload: err
   }
 };
 
@@ -188,9 +193,10 @@ export const getUserProfileSuccess = (user) => {
   }
 };
 
-export const getUserProfileFailed = () => {
+export const getUserProfileFailed = (err) => {
   return {
     type: GET_USER_FAILED,
+    payload: err
   }
 };
 
@@ -218,9 +224,10 @@ export const changeProfileInfoSuccess = (user) => {
   }
 };
 
-export const changeProfileInfoFailed = () => {
+export const changeProfileInfoFailed = (err) => {
   return {
     type: PROFILE_SUBMIT_FAILED,
+    payload: err
   }
 };
 
@@ -237,8 +244,9 @@ export const tokenRequestSuccess = () => {
   }
 };
 
-export const tokenRequestFailed = () => {
+export const tokenRequestFailed = (err) => {
   return {
     type: TOKEN_REQUEST_FAILED,
+    payload: err
   }
 };

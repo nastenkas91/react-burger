@@ -27,12 +27,17 @@ import {
   logoutRequest,
   registerRequest,
   resetPasswordRequest,
-  getNewTokenRequest,
   getUserInfoRequest,
   updateUserInfoRequest,
   setNewPasswordRequest
 } from "../../utils/api";
 import {deleteCookie, setCookie} from "../../utils/cookies";
+import {
+  authErrorMessage,
+  commonErrorMessage,
+  conflictingEmailMessage, profileUpdateErrorMessage,
+  registrationErrorMessage, tokenError
+} from "../../utils/constants";
 
 export const SET_REGISTRATION_FORM = 'SET_REGISTRATION_FORM';
 export const SEND_REGISTRATION_REQUEST = 'SEND_REGISTRATION_REQUEST';
@@ -86,7 +91,13 @@ export const register = (user) => {
           dispatch(registrationRequestFailed())
         }
       })
-      .catch(dispatch(registrationRequestFailed()))
+      .catch(err => {
+        if (err.message === 'User already exists') {
+          dispatch(registrationRequestFailed(conflictingEmailMessage))
+        } else {
+          dispatch(registrationRequestFailed(registrationErrorMessage))
+        }
+      })
   }
 };
 
@@ -105,7 +116,13 @@ export const login = (user) => {
           dispatch(loginRequestFailed())
         }
       })
-      .catch(dispatch(loginRequestFailed()))
+      .catch(err => {
+        if (err.message === 'email or password are incorrect') {
+          dispatch(loginRequestFailed(authErrorMessage))
+        } else {
+          dispatch(loginRequestFailed(commonErrorMessage))
+        }
+      })
   }
 };
 
@@ -123,7 +140,7 @@ export const logout = () => {
           dispatch(logoutFailed())
         }
       })
-      .catch(dispatch(logoutFailed()))
+      .catch(dispatch(logoutFailed(commonErrorMessage)))
   }
 };
 
@@ -139,7 +156,7 @@ export const resetPassword = (email) => {
           dispatch(ResetPasswordFailed())
         }
       })
-      .catch(dispatch(ResetPasswordFailed()))
+      .catch(dispatch(ResetPasswordFailed(commonErrorMessage)))
   }
 };
 
@@ -155,7 +172,13 @@ export const sendNewPassword = (data) => {
           dispatch(newPasswordFailed())
         }
       })
-      .catch(dispatch(newPasswordFailed()))
+      .catch(err => {
+        if (err.message === 'Incorrect reset token') {
+          dispatch(newPasswordFailed(tokenError))
+        } else {
+          dispatch(newPasswordFailed(commonErrorMessage))
+        }
+      })
   }
 };
 
@@ -187,7 +210,13 @@ export const updateUserInfo = (data) => {
           dispatch(changeProfileInfoFailed())
         }
       })
-      .catch(dispatch(changeProfileInfoFailed()))
+      .catch(err => {
+        if (err.message === 'User with such email already exists') {
+          dispatch(changeProfileInfoFailed(conflictingEmailMessage))
+        } else {
+          dispatch(changeProfileInfoFailed(commonErrorMessage))
+        }
+      })
   }
 };
 
