@@ -1,8 +1,15 @@
 import styles from './ingredient-details.module.css'
 import {ingredientPropTypes} from "../../utils/types";
+import {useLocation} from "react-router-dom";
+import {useSelector} from "react-redux";
 
-export function IngredientDetails({item}) {
-  const {image, name, proteins, fat, carbohydrates, calories} = item;
+export function IngredientDetails() {
+  const location = useLocation();
+  const ingredientId = location.pathname.split('/')[1];
+  const item = useSelector(state => state.ingredients.ingredients).find(el => el._id === ingredientId)
+
+  const currentIngredient = item || JSON.parse(localStorage.getItem('currentIngredient'));
+  const {image, name, proteins, fat, carbohydrates, calories} = currentIngredient;
 
   return (
     <div className={`${styles.ingridient__container}`}>

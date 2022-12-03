@@ -56,6 +56,7 @@ const loginState = {
     email: '',
     password: ''
   },
+  error: ''
 };
 
 const resetPasswordFormState = {

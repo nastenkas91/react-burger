@@ -4,12 +4,12 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/types";
-import {useDispatch} from "react-redux";
 import { useDrag } from "react-dnd";
-import {setCurrentIngredient} from "../../services/actionCreators/ingredients";
+import {useLocation, Link} from "react-router-dom";
 
-export function IngredientsItem({item, setModalOpen, count}) {
-  const dispatch = useDispatch();
+export function IngredientsItem({item, count}) {
+  const location = useLocation();
+  const ingredientId = item['_id'];
 
   const [{opacity}, dragRef] = useDrag({
     type: 'ingredient',
@@ -20,12 +20,19 @@ export function IngredientsItem({item, setModalOpen, count}) {
   });
 
   const onIngredientClick = () => {
-    dispatch(setCurrentIngredient(item));
-    setModalOpen(true);
+    localStorage.setItem('currentIngredient', JSON.stringify(item));
   }
 
   return (
-    <div className={`${styles.item__wraper}`} draggable={true} onClick={onIngredientClick} ref={dragRef} style={{opacity}}>
+    <Link
+      key={ingredientId}
+      to={{
+        pathname: `/ingredients/${ingredientId}`,
+        state: { background: location },
+      }}
+      className={`${styles.item__link}`}
+    >
+      <div className={`${styles.item__wraper}`} onClick={onIngredientClick} draggable={true} ref={dragRef} style={{opacity}}>
       {count > 0 && (
         <Counter count={count} size={"default"}/>
       )}
@@ -36,6 +43,7 @@ export function IngredientsItem({item, setModalOpen, count}) {
       </p>
       <p className={`${styles.item__name} mt-1`}>{item.name}</p>
     </div>
+    </Link>
   )
 }
 

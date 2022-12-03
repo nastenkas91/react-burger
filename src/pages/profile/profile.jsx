@@ -7,9 +7,8 @@ import {ProfileForm} from "../../components/profile-form/profile-form";
 import {useLocation} from "react-router-dom";
 
 export const Profile = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUser())
   }, [])

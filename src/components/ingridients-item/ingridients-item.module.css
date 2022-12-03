@@ -27,3 +27,8 @@
 .item__name {
   text-align: center;
 }
+
+.item__link {
+  text-decoration: none;
+  color: inherit;
+}

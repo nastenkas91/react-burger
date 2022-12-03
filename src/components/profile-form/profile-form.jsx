@@ -12,7 +12,7 @@ export const ProfileForm = () => {
   const [isModified, setIsModified] = useState(false)
 
   function handleFormValidation(e) {
-    setFormIsValid(e.target.closest('.form').checkValidity());
+    setFormIsValid(e.target.closest('.form').checkValidity() && password);
   }
   const handleFormChange = (e) => {
     dispatch(setProfileInfoForm(e.target.name, e.target.value));

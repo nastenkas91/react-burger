@@ -7,8 +7,8 @@
 
 .ingridient__image {
   object-fit: cover;
-  max-width: 480px;
-  width: 80%;
+  width: 480px;
+  max-width: 80%;
 }
 
 .ingridient__nutrition {
