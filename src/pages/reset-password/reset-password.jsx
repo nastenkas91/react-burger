@@ -12,8 +12,8 @@ import {Spinner} from "../../components/spinner/spinner";
 export const ResetPassword = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const {password, token} = useSelector(state => state.newPasswordReducer.form)
-  const {sendRequest, error} = useSelector(state => state.newPasswordReducer);
+  const {password, token} = useSelector(state => state.resetPasswordReducer.resetForm)
+  const {sendResetRequest, successfulResetRequest, error} = useSelector(state => state.resetPasswordReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e) {
@@ -65,13 +65,16 @@ export const ResetPassword = () => {
         {
           error && <p className={`${styles.text} text text_type_main-default text_color_error mb-4`}>{error}</p>
         }
+        {
+          successfulResetRequest && <p className={`${styles.text} text text_type_main-default text_color_success mb-4`}>Пароль успешно изменен</p>
+        }
       </Form>
       <p className={`${styles.text} text text_type_main-default text_color_inactive mb-4`}>
         Вспомнили пароль?
         <NavLink className={`${styles.link} text text_color_accent`} to={'/login'}> Войти</NavLink>
       </p>
       {
-        sendRequest &&
+        sendResetRequest &&
         <Spinner />
       }
     </PageWithForm>

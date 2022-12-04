@@ -156,7 +156,7 @@ export const resetPassword = (email) => {
           dispatch(ResetPasswordFailed())
         }
       })
-      .catch(dispatch(ResetPasswordFailed(commonErrorMessage)))
+      .catch(dispatch(ResetPasswordFailed()))
   }
 };
 

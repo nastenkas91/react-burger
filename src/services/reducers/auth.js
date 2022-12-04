@@ -61,18 +61,15 @@ const loginState = {
 };
 
 const resetPasswordFormState = {
-  sendRequest: false,
-  successfulRequest: false,
-  form: {
+  forgotRequest: false,
+  successfulForgotRequest: false,
+  forgotForm: {
     email: '',
   },
-  error: null
-};
-
-const newPasswordFormState = {
-  sendRequest: false,
-  failedRequest: false,
-  form: {
+  sendResetRequest: false,
+  failedResetRequest: false,
+  successfulResetRequest: false,
+  resetForm: {
     password: '',
     token: ''
   },
@@ -231,8 +228,8 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
     case SET_RESET_PASSWORD_FORM: {
       return {
         ...state,
-        form: {
-          ...state.form,
+        forgotForm: {
+          ...state.forgotForm,
           [action.payload.field]: action.payload.value
         }
       }
@@ -241,40 +238,34 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
       return {
         ...state,
         sendRequest: true,
+        successfulResetRequest: false,
       }
     }
     case RESET_PASSWORD_SUCCESS: {
       return {
         ...state,
-        form: {
+        forgotForm: {
           email: '',
         },
-        sendRequest: false,
-        successfulRequest: true,
+        forgotRequest: false,
+        successfulForgotRequest: true,
         error: null
       }
     }
     case RESET_PASSWORD_FAILED: {
       return {
         ...state,
-        sendRequest: false,
-        successfulRequest: false,
+        forgotRequest: false,
+        successfulForgotRequest: false,
         error: action.payload
       }
     }
-    default: {
-      return state;
-    }
-  }
-};
 
-export const newPasswordReducer = (state = newPasswordFormState, action) => {
-  switch (action.type) {
     case SET_NEW_PASSWORD_FORM: {
       return {
         ...state,
-        form: {
-          ...state.form,
+        resetForm: {
+          ...state.resetForm,
           [action.payload.field]: action.payload.value
         }
       }
@@ -282,24 +273,27 @@ export const newPasswordReducer = (state = newPasswordFormState, action) => {
     case NEW_PASSWORD_REQUEST: {
       return {
         ...state,
-        sendRequest: true,
+        sendResetRequest: true,
       }
     }
     case NEW_PASSWORD_SUCCESS: {
       return {
         ...state,
-        form: {
+        resetForm: {
           password: '',
           token: ''
         },
-        sendRequest: false,
+        sendResetRequest: false,
+        successfulResetRequest: true,
+        failedRequest:false,
         error: null
       }
     }
     case NEW_PASSWORD_FAILED: {
       return {
         ...state,
-        sendRequest: false,
+        sendResetRequest: false,
+        successfulResetRequest: false,
         failedRequest: true,
         error: action.payload
       }
@@ -308,7 +302,7 @@ export const newPasswordReducer = (state = newPasswordFormState, action) => {
       return state;
     }
   }
-}
+};
 
 export const profileReducer = (state = profileState, action) => {
   switch (action.type) {

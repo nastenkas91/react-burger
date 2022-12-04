@@ -12,8 +12,8 @@ import {Spinner} from "../../components/spinner/spinner";
 export const ForgotPassword = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const {email} = useSelector(state => state.resetPasswordReducer.form)
-  const {sendRequest, error} = useSelector(state => state.resetPasswordReducer);
+  const {email} = useSelector(state => state.resetPasswordReducer.forgotForm)
+  const {forgotRequest, error} = useSelector(state => state.resetPasswordReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e) {
@@ -59,7 +59,7 @@ export const ForgotPassword = () => {
         <NavLink className={`${styles.link} text text_color_accent`} to={'/login'}> Войти</NavLink>
       </p>
       {
-        sendRequest &&
+        forgotRequest &&
         <Spinner />
       }
     </PageWithForm>

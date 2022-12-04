@@ -2,7 +2,7 @@ import {combineReducers} from "redux";
 import {ingredients} from "./ingredients";
 import {burgerConstructor} from "./burgerConstructor";
 import {order} from "./order";
-import {loginReducer, newPasswordReducer, resetPasswordReducer, profileReducer} from "./auth";
+import {loginReducer, resetPasswordReducer, profileReducer} from "./auth";
 
 export const rootReducer = combineReducers({
   ingredients,
@@ -10,6 +10,5 @@ export const rootReducer = combineReducers({
   order,
   loginReducer,
   resetPasswordReducer,
-  newPasswordReducer,
   profileReducer,
 })
