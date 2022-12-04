@@ -16,20 +16,26 @@ import {
   removeIngredient, setBun
 } from "../../services/actionCreators/burgerConstructor";
 import {clearOrderNumber} from "../../services/actionCreators/order";
+import {useHistory} from "react-router-dom";
 
 export function BurgerConstructor() {
-
+  const {isLoggedIn} = useSelector(state => state.loginReducer);
+  const history = useHistory();
   const {selectedIngredients, bun, totalPrice} = useSelector(state => state.burgerConstructor);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
   const onMakeOrderClick = () => {
-    const order = { ingredients: [bun._id, ...selectedIngredients.map(el => el._id), bun._id] };
-    dispatch(clearOrderNumber());
-    dispatch(sendOrder(order));
-    dispatch(clearConstructor());
-    setModalOpen(true);
+    if (isLoggedIn) {
+      const order = {ingredients: [bun._id, ...selectedIngredients.map(el => el._id), bun._id]};
+      dispatch(clearOrderNumber());
+      dispatch(sendOrder(order));
+      dispatch(clearConstructor());
+      setModalOpen(true);
+    } else {
+      history.push('/login')
+    }
   }
 
   const deleteIngredient = (item) => {
@@ -68,7 +74,7 @@ export function BurgerConstructor() {
             />
         </div>) : (
           <div className={`${styles.constructor__bunContainer} mr-4`}>
-            <p className={`text_type_main-medium`}>Перетащите булку</p>
+            <p className={`text_type_main-medium`}>Добавьте булку</p>
           </div>
           )
       }
@@ -88,7 +94,7 @@ export function BurgerConstructor() {
           })}
         </div>) : (
             <div className={`${styles.constructor__ingredientContainer} mr-4 mt-4 mb-4`}>
-              <p className={`text_type_main-medium`}>Перетащите ингредиент</p>
+              <p className={`text_type_main-medium`}>Добавьте ингредиент</p>
             </div>
           )
       }
@@ -104,7 +110,7 @@ export function BurgerConstructor() {
           />
         </div>) : (
           <div className={`${styles.constructor__bunContainer} mr-4`}>
-            <p className={`text_type_main-medium`}>Перетащите булку</p>
+            <p className={`text_type_main-medium`}>Добавьте булку</p>
           </div>
           )}
       <div className={`${styles.constructor__info} mt-10`}>

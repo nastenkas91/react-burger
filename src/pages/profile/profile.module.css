@@ -1,0 +1,12 @@
+.profile {
+  display: flex;
+  justify-content: center;
+  padding-top: 120px;
+}
+
+.profile__container {
+  display: grid;
+  gap: 80px 60px;
+  grid-template-columns: 320px 480px 320px;
+}
+

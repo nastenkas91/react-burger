@@ -4,12 +4,19 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './modal.module.css';
 import {ModalOverlay} from "../modal-overlay/modal-overlay";
 import PropTypes from "prop-types";
+import {useLocation} from "react-router-dom";
 
-export function Modal({title, children, setModalOpen}) {
+export function Modal({title, children, setModalOpen, handleModalClose}) {
   const modalRoot = document.getElementById("react-modals");
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   const closeModal = () => {
-    setModalOpen(false);
+    if (background) {
+      handleModalClose();
+    } else {
+      setModalOpen(false);
+    }
   }
 
   useEffect(() => {
@@ -43,6 +50,7 @@ export function Modal({title, children, setModalOpen}) {
 
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
-  setModalOpen: PropTypes.func.isRequired,
+  setModalOpen: PropTypes.func,
+  handleModalClose: PropTypes.func,
   children: PropTypes.element.isRequired
 }
