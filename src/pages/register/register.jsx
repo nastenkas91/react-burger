@@ -1,17 +1,15 @@
 import styles from './register.module.css';
 import {Input, PasswordInput, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {NavLink, Redirect} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {setRegistrationForm} from "../../services/actionCreators/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {register} from "../../services/actions/auth";
-import {isAuth} from "../../utils/utils";
 import {Spinner} from "../../components/spinner/spinner";
 
 export const Register = () => {
-  let isLoggedIn = isAuth();
   const dispatch = useDispatch();
   const {name, email, password} = useSelector(state => state.loginReducer.registrationForm);
   const {sendRequest, error} = useSelector(state => state.loginReducer);
@@ -32,12 +30,6 @@ export const Register = () => {
         "name": name
       }
     ));
-  }
-
-  if (isLoggedIn) {
-    return (
-      <Redirect to={{pathname: '/'}} />
-    )
   }
 
   return (

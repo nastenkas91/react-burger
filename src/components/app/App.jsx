@@ -15,11 +15,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getIngredients} from "../../services/actions/ingredients";
 import {getUser} from "../../services/actions/auth";
-import {isAuth} from "../../utils/utils";
 import {Spinner} from "../spinner/spinner";
 
 export function App() {
-  let isLoggedIn = isAuth();
+  const {isLoggedIn} = useSelector(state => state.loginReducer);
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -48,29 +47,29 @@ export function App() {
         <Route path={'/ingredients/:ingredientId'} exact={true}>
           <Ingredient />
         </Route>
-        <Route path={'/login'} exact={true}>
+
+        <ProtectedRoute onlyAuth={false} path={'/login'} exact={true}>
           <Login />
-        </Route>
-        <Route path={'/register'} exact={true}>
+        </ProtectedRoute>
+        <ProtectedRoute onlyAuth={false} path={'/register'} exact={true}>
           <Register />
-        </Route>
-        <Route path={'/forgot-password'} exact={true}>
+        </ProtectedRoute>
+        <ProtectedRoute onlyAuth={false} path={'/forgot-password'} exact={true}>
           <ForgotPassword />
-        </Route>
-        <Route path={'/reset-password'} exact={true}>
+        </ProtectedRoute>
+        <ProtectedRoute onlyAuth={false} path={'/reset-password'} exact={true}>
           <ResetPassword />
-        </Route>
-        <ProtectedRoute path={'/feed'} exact={true}>
         </ProtectedRoute>
-        <ProtectedRoute path={'/profile'} exact={true}>
+
+        <ProtectedRoute onlyAuth={true} path={'/feed'} exact={true}>
+        </ProtectedRoute>
+        <ProtectedRoute onlyAuth={true} path={'/profile'} exact={true}>
           <Profile />
         </ProtectedRoute>
-        <ProtectedRoute path={'/profile/orders'} exact={true}>
+        <ProtectedRoute onlyAuth={true} path={'/profile/orders'} exact={true}>
           <Profile />
         </ProtectedRoute>
-        <ProtectedRoute path={'/ingredients/:id'} exact={true}>
-          <ConstructorPage />
-        </ProtectedRoute>
+
         <Route>
           <NotFound />
         </Route>

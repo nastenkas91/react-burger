@@ -1,19 +1,16 @@
 import styles from './login.module.css';
 import {PasswordInput, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {NavLink, Redirect, useLocation} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {setLoginForm} from "../../services/actionCreators/auth";
 import {login} from "../../services/actions/auth";
-import {isAuth} from "../../utils/utils";
 import {Spinner} from "../../components/spinner/spinner";
 
 export const Login = () => {
-  let isLoggedIn = isAuth();
   const dispatch = useDispatch();
-  const location = useLocation();
   const {email, password} = useSelector(state => state.loginReducer.loginForm)
   const {sendLoginRequest, error} = useSelector(state => state.loginReducer)
   const [formIsValid, setFormIsValid] = useState(false);
@@ -32,14 +29,6 @@ export const Login = () => {
         "password": password,
       }
     ));
-  }
-
-  const nextPage = location.state?.from.pathname || '/';
-
-  if (isLoggedIn) {
-    return (
-      <Redirect to={nextPage} />
-    )
   }
 
   return (

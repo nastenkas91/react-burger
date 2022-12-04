@@ -36,9 +36,10 @@ import {
   TOKEN_REQUEST_SUCCESS,
   TOKEN_REQUEST_FAILED,
 } from '../actions/auth';
+import {getCookie} from "../../utils/cookies";
 
 const loginState = {
-  isLoggedIn: false,
+  isLoggedIn: !!getCookie('accessToken'),
   sendLoginRequest: false,
   failedLoginRequest: false,
   sendLogoutRequest: false,

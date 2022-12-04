@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import '@ya.praktikum/react-developer-burger-ui-components';
 import {createStore, applyMiddleware} from "redux";
 import {Provider} from 'react-redux';
-import {rootReducer} from "./services/reducers/index";
+import {rootReducer} from "./services/reducers";
 import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {BrowserRouter} from "react-router-dom";

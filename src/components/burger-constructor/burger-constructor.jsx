@@ -16,11 +16,10 @@ import {
   removeIngredient, setBun
 } from "../../services/actionCreators/burgerConstructor";
 import {clearOrderNumber} from "../../services/actionCreators/order";
-import {isAuth} from "../../utils/utils";
 import {useHistory} from "react-router-dom";
 
 export function BurgerConstructor() {
-  let isLoggedIn = isAuth();
+  const {isLoggedIn} = useSelector(state => state.loginReducer);
   const history = useHistory();
   const {selectedIngredients, bun, totalPrice} = useSelector(state => state.burgerConstructor);
   const [isModalOpen, setModalOpen] = useState(false);

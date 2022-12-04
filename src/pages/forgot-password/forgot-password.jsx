@@ -1,17 +1,15 @@
 import styles from './forgot-password.module.css';
 import {EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {NavLink, Redirect, useHistory} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {resetPassword} from "../../services/actions/auth";
 import {setResetPasswordForm} from "../../services/actionCreators/auth";
-import {isAuth} from "../../utils/utils";
 import {Spinner} from "../../components/spinner/spinner";
 
 export const ForgotPassword = () => {
-  let isLoggedIn = isAuth();
   const history = useHistory();
   const dispatch = useDispatch();
   const {email} = useSelector(state => state.resetPasswordReducer.form)
@@ -35,12 +33,6 @@ export const ForgotPassword = () => {
       pathname: '/reset-password',
       state: {from: '/forgot-password'}
     })
-  }
-
-  if (isLoggedIn) {
-    return (
-      <Redirect to={{pathname: '/'}} />
-    )
   }
 
   return (
