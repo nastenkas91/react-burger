@@ -3,18 +3,15 @@ import * as ReactDOM from 'react-dom';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './modal.module.css';
 import {ModalOverlay} from "../modal-overlay/modal-overlay";
-import {useLocation} from "react-router-dom";
-import {TCloseModal, TModalState} from "../../utils/types";
+import {TCloseModal} from "../../utils/types";
 
 type ModalProps = TCloseModal & {
   title?: string,
   children: ReactNode
 }
 
-export const Modal: FC<ModalProps> = ({title, children, closeModal}) => {
+export const Modal: FC<ModalProps> = ({title, children, closeModal}): JSX.Element => {
   const modalRoot = document.getElementById("react-modals");
-  const location = useLocation<TModalState>();
-  const background = location.state && location.state.background;
 
   useEffect(() => {
     const handleEscClick = (e: KeyboardEvent) => {

@@ -1,13 +1,13 @@
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './profile-form.module.css';
-import {SyntheticEvent, useState} from "react";
+import {FC, SyntheticEvent, useState} from "react";
 import {setProfileInfoForm} from "../../services/actionCreators/auth";
 import {getUser, updateUserInfo} from "../../services/actions/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {Spinner} from "../spinner/spinner";
 import {TInputEvent} from "../../utils/types";
 
-export const ProfileForm = () => {
+export const ProfileForm: FC = (): JSX.Element => {
   const dispatch = useDispatch<any>();
   const {name, email, password} = useSelector((state: any) => state.profileReducer.form)
   const {sendRequest, error} = useSelector((state: any) => state.profileReducer)

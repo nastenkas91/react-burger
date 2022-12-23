@@ -18,6 +18,7 @@ import {
 import {clearOrderNumber} from "../../services/actionCreators/order";
 import {useHistory} from "react-router-dom";
 import {TDropIngredient, TIngredient} from "../../utils/types";
+import {removeCurrentIngredient} from "../../services/actionCreators/ingredients";
 
 export function BurgerConstructor() {
   const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
@@ -55,7 +56,8 @@ export function BurgerConstructor() {
   }
 
   const closeModal = () => {
-
+    setModalOpen(false);
+    dispatch(removeCurrentIngredient());
   }
 
   const [, dropTarget] = useDrop({

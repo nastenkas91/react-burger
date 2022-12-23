@@ -4,10 +4,11 @@ import {ProfileForm} from "../../components/profile-form/profile-form";
 import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {Spinner} from "../../components/spinner/spinner";
+import {FC} from "react";
 
-export const Profile = () => {
+export const Profile: FC = (): JSX.Element => {
   const location = useLocation();
-  const {sendLogoutRequest} = useSelector(state => state.loginReducer);
+  const {sendLogoutRequest} = useSelector((state: any) => state.loginReducer);
 
   return (
     <section className={`${styles.profile}`}>

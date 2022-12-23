@@ -1,7 +1,8 @@
 import burger from '../../images/573-5733580_hamburger-clipart-black-and-white-white-burger-icon.png';
 import styles from  './not-found.module.css'
+import {FC} from "react";
 
-export const NotFound = () => {
+export const NotFound: FC = (): JSX.Element => {
   return (
     <section className={`${styles.page}`}>
       <div className={`${styles.container}`}>

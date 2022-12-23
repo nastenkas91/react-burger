@@ -4,7 +4,7 @@ import {FC, ReactNode} from "react";
 import {TLocation} from "../../utils/types";
 
 interface IProtectedRoute {
-  children: ReactNode,
+  children?: ReactNode,
   onlyAuth: boolean,
   path: string,
   exact?: boolean

@@ -1,12 +1,12 @@
 import styles from './form.module.css';
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {FC, ReactNode} from "react";
+import {FC, ReactNode, SyntheticEvent} from "react";
 
 interface FormProps {
   formTitle: string,
   buttonTitle: string,
   formIsValid: boolean,
-  onSubmit: () => void,
+  onSubmit: (e: SyntheticEvent) => void,
   children: ReactNode
 }
 

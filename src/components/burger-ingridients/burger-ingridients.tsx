@@ -10,17 +10,17 @@ import {TIngredient} from "../../utils/types";
 import {removeCurrentIngredient} from "../../services/actionCreators/ingredients";
 
 interface Counter {
-  [index: number]: number
+  [index: string]: number
 }
 
 export function BurgerIngredients() {
   const dispatch = useDispatch<any>();
-  const {ingredients, currentIngredient} = useSelector((state: any) => state.ingredients);
+  const {ingredients} = useSelector((state: any) => state.ingredients);
   const {bun, selectedIngredients} = useSelector((state: any) => state.burgerConstructor);
 
   const [current, setCurrent] = useState('buns');
   const [isModalOpen, setModalOpen] = useState(false);
-  const [counter, setCounter] = useState({});
+  const [counter, setCounter] = useState<Counter>({});
 
   const filterIngredients = (array: TIngredient[], type: string) => array.filter(item => item.type === type);
   const buns = useMemo(() => {

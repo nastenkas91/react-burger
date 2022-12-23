@@ -5,25 +5,27 @@ import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {sendNewPassword} from "../../services/actions/auth";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
+import {FC, SyntheticEvent, useState} from "react";
 import {setNewPasswordForm} from "../../services/actionCreators/auth";
 import {Spinner} from "../../components/spinner/spinner";
+import {TInputEvent, TLocation} from "../../utils/types";
 
-export const ResetPassword = () => {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const {password, token} = useSelector(state => state.resetPasswordReducer.resetForm)
-  const {sendResetRequest, successfulResetRequest, error} = useSelector(state => state.resetPasswordReducer);
+export const ResetPassword: FC = (): JSX.Element => {
+  const location = useLocation<TLocation>();
+  const dispatch = useDispatch<any>();
+  const {password, token} = useSelector((state: any) => state.resetPasswordReducer.resetForm)
+  const {sendResetRequest, successfulResetRequest, error} = useSelector((state: any) => state.resetPasswordReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
-  function handleFormValidation(e) {
-    setFormIsValid(e.target.closest('.form').checkValidity());
+  function handleFormValidation(e: TInputEvent) {
+    // @ts-ignore
+    setFormIsValid(e.target.closest('.form')!.checkValidity());
   }
-  const handleFormChange = (e) => {
+  const handleFormChange = (e: TInputEvent) => {
     dispatch(setNewPasswordForm(e.target.name, e.target.value));
     handleFormValidation(e);
   }
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(sendNewPassword({
         "password": password,
