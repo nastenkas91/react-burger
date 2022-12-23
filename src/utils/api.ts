@@ -11,20 +11,30 @@ import {
   USER_END_POINT
 } from "./constants";
 import {getCookie, setCookie} from "./cookies";
+import {TOrder, TUserInfo} from "./types";
 
-const checkResponse = (res) => res.ok ? res.json() : res.json().then(err => Promise.reject(err));
+interface IFetchOptions {
+  method: string,
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: string
+  },
+  body?: string
+}
 
-const request = (url, options) => {
+const checkResponse = <T>(res: Response): Promise<T> => res.ok ? res.json() : res.json().then(err => Promise.reject(err));
+
+const request = (url: string, options: RequestInit) => {
   return fetch(url, options).then(checkResponse)
 }
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async (url: string, options: IFetchOptions) => {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
-  } catch (err) {
+  } catch (err: any) {
     if (err.message === 'jwt expired') {
-      const refreshedData = await getNewTokenRequest();
+      const refreshedData: any = await getNewTokenRequest();
       if (!refreshedData.success) {
         Promise.reject(refreshedData)
       }
@@ -47,7 +57,7 @@ export function fetchIngredients() {
   })
 };
 
-export function makeOrder(order) {
+export function makeOrder(order: TOrder) {
   return request(URL_API + ORDERS_END_POINT, {
     method: 'POST',
     headers: {
@@ -57,7 +67,7 @@ export function makeOrder(order) {
   })
 };
 
-export function resetPasswordRequest(email) {
+export function resetPasswordRequest(email: string) {
   return request(URL_API + PASSWORD_RESET, {
     method: 'POST',
     headers: {
@@ -67,7 +77,7 @@ export function resetPasswordRequest(email) {
   })
 };
 
-export function setNewPasswordRequest(req) {
+export function setNewPasswordRequest(req: {password: string, token: string}) {
   return request(URL_API + NEW_PASSWORD, {
     method: 'POST',
     headers: {
@@ -77,7 +87,7 @@ export function setNewPasswordRequest(req) {
   })
 };
 
-export function loginRequest(req) {
+export function loginRequest(req: {email: string, password: string}) {
   return request(URL_API + LOGIN_END_POINT, {
     method: 'POST',
     headers: {
@@ -87,7 +97,7 @@ export function loginRequest(req) {
   })
 };
 
-export function registerRequest(req) {
+export function registerRequest(req: TUserInfo) {
   return request(URL_API + REGISTRATION_END_POINT, {
     method: 'POST',
     headers: {
@@ -131,7 +141,7 @@ export function getUserInfoRequest() {
   })
 };
 
-export function updateUserInfoRequest(req) {
+export function updateUserInfoRequest(req: TUserInfo) {
   return fetchWithRefresh(URL_API + USER_END_POINT, {
     method: 'PATCH',
     headers: {
