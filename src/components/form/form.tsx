@@ -1,8 +1,16 @@
 import styles from './form.module.css';
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
+import {FC, ReactNode} from "react";
 
-export const Form = ({formTitle, children, buttonTitle, formIsValid, onSubmit}) => {
+interface FormProps {
+  formTitle: string,
+  buttonTitle: string,
+  formIsValid: boolean,
+  onSubmit: () => void,
+  children: ReactNode
+}
+
+export const Form: FC<FormProps> = ({formTitle, children, buttonTitle, formIsValid, onSubmit}): JSX.Element => {
 
   return (
     <form className={`${styles.form} form`} onSubmit={onSubmit}>
@@ -18,12 +26,4 @@ export const Form = ({formTitle, children, buttonTitle, formIsValid, onSubmit}) 
       </Button>
     </form>
   )
-}
-
-Form.propTypes = {
-  formTitle: PropTypes.string.isRequired,
-  buttonTitle: PropTypes.string.isRequired,
-  formIsValid: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired
 }

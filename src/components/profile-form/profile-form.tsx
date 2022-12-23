@@ -1,27 +1,29 @@
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './profile-form.module.css';
-import {useState} from "react";
+import {SyntheticEvent, useState} from "react";
 import {setProfileInfoForm} from "../../services/actionCreators/auth";
 import {getUser, updateUserInfo} from "../../services/actions/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {Spinner} from "../spinner/spinner";
+import {TInputEvent} from "../../utils/types";
 
 export const ProfileForm = () => {
-  const dispatch = useDispatch();
-  const {name, email, password} = useSelector(state => state.profileReducer.form)
-  const {sendRequest, error} = useSelector(state => state.profileReducer)
+  const dispatch = useDispatch<any>();
+  const {name, email, password} = useSelector((state: any) => state.profileReducer.form)
+  const {sendRequest, error} = useSelector((state: any) => state.profileReducer)
   const [formIsValid, setFormIsValid] = useState(false);
   const [isModified, setIsModified] = useState(false)
 
-  function handleFormValidation(e) {
-    setFormIsValid(e.target.closest('.form').checkValidity() && password);
+  function handleFormValidation(e: TInputEvent) {
+    // @ts-ignore
+    setFormIsValid(e.target.closest('.form')!.checkValidity() && password);
   }
-  const handleFormChange = (e) => {
+  const handleFormChange = (e: TInputEvent) => {
     dispatch(setProfileInfoForm(e.target.name, e.target.value));
     handleFormValidation(e);
     setIsModified(true);
   }
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(updateUserInfo({
         "email": email,
@@ -51,7 +53,7 @@ export const ProfileForm = () => {
         value={email}
         onChange={handleFormChange}
         placeholder={'Логин'}
-        icon={'EditIcon'}
+        //icon={'EditIcon'}
       />
       <PasswordInput
         name={'password'}

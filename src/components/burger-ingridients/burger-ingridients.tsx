@@ -5,17 +5,24 @@ import {IngridientsCategory} from "../ingridients-category/ingridients-category"
 import {IngredientsItem} from "../ingridients-item/ingridients-item";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {TIngredient} from "../../utils/types";
+import {removeCurrentIngredient} from "../../services/actionCreators/ingredients";
+
+interface Counter {
+  [index: number]: number
+}
 
 export function BurgerIngredients() {
-  const {ingredients, currentIngredient} = useSelector(state => state.ingredients);
-  const {bun, selectedIngredients} = useSelector(state => state.burgerConstructor);
+  const dispatch = useDispatch<any>();
+  const {ingredients, currentIngredient} = useSelector((state: any) => state.ingredients);
+  const {bun, selectedIngredients} = useSelector((state: any) => state.burgerConstructor);
 
   const [current, setCurrent] = useState('buns');
   const [isModalOpen, setModalOpen] = useState(false);
   const [counter, setCounter] = useState({});
 
-  const filterIngredients = (array, type) => array.filter(item => item.type === type);
+  const filterIngredients = (array: TIngredient[], type: string) => array.filter(item => item.type === type);
   const buns = useMemo(() => {
     return filterIngredients(ingredients, 'bun');
   }, [ingredients])
@@ -29,7 +36,7 @@ export function BurgerIngredients() {
   }, [ingredients])
 
   function countIngredients() {
-    const counter = selectedIngredients.reduce((acc, item) => {
+    const counter = selectedIngredients.reduce((acc: Counter, item: TIngredient): Counter => {
       acc[item._id] = acc[item._id] + 1 || 1;
       return acc
     }, {});
@@ -39,19 +46,24 @@ export function BurgerIngredients() {
     setCounter(counter);
   }
 
+  const closeModal = () => {
+    setModalOpen(false);
+    dispatch(removeCurrentIngredient());
+  }
+
   useEffect(() => {
     countIngredients();
   }, [bun, selectedIngredients])
 
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
+  const bunRef = useRef<HTMLLIElement>(null);
+  const sauceRef = useRef<HTMLLIElement>(null);
+  const mainRef = useRef<HTMLLIElement>(null);
 
   const changeTub = () => {
-    const rootTop = document.querySelector('.scrollArea').getBoundingClientRect().top;
-    const bunSectionTop = document.getElementById('buns').getBoundingClientRect().top;
-    const sauceSectionTop = document.getElementById('sauces').getBoundingClientRect().top;
-    const mainSectionTop = document.getElementById('mains').getBoundingClientRect().top;
+    const rootTop = document.querySelector('.scrollArea')!.getBoundingClientRect().top;
+    const bunSectionTop = document.getElementById('buns')!.getBoundingClientRect().top;
+    const sauceSectionTop = document.getElementById('sauces')!.getBoundingClientRect().top;
+    const mainSectionTop = document.getElementById('mains')!.getBoundingClientRect().top;
     Math.abs(rootTop - bunSectionTop) < Math.abs(rootTop - sauceSectionTop) ?
       setCurrent('buns') :
       Math.abs(rootTop - sauceSectionTop) < Math.abs(rootTop - mainSectionTop) ?
@@ -65,17 +77,17 @@ export function BurgerIngredients() {
       <h1 className='text text_type_main-large mt-10'>Соберите бургер</h1>
       <ul className={`${styles.ingridients__nav} mt-5 mb-10`} id={'scrollArea'}>
         <li className={`${styles.ingridients__category}`}>
-          <Tab value="Булки" active={current === 'buns'} onClick={() => bunRef.current.scrollIntoView({behavior: "smooth"})}>
+          <Tab value="Булки" active={current === 'buns'} onClick={() => bunRef.current!.scrollIntoView({behavior: "smooth"})}>
             Булки
           </Tab>
         </li>
         <li className={`${styles.ingridients__category}`}>
-          <Tab value="Соусы" active={current === 'sauces'} onClick={() => sauceRef.current.scrollIntoView({behavior: "smooth"})}>
+          <Tab value="Соусы" active={current === 'sauces'} onClick={() => sauceRef.current!.scrollIntoView({behavior: "smooth"})}>
             Соусы
           </Tab>
         </li>
         <li className={`${styles.ingridients__category}`}>
-          <Tab value="Начинки" active={current === 'mains'} onClick={() => mainRef.current.scrollIntoView({behavior: "smooth"})}>
+          <Tab value="Начинки" active={current === 'mains'} onClick={() => mainRef.current!.scrollIntoView({behavior: "smooth"})}>
             Начинки
           </Tab>
         </li>
@@ -89,7 +101,6 @@ export function BurgerIngredients() {
                 <IngredientsItem
                   key={el._id}
                   item={el}
-                  setModalOpen={setModalOpen}
                   count={counter[el._id]}
                 />
               )
@@ -103,7 +114,6 @@ export function BurgerIngredients() {
                 <IngredientsItem
                   key={el._id}
                   item={el}
-                  setModalOpen={setModalOpen}
                   count={counter[el._id]}
                 />
               )
@@ -117,7 +127,6 @@ export function BurgerIngredients() {
               <IngredientsItem
                 key={el._id}
                 item={el}
-                setModalOpen={setModalOpen}
                 count={counter[el._id]}
               />
             )
@@ -126,8 +135,8 @@ export function BurgerIngredients() {
         </li>
       </ul>
       {isModalOpen && (
-        <Modal setModalOpen={setModalOpen} title={'Детали ингредиента'}>
-          <IngredientDetails item={currentIngredient} />
+        <Modal closeModal={closeModal} title={'Детали ингредиента'}>
+          <IngredientDetails />
         </Modal>
       )}
 

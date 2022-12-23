@@ -1,13 +1,17 @@
-import React from "react";
+import React, {FC} from "react";
 import styles from './ingridients-item.module.css';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../utils/types";
 import { useDrag } from "react-dnd";
 import {useLocation, Link} from "react-router-dom";
+import {TIngredient} from "../../utils/types";
 
-export function IngredientsItem({item, count}) {
+interface Ingredient {
+  item: TIngredient,
+  count: number
+}
+
+export const IngredientsItem: FC<Ingredient> = ({item, count}): JSX.Element => {
   const location = useLocation();
   const ingredientId = item['_id'];
 
@@ -45,9 +49,4 @@ export function IngredientsItem({item, count}) {
     </div>
     </Link>
   )
-}
-
-IngredientsItem.propTypes = {
-  item: ingredientPropTypes,
-  count: PropTypes.number
 }

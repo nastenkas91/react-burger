@@ -1,14 +1,14 @@
-import styles from './ingredient-details.module.css'
-import {ingredientPropTypes} from "../../utils/types";
+import styles from './ingredient-details.module.css';
 import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {TIngredient} from "../../utils/types";
 
 export function IngredientDetails() {
   const location = useLocation();
   const ingredientId = location.pathname.split('/')[1];
-  const item = useSelector(state => state.ingredients.ingredients).find(el => el._id === ingredientId)
+  const currentIngredient = useSelector((state: any) => state.ingredients.ingredients).find((el: TIngredient) => el._id === ingredientId)
 
-  const currentIngredient = item || JSON.parse(localStorage.getItem('currentIngredient'));
+  //const currentIngredient = item || JSON.parse(localStorage.getItem('currentIngredient'));
   const {image, name, proteins, fat, carbohydrates, calories} = currentIngredient;
 
   return (
@@ -36,8 +36,4 @@ export function IngredientDetails() {
       </ul>
     </div>
   )
-}
-
-IngredientDetails.propTypes = {
-  item: ingredientPropTypes,
 }

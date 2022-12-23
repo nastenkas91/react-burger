@@ -1,7 +1,8 @@
 import styles from './spinner.module.css';
 import {RotatingLines} from "react-loader-spinner";
+import {FC} from "react";
 
-export const Spinner = () => {
+export const Spinner: FC = (): JSX.Element => {
   return (
     <div className={`${styles.spinner__container}`}>
       <RotatingLines

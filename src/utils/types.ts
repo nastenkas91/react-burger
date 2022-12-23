@@ -16,7 +16,7 @@ export type TInputEvent = {
 }
 
 export type TOrder = {
-  ingredients: TIngredientProps[]
+  ingredients: TIngredient[]
 }
 
 export type TUserInfo = {
@@ -25,7 +25,7 @@ export type TUserInfo = {
   name: string
 }
 
-export type TIngredientProps = {
+export type TIngredient = {
   _id: string,
   name: string,
   type: string,
@@ -36,3 +36,9 @@ export type TIngredientProps = {
   calories: number,
   image:  string,
 };
+
+export type TDropIngredient = TIngredient & {dropId: string};
+
+export type TCloseModal = {
+  closeModal: () => void
+}

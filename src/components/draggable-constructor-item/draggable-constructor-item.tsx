@@ -1,17 +1,28 @@
 import styles from "./draggable-constructor-item.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useRef, useCallback } from "react";
+import React, {useRef, useCallback, FC} from "react";
 import { useDrag, useDrop } from "react-dnd";
 import {useDispatch} from "react-redux";
-import {ingredientPropTypes} from "../../utils/types";
-import PropTypes from "prop-types";
 import {moveIngredient} from "../../services/actionCreators/burgerConstructor";
+import {TIngredient} from "../../utils/types";
+import { Identifier } from 'dnd-core'
 
-export const DraggableConstructorItem = ({elem, deleteIngredient, index, id}) => {
+interface DraggableItem {
+  elem: TIngredient,
+  deleteIngredient: (elem: TIngredient) => void,
+  index: number,
+  id: string,
+}
+
+interface CollectedProps {
+  handlerId: Identifier | null
+}
+
+export const DraggableConstructorItem: FC<DraggableItem> = ({elem, deleteIngredient, index, id}): JSX.Element => {
   const dispatch = useDispatch();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  const [{ opacity }, drag] = useDrag({
+  const [{opacity}, drag] = useDrag({
     type: 'draggable-ingredients',
     item: {id, index},
     collect: (monitor) => ({
@@ -19,11 +30,11 @@ export const DraggableConstructorItem = ({elem, deleteIngredient, index, id}) =>
     })
   })
 
-  const moveCard = useCallback((dragIndex, hoverIndex) => {
+  const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
     dispatch(moveIngredient(dragIndex, hoverIndex))
   }, [dispatch])
 
-  const [{handlerId}, drop] = useDrop({
+  const [{handlerId}, drop] = useDrop<DraggableItem, undefined, CollectedProps>({
     accept: 'draggable-ingredients',
     collect(monitor) {
       return {
@@ -42,7 +53,7 @@ export const DraggableConstructorItem = ({elem, deleteIngredient, index, id}) =>
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
       }
@@ -57,7 +68,8 @@ export const DraggableConstructorItem = ({elem, deleteIngredient, index, id}) =>
   drag(drop(ref));
 
   return (
-    <div className={`${styles.constructor__dragbox} mr-2`} data-handler-id={handlerId} ref={ref} style={{opacity}} draggable={true}>
+    <div className={`${styles.constructor__dragbox} mr-2`} data-handler-id={handlerId} ref={ref} style={{opacity}}
+         draggable={true}>
       <DragIcon type={"primary"}/>
       <ConstructorElement
         text={elem.name}
@@ -67,11 +79,4 @@ export const DraggableConstructorItem = ({elem, deleteIngredient, index, id}) =>
       />
     </div>
   )
-}
-
-DraggableConstructorItem.propTypes = {
-  elem: ingredientPropTypes,
-  deleteIngredient: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
 }
