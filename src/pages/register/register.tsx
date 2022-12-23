@@ -5,24 +5,26 @@ import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {setRegistrationForm} from "../../services/actionCreators/auth";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
+import {FC, SyntheticEvent, useState} from "react";
 import {register} from "../../services/actions/auth";
 import {Spinner} from "../../components/spinner/spinner";
+import {TInputEvent} from "../../utils/types";
 
-export const Register = () => {
-  const dispatch = useDispatch();
-  const {name, email, password} = useSelector(state => state.loginReducer.registrationForm);
-  const {sendRequest, error} = useSelector(state => state.loginReducer);
+export const Register: FC = (): JSX.Element => {
+  const dispatch = useDispatch<any>();
+  const {name, email, password} = useSelector((state: any) => state.loginReducer.registrationForm);
+  const {sendRequest, error} = useSelector((state: any) => state.loginReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
-  function handleFormValidation(e) {
-    setFormIsValid(e.target.closest('.form').checkValidity());
+  function handleFormValidation(e: TInputEvent) {
+    // @ts-ignore
+    setFormIsValid(e.target.closest('.form')!.checkValidity());
   }
-  const handleFormChange = (e) => {
+  const handleFormChange = (e: TInputEvent) => {
     dispatch(setRegistrationForm(e.target.name, e.target.value));
     handleFormValidation(e);
   }
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(register({
         "email": email,

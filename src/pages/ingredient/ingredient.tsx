@@ -1,7 +1,8 @@
 import styles from './ingredient.module.css'
 import {IngredientDetails} from "../../components/ingredient-details/ingredient-details";
+import {FC} from "react";
 
-export const Ingredient = () => {
+export const Ingredient: FC = (): JSX.Element => {
 
   return (
     <section className={`${styles.page}`}>

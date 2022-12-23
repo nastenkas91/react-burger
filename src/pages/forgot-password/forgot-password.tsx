@@ -4,26 +4,28 @@ import {NavLink, useHistory} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
+import {FC, SyntheticEvent, useState} from "react";
 import {resetPassword} from "../../services/actions/auth";
 import {setResetPasswordForm} from "../../services/actionCreators/auth";
 import {Spinner} from "../../components/spinner/spinner";
+import {TInputEvent} from "../../utils/types";
 
-export const ForgotPassword = () => {
+export const ForgotPassword: FC = (): JSX.Element => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const {email} = useSelector(state => state.resetPasswordReducer.forgotForm)
-  const {forgotRequest, error} = useSelector(state => state.resetPasswordReducer);
+  const dispatch = useDispatch<any>();
+  const {email} = useSelector((state: any) => state.resetPasswordReducer.forgotForm)
+  const {forgotRequest, error} = useSelector((state: any) => state.resetPasswordReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
-  function handleFormValidation(e) {
-    setFormIsValid(e.target.closest('.form').checkValidity());
+  function handleFormValidation(e: TInputEvent) {
+    // @ts-ignore
+    setFormIsValid(e.target.closest('.form')!.checkValidity());
   }
-  const handleFormChange = (e) => {
+  const handleFormChange = (e: TInputEvent) => {
     dispatch(setResetPasswordForm(e.target.name, e.target.value));
     handleFormValidation(e);
   }
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(resetPassword({
         "email": email,

@@ -1,11 +1,18 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
-import PropTypes from "prop-types";
-import {Modal} from "../modal/modal";
 import {useSelector} from "react-redux";
+import {FC, ReactNode} from "react";
+import {TLocation} from "../../utils/types";
 
-export const ProtectedRoute = ({children, onlyAuth,...rest}) => {
-  const location = useLocation();
-  const {isLoggedIn} = useSelector(state => state.loginReducer);
+interface IProtectedRoute {
+  children?: ReactNode,
+  onlyAuth: boolean,
+  path: string,
+  exact?: boolean
+}
+
+export const ProtectedRoute: FC<IProtectedRoute> = ({children, onlyAuth,...rest}): JSX.Element => {
+  const location = useLocation<TLocation>();
+  const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
   const nextPage = location.state?.from || '/';
 
   if (onlyAuth) {
@@ -38,10 +45,4 @@ export const ProtectedRoute = ({children, onlyAuth,...rest}) => {
       </Route>
     )
   }
-}
-
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  onlyAuth: PropTypes.bool.isRequired,
-  rest: PropTypes.array
 }

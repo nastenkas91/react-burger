@@ -17,18 +17,20 @@ import {
 } from "../../services/actionCreators/burgerConstructor";
 import {clearOrderNumber} from "../../services/actionCreators/order";
 import {useHistory} from "react-router-dom";
+import {TDropIngredient, TIngredient} from "../../utils/types";
+import {removeCurrentIngredient} from "../../services/actionCreators/ingredients";
 
 export function BurgerConstructor() {
-  const {isLoggedIn} = useSelector(state => state.loginReducer);
+  const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
   const history = useHistory();
-  const {selectedIngredients, bun, totalPrice} = useSelector(state => state.burgerConstructor);
+  const {selectedIngredients, bun, totalPrice} = useSelector((state: any) => state.burgerConstructor);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
 
   const onMakeOrderClick = () => {
     if (isLoggedIn) {
-      const order = {ingredients: [bun._id, ...selectedIngredients.map(el => el._id), bun._id]};
+      const order = {ingredients: [bun._id, ...selectedIngredients.map((el: TIngredient) => el._id), bun._id]};
       dispatch(clearOrderNumber());
       dispatch(sendOrder(order));
       dispatch(clearConstructor());
@@ -38,11 +40,11 @@ export function BurgerConstructor() {
     }
   }
 
-  const deleteIngredient = (item) => {
+  const deleteIngredient = (item: TIngredient) => {
     dispatch(removeIngredient(item))
   }
 
-  const onIngredientDrop = (item) => {
+  const onIngredientDrop = (item: TIngredient) => {
     if (item.type !== 'bun') {
       dispatch(addIngredient(item));
     } else if (item.type === 'bun' && !bun) {
@@ -53,9 +55,14 @@ export function BurgerConstructor() {
     }
   }
 
+  const closeModal = () => {
+    setModalOpen(false);
+    dispatch(removeCurrentIngredient());
+  }
+
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(item) {
+    drop(item: TIngredient) {
       onIngredientDrop(item)
     },
   })
@@ -81,7 +88,7 @@ export function BurgerConstructor() {
       {
         selectedIngredients.length > 0 ?
         (<div className={`${styles.constructor__container} mt-4 mb-4`}>
-        {selectedIngredients.map((elem, index) => {
+        {selectedIngredients.map((elem: TDropIngredient, index: number) => {
             return (
               <DraggableConstructorItem
                 key={elem.dropId}
@@ -120,7 +127,7 @@ export function BurgerConstructor() {
         <Button disabled={!bun} htmlType={"submit"} type={"primary"} size={"large"} onClick={onMakeOrderClick}>Оформить заказ</Button>
       </div>
       {isModalOpen && (
-        <Modal title={''} setModalOpen={setModalOpen}>
+        <Modal title={''} closeModal={closeModal}>
           <OrderDetails />
         </Modal>
       )}

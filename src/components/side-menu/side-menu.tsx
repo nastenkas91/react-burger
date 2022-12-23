@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 
 export const SideMenu = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const location = useLocation();
 
   const handleLogout = () => {

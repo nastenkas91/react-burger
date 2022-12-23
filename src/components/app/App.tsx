@@ -16,13 +16,14 @@ import {useEffect} from "react";
 import {getIngredients} from "../../services/actions/ingredients";
 import {getUser} from "../../services/actions/auth";
 import {Spinner} from "../spinner/spinner";
+import {TModalState} from "../../utils/types";
 
 export function App() {
-  const {isLoggedIn} = useSelector(state => state.loginReducer);
-  const location = useLocation();
+  const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
+  const location = useLocation<TModalState>();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const{ingredientsRequest} = useSelector(state => state.ingredients)
+  const dispatch = useDispatch<any>();
+  const{ingredientsRequest} = useSelector((state: any) => state.ingredients)
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -81,7 +82,7 @@ export function App() {
           children={
            <Modal
              title={'Детали ингредиента'}
-             handleModalClose={handleModalClose}
+             closeModal={handleModalClose}
            >
              <IngredientDetails />
            </Modal>
