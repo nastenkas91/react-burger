@@ -11,7 +11,7 @@ import {NotFound} from "../../pages/not-found/not-found";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
 import {Modal} from "../modal/modal";
 import {Ingredient} from "../../pages/ingredient/ingredient";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
 import {useEffect} from "react";
 import {getIngredients} from "../../services/actions/ingredients";
 import {getUser} from "../../services/actions/auth";
@@ -22,8 +22,8 @@ export function App() {
   const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
   const location = useLocation<TModalState>();
   const history = useHistory();
-  const dispatch = useDispatch<any>();
-  const{ingredientsRequest} = useSelector((state: any) => state.ingredients)
+  const dispatch = useDispatch();
+  const{ingredientsRequest} = useSelector(state => state.ingredients)
 
   useEffect(() => {
     dispatch(getIngredients());

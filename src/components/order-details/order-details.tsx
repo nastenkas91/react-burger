@@ -1,9 +1,9 @@
 import styles from './order-details.module.css';
 import doneIcon from '../../images/done.svg';
-import {useSelector} from "react-redux";
+import {useSelector} from "../../utils/hooks";
 
 export function OrderDetails() {
-  const {orderRequest, orderNumber} = useSelector((state: any) => state.order)
+  const {orderRequest, orderNumber} = useSelector(state => state.order)
   return (
     <div className={`${styles.order__container}`}>
       {

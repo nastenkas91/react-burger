@@ -2,14 +2,14 @@ import styles from "./draggable-constructor-item.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useRef, useCallback, FC} from "react";
 import { useDrag, useDrop } from "react-dnd";
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../../utils/hooks";
 import {moveIngredient} from "../../services/actionCreators/burgerConstructor";
-import {TIngredient} from "../../utils/types";
+import {TDropIngredient, TIngredient} from "../../utils/types";
 import { Identifier } from 'dnd-core'
 
 interface DraggableItem {
-  elem: TIngredient,
-  deleteIngredient: (elem: TIngredient) => void,
+  elem: TDropIngredient,
+  deleteIngredient: (elem: TDropIngredient) => void,
   index: number,
   id: string,
 }

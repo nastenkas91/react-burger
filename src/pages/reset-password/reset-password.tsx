@@ -4,7 +4,7 @@ import {NavLink, Redirect, useLocation} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {sendNewPassword} from "../../services/actions/auth";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
 import {FC, SyntheticEvent, useState} from "react";
 import {setNewPasswordForm} from "../../services/actionCreators/auth";
 import {Spinner} from "../../components/spinner/spinner";
@@ -12,9 +12,9 @@ import {TInputEvent, TLocation} from "../../utils/types";
 
 export const ResetPassword: FC = (): JSX.Element => {
   const location = useLocation<TLocation>();
-  const dispatch = useDispatch<any>();
-  const {password, token} = useSelector((state: any) => state.resetPasswordReducer.resetForm)
-  const {sendResetRequest, successfulResetRequest, error} = useSelector((state: any) => state.resetPasswordReducer);
+  const dispatch = useDispatch();
+  const {password, token} = useSelector(state => state.resetPasswordReducer.resetForm)
+  const {sendRequest, successfulResetRequest, error} = useSelector(state => state.resetPasswordReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e: TInputEvent) {
@@ -52,7 +52,7 @@ export const ResetPassword: FC = (): JSX.Element => {
         <PasswordInput
           extraClass={`mb-6`}
           name={'password'}
-          value={password}
+          value={password || ''}
           icon={'ShowIcon'}
           onChange={handleFormChange}
         />
@@ -61,7 +61,7 @@ export const ResetPassword: FC = (): JSX.Element => {
           placeholder={'Введите код из письма'}
           extraClass={`mb-6`}
           name={'token'}
-          value={token}
+          value={token || ''}
           onChange={handleFormChange}
         />
         {
@@ -76,7 +76,7 @@ export const ResetPassword: FC = (): JSX.Element => {
         <NavLink className={`${styles.link} text text_color_accent`} to={'/login'}> Войти</NavLink>
       </p>
       {
-        sendResetRequest &&
+        sendRequest &&
         <Spinner />
       }
     </PageWithForm>

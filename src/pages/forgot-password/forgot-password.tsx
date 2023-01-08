@@ -3,7 +3,7 @@ import {EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, useHistory} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
 import {FC, SyntheticEvent, useState} from "react";
 import {resetPassword} from "../../services/actions/auth";
 import {setResetPasswordForm} from "../../services/actionCreators/auth";
@@ -12,9 +12,9 @@ import {TInputEvent} from "../../utils/types";
 
 export const ForgotPassword: FC = (): JSX.Element => {
   const history = useHistory();
-  const dispatch = useDispatch<any>();
-  const {email} = useSelector((state: any) => state.resetPasswordReducer.forgotForm)
-  const {forgotRequest, error} = useSelector((state: any) => state.resetPasswordReducer);
+  const dispatch = useDispatch();
+  const {email} = useSelector(state => state.resetPasswordReducer.forgotForm)
+  const {forgotRequest, error} = useSelector(state => state.resetPasswordReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e: TInputEvent) {
@@ -48,7 +48,7 @@ export const ForgotPassword: FC = (): JSX.Element => {
         <EmailInput
           extraClass={`mb-6`}
           name={'email'}
-          value={email}
+          value={email || ''}
           placeholder={'Укажите e-mail'}
           onChange={handleFormChange}
         />

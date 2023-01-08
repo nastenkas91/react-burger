@@ -5,7 +5,7 @@ import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
 import {useLocation, Link} from "react-router-dom";
 import {TIngredient} from "../../utils/types";
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../../utils/hooks";
 import {setCurrentIngredient} from "../../services/actionCreators/ingredients";
 
 interface Ingredient {
@@ -14,7 +14,7 @@ interface Ingredient {
 }
 
 export const IngredientsItem: FC<Ingredient> = ({item, count}): JSX.Element => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
   const location = useLocation();
   const ingredientId = item['_id'];
 

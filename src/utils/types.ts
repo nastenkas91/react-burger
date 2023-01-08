@@ -1,4 +1,11 @@
 import * as H from 'history';
+import {state} from "../index";
+import {TLoginActions, TProfile, TResetPassword} from "../services/actions/auth";
+import {TBurgerConstructorActions} from "../services/actions/burgerConstructor";
+import {TIngredientsActions} from "../services/actions/ingredients";
+import {TOrderActions} from "../services/actions/order";
+import { ThunkAction } from 'redux-thunk';
+import type {} from "redux-thunk/extend-redux"
 
 export type TIngredient = {
   _id: string,
@@ -42,4 +49,18 @@ export type TUserInfo = {
   password: string,
   name: string
 }
+
+export type RootState = ReturnType<typeof state.getState>;
+
+export type TApplicationActions =
+  | TLoginActions
+  | TResetPassword
+  | TProfile
+  | TBurgerConstructorActions
+  | TIngredientsActions
+  | TOrderActions;
+
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
+
+export type AppDispatch = typeof state.dispatch;
 

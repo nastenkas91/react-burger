@@ -5,7 +5,7 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Modal} from '../modal/modal'
 import {OrderDetails} from "../order-details/order-details";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
 import {sendOrder} from "../../services/actions/order";
 import {DraggableConstructorItem} from "../draggable-constructor-item/draggable-constructor-item";
 import { useDrop } from "react-dnd";
@@ -21,12 +21,12 @@ import {TDropIngredient, TIngredient} from "../../utils/types";
 import {removeCurrentIngredient} from "../../services/actionCreators/ingredients";
 
 export function BurgerConstructor() {
-  const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
+  const {isLoggedIn} = useSelector(state => state.loginReducer);
   const history = useHistory();
   const {selectedIngredients, bun, totalPrice} = useSelector((state: any) => state.burgerConstructor);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
 
   const onMakeOrderClick = () => {
     if (isLoggedIn) {
@@ -40,7 +40,7 @@ export function BurgerConstructor() {
     }
   }
 
-  const deleteIngredient = (item: TIngredient) => {
+  const deleteIngredient = (item: TDropIngredient) => {
     dispatch(removeIngredient(item))
   }
 

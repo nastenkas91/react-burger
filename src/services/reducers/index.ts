@@ -11,4 +11,4 @@ export const rootReducer = combineReducers({
   loginReducer,
   resetPasswordReducer,
   profileReducer,
-})
+});

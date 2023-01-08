@@ -19,7 +19,9 @@ export const ProfileForm: FC = (): JSX.Element => {
     setFormIsValid(e.target.closest('.form')!.checkValidity() && password);
   }
   const handleFormChange = (e: TInputEvent) => {
-    dispatch(setProfileInfoForm(e.target.name, e.target.value));
+    const field = e.target.name;
+    const value = e.target.value;
+    dispatch(setProfileInfoForm({field, value}));
     handleFormValidation(e);
     setIsModified(true);
   }

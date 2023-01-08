@@ -1,12 +1,12 @@
 import styles from "./side-menu.module.css";
 import {NavLink, useHistory, useLocation} from "react-router-dom";
 import {logout} from "../../services/actions/auth";
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../../utils/hooks";
 
 
 export const SideMenu = () => {
   const history = useHistory();
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
   const location = useLocation();
 
   const handleLogout = () => {

@@ -1,5 +1,5 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../utils/hooks";
 import {FC, ReactNode} from "react";
 import {TLocation} from "../../utils/types";
 
@@ -12,7 +12,7 @@ interface IProtectedRoute {
 
 export const ProtectedRoute: FC<IProtectedRoute> = ({children, onlyAuth,...rest}): JSX.Element => {
   const location = useLocation<TLocation>();
-  const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
+  const {isLoggedIn} = useSelector(state => state.loginReducer);
   const nextPage = location.state?.from || '/';
 
   if (onlyAuth) {

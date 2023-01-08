@@ -12,7 +12,7 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import {BrowserRouter} from "react-router-dom";
 
 const enhancer = composeWithDevTools(applyMiddleware(thunk));
-const state = createStore(rootReducer, enhancer)
+export const state = createStore(rootReducer, enhancer)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

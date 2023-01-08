@@ -4,16 +4,16 @@ import {NavLink} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {setRegistrationForm} from "../../services/actionCreators/auth";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
 import {FC, SyntheticEvent, useState} from "react";
 import {register} from "../../services/actions/auth";
 import {Spinner} from "../../components/spinner/spinner";
 import {TInputEvent} from "../../utils/types";
 
 export const Register: FC = (): JSX.Element => {
-  const dispatch = useDispatch<any>();
-  const {name, email, password} = useSelector((state: any) => state.loginReducer.registrationForm);
-  const {sendRequest, error} = useSelector((state: any) => state.loginReducer);
+  const dispatch = useDispatch();
+  const {name, email, password} = useSelector(state => state.loginReducer.registrationForm);
+  const {sendRequest, error} = useSelector(state => state.loginReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e: TInputEvent) {
@@ -47,21 +47,21 @@ export const Register: FC = (): JSX.Element => {
           placeholder={'Имя'}
           extraClass={`mb-6`}
           name={'name'}
-          value={name}
+          value={name || ''}
           onChange={handleFormChange}
           required={true}
         />
         <EmailInput
           extraClass={`mb-6`}
           name={'email'}
-          value={email}
+          value={email || ''}
           onChange={handleFormChange}
           required={true}
         />
         <PasswordInput
           extraClass={`mb-6`}
           name={'password'}
-          value={password}
+          value={password || ''}
           icon={'ShowIcon'}
           onChange={handleFormChange}
           required={true}
