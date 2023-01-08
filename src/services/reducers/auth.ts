@@ -46,13 +46,13 @@ type TLoginState = {
   sendRequest: boolean,
   failedRequest: boolean,
   registrationForm: {
-    email: string | null,
-    name: string | null,
-    password: string | null
+    email: string,
+    name: string,
+    password: string
   },
   loginForm: {
-    email: string | null,
-    password: string | null
+    email: string,
+    password: string
   },
   error: string | undefined | null
 };
@@ -61,14 +61,14 @@ type TResetPasswordFormState = {
   forgotRequest: boolean,
   successfulForgotRequest: boolean,
   forgotForm: {
-    email: string | null,
+    email: string,
   },
   sendRequest: boolean,
   failedRequest: boolean,
   successfulResetRequest: boolean,
   resetForm: {
-    password: string | null,
-    token: string | null
+    password: string,
+    token: string
   },
   error: string | null | undefined
 };
@@ -77,13 +77,13 @@ type TProfileState = {
   sendRequest: boolean,
   failedRequest: boolean,
   user: {
-    userEmail: string | null,
-    userName: string | null,
+    userEmail: string,
+    userName: string,
   },
   form: {
-    email: string | null,
-    name: string | null,
-    password: string | null
+    email: string,
+    name: string,
+    password: string
   },
   error: string | null | undefined
 };

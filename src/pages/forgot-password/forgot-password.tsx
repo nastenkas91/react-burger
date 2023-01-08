@@ -27,9 +27,7 @@ export const ForgotPassword: FC = (): JSX.Element => {
   }
   const handleFormSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(resetPassword({
-        "email": email,
-      }
+    dispatch(resetPassword(email
     ));
     history.push({
       pathname: '/reset-password',

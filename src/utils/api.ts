@@ -73,7 +73,9 @@ export function resetPasswordRequest(email: string) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(email)
+    body: JSON.stringify({
+      "email": email,
+    })
   })
 };
 
