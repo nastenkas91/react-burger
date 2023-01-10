@@ -17,6 +17,7 @@ import {getIngredients} from "../../services/actions/ingredients";
 import {getUser} from "../../services/actions/auth";
 import {Spinner} from "../spinner/spinner";
 import {TModalState} from "../../utils/types";
+import {FeedPage} from "../../pages/feed-page/feed-page";
 
 export function App() {
   const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
@@ -48,6 +49,9 @@ export function App() {
         <Route path={'/ingredients/:ingredientId'} exact={true}>
           <Ingredient />
         </Route>
+        <Route path={'/feed'} exact={true}>
+          <FeedPage />
+        </Route>
 
         <ProtectedRoute onlyAuth={false} path={'/login'} exact={true}>
           <Login />
@@ -62,8 +66,6 @@ export function App() {
           <ResetPassword />
         </ProtectedRoute>
 
-        <ProtectedRoute onlyAuth={true} path={'/feed'} exact={true}>
-        </ProtectedRoute>
         <ProtectedRoute onlyAuth={true} path={'/profile'} exact={true}>
           <Profile />
         </ProtectedRoute>

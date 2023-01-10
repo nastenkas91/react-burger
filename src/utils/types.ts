@@ -50,6 +50,15 @@ export type TUserInfo = {
   name: string
 }
 
+export type TFeedItem = {
+  ingredients: Array<string>,
+  _id: string,
+  status: string,
+  number: number,
+  createdAt: string,
+  updatedAt: string
+}
+
 export type RootState = ReturnType<typeof state.getState>;
 
 export type TApplicationActions =

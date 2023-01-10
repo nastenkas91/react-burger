@@ -5,6 +5,7 @@ import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {Spinner} from "../../components/spinner/spinner";
 import {FC} from "react";
+import {Feed} from "../../components/feed/feed";
 
 export const Profile: FC = (): JSX.Element => {
   const location = useLocation();
@@ -16,6 +17,9 @@ export const Profile: FC = (): JSX.Element => {
         <SideMenu />
         {
           location.pathname === '/profile' && <ProfileForm />
+        }
+        {
+          location.pathname === '/profile/orders' && <Feed type={'account'} />
         }
       </div>
       {
