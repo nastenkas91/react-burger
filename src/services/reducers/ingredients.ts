@@ -8,14 +8,14 @@ import {
 import {TIngredient} from "../../utils/types";
 
 type TIngredientsInitialState = {
-  ingredients: Array<TIngredient>,
+  ingredients: Array<TIngredient> | [],
   ingredientsRequest: boolean,
   ingredientsFailed: boolean,
   currentIngredient: TIngredient | null,
 }
 
 const initialState: TIngredientsInitialState = {
-  ingredients: [],
+  ingredients: JSON.parse(localStorage.getItem('ingredients') || '') || [],
   ingredientsRequest: false,
   ingredientsFailed: false,
   currentIngredient: null,

@@ -3,6 +3,7 @@ import styles from './feed-item.module.css';
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {TFeedItem} from "../../utils/types";
 import {useSelector} from "../../utils/hooks";
+import {Link, useLocation} from "react-router-dom";
 
 interface IFeedItem {
   orderItem: TFeedItem,
@@ -10,6 +11,7 @@ interface IFeedItem {
 }
 
 export const FeedItem: FC<IFeedItem> = ({orderItem, type}): JSX.Element => {
+  const location = useLocation();
 
   const {ingredients} = useSelector(state => state.ingredients);
 
@@ -25,8 +27,20 @@ export const FeedItem: FC<IFeedItem> = ({orderItem, type}): JSX.Element => {
     return acc
   }, 0)
 
+  const onOrderClick = () => {
+    localStorage.setItem('currentOrderId', JSON.stringify(orderItem._id));
+  }
+
   return (
-    <li className={styles.container}>
+    <li className={styles.container} onClick={onOrderClick}>
+      <Link
+        key={orderItem._id}
+        to={{
+          pathname: `/feed/${orderItem['_id']}`,
+          state: { background: location },
+        }}
+        className={`${styles.link}`}
+      >
       <div className={`${styles.titleContainer} mb-6`}>
         <span className={`digits text_type_digits-default`}>#{orderItem._id}</span>
         <span className={`text text_type_main-default text_color_inactive`}>
@@ -71,6 +85,7 @@ export const FeedItem: FC<IFeedItem> = ({orderItem, type}): JSX.Element => {
           <CurrencyIcon type={"primary"} />
         </div>
       </div>
+      </Link>
     </li>
   )
 }

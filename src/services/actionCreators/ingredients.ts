@@ -7,7 +7,8 @@ import {
   IGetIngredientsRequest,
   IGetIngredientsFailed,
   IGetIngredientsSuccess,
-  ISetCurrentIngredient, IRemoveCurrentIngredient
+  ISetCurrentIngredient,
+  IRemoveCurrentIngredient
 } from "../actions/ingredients";
 import {TIngredient} from "../../utils/types";
 

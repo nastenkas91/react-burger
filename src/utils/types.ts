@@ -40,6 +40,10 @@ export type TCloseModal = {
   closeModal: () => void
 }
 
+export interface Counter {
+  [index: string]: number;
+}
+
 export type TOrder = {
   ingredients: TIngredient[]
 }
@@ -72,4 +76,5 @@ export type TApplicationActions =
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
 
 export type AppDispatch = typeof state.dispatch;
+
 

@@ -5,11 +5,13 @@ import {TIngredient} from "../../utils/types";
 
 export function IngredientDetails() {
   const location = useLocation();
-  const ingredientId = location.pathname.split('/')[2];
-  const item = useSelector(state => state.ingredients.ingredients).find((el: TIngredient) => el._id === ingredientId)
-  const {currentIngredient} = useSelector(state => state.ingredients)
 
-  const ingredient = item || currentIngredient;
+  const ingredientId = location.pathname.split('/')[2];
+  const ingredientFromParams = useSelector(state => state.ingredients.ingredients).find((el: TIngredient) => el._id === ingredientId);
+
+  //const {currentIngredient} = useSelector(state => state.ingredients)
+
+  const ingredient = ingredientFromParams;
   const {image, name, proteins, fat, carbohydrates, calories} = ingredient!;
 
   return (

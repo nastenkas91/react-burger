@@ -200,6 +200,7 @@ export const loginReducer = (state = loginState, action: TLoginActions): TLoginS
       return {
         ...state,
         loginForm: {
+          ...state.loginForm,
           email: '',
           password: ''
         },
@@ -243,7 +244,7 @@ export const loginReducer = (state = loginState, action: TLoginActions): TLoginS
     case SEND_LOGOUT_REQUEST: {
       return {
         ...state,
-        sendLoginRequest: true,
+        sendLogoutRequest: true,
       }
     }
     case LOGOUT_REQUEST_SUCCESS: {
@@ -296,6 +297,7 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action: TRe
       return {
         ...state,
         forgotForm: {
+          ...state.forgotForm,
           email: '',
         },
         forgotRequest: false,
@@ -331,6 +333,7 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action: TRe
       return {
         ...state,
         resetForm: {
+          ...state.resetForm,
           password: '',
           token: ''
         },
@@ -376,6 +379,7 @@ export const profileReducer = (state = profileState, action: TProfile): TProfile
       return {
         ...state,
         form: {
+          ...state.form,
           email: action.payload.email,
           name: action.payload.name,
           password: ''
@@ -402,10 +406,12 @@ export const profileReducer = (state = profileState, action: TProfile): TProfile
       return {
         ...state,
         user: {
+          ...state.user,
           userEmail: action.payload.email,
           userName: action.payload.name,
         },
         form: {
+          ...state.form,
           email: action.payload.email,
           name: action.payload.name,
           password: ''

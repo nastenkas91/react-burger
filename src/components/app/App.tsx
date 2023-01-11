@@ -18,13 +18,15 @@ import {getUser} from "../../services/actions/auth";
 import {Spinner} from "../spinner/spinner";
 import {TModalState} from "../../utils/types";
 import {FeedPage} from "../../pages/feed-page/feed-page";
+import {FeedOrderDetails} from "../feed-order-details/feed-order-details";
 
 export function App() {
-  const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
+  const {isLoggedIn} = useSelector(state => state.loginReducer);
   const location = useLocation<TModalState>();
   const history = useHistory();
   const dispatch = useDispatch();
   const{ingredientsRequest} = useSelector(state => state.ingredients)
+  const orderNumber = parseInt(JSON.parse(localStorage.getItem('currentOrderId') || ''));
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -37,6 +39,8 @@ export function App() {
   const background = location.state && location.state.background;
   const handleModalClose = () => {
     history.goBack();
+    localStorage.removeItem('currentIngredient');
+    localStorage.removeItem('currentOrder');
   }
 
   return (
@@ -51,6 +55,9 @@ export function App() {
         </Route>
         <Route path={'/feed'} exact={true}>
           <FeedPage />
+        </Route>
+        <Route path={'/feed/:id'} exact={true}>
+          <FeedOrderDetails />
         </Route>
 
         <ProtectedRoute onlyAuth={false} path={'/login'} exact={true}>
@@ -89,6 +96,21 @@ export function App() {
              <IngredientDetails />
            </Modal>
           }
+        />
+      )}
+
+      {background &&
+      (
+        <Route
+          path={'/feed/:id'}
+          render={() => (
+            <Modal
+              title={orderNumber}
+              closeModal={handleModalClose}
+          >
+              <FeedOrderDetails />
+            </Modal>
+          )}
         />
       )}
 

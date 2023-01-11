@@ -10,6 +10,11 @@
   border-radius: 40px;
 }
 
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .titleContainer {
   display: flex;
   justify-content: space-between;

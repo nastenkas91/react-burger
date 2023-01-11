@@ -5,18 +5,14 @@ import {IngridientsCategory} from "../ingridients-category/ingridients-category"
 import {IngredientsItem} from "../ingridients-item/ingridients-item";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
-import {useDispatch, useSelector} from "react-redux";
-import {TIngredient} from "../../utils/types";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {Counter, TIngredient} from "../../utils/types";
 import {removeCurrentIngredient} from "../../services/actionCreators/ingredients";
 
-interface Counter {
-  [index: string]: number
-}
-
 export function BurgerIngredients() {
-  const dispatch = useDispatch<any>();
-  const {ingredients} = useSelector((state: any) => state.ingredients);
-  const {bun, selectedIngredients} = useSelector((state: any) => state.burgerConstructor);
+  const dispatch = useDispatch();
+  const {ingredients} = useSelector(state => state.ingredients);
+  const {bun, selectedIngredients} = useSelector(state => state.burgerConstructor);
 
   const [current, setCurrent] = useState('buns');
   const [isModalOpen, setModalOpen] = useState(false);
@@ -49,6 +45,7 @@ export function BurgerIngredients() {
   const closeModal = () => {
     setModalOpen(false);
     dispatch(removeCurrentIngredient());
+    localStorage.removeItem('currentIngredient');
   }
 
   useEffect(() => {
@@ -134,11 +131,11 @@ export function BurgerIngredients() {
         </IngridientsCategory>
         </li>
       </ul>
-      {isModalOpen && (
-        <Modal closeModal={closeModal} title={'Детали ингредиента'}>
-          <IngredientDetails />
-        </Modal>
-      )}
+      {/*{isModalOpen && (*/}
+      {/*  <Modal closeModal={closeModal} title={'Детали ингредиента'}>*/}
+      {/*    <IngredientDetails />*/}
+      {/*  </Modal>*/}
+      {/*)}*/}
 
     </section>
   )

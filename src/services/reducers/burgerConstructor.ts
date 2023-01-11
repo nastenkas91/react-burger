@@ -41,7 +41,7 @@ export const burgerConstructor = (state = initialState, action: TBurgerConstruct
       ingredients.splice(action.payload.dragIndex, 0, ingredients.splice(action.payload.hoverIndex, 1)[0]);
       return {
         ...state,
-        selectedIngredients: ingredients,
+        selectedIngredients: [...ingredients],
       }
     }
     case SET_BUN: {

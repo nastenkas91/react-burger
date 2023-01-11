@@ -10,5 +10,5 @@ export const rootReducer = combineReducers({
   order,
   loginReducer,
   resetPasswordReducer,
-  profileReducer,
+  profileReducer
 });

@@ -28,6 +28,7 @@ export const IngredientsItem: FC<Ingredient> = ({item, count}): JSX.Element => {
 
   const onIngredientClick = () => {
     dispatch(setCurrentIngredient(item));
+    localStorage.setItem('currentIngredient', JSON.stringify( item));
   }
 
   return (
