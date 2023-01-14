@@ -9,10 +9,7 @@ export function IngredientDetails() {
   const ingredientId = location.pathname.split('/')[2];
   const ingredientFromParams = useSelector(state => state.ingredients.ingredients).find((el: TIngredient) => el._id === ingredientId);
 
-  //const {currentIngredient} = useSelector(state => state.ingredients)
-
-  const ingredient = ingredientFromParams;
-  const {image, name, proteins, fat, carbohydrates, calories} = ingredient!;
+  const {image, name, proteins, fat, carbohydrates, calories} = ingredientFromParams!;
 
   return (
     <div className={`${styles.ingridient__container}`}>

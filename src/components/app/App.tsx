@@ -45,6 +45,7 @@ export function App() {
     history.goBack();
     localStorage.removeItem('currentIngredient');
     localStorage.removeItem('currentOrderId');
+    localStorage.removeItem('order');
   }
 
   return (
@@ -106,7 +107,7 @@ export function App() {
         />
       )}
 
-      {background && orders &&
+      {background &&
       (
         <Route
           path={'/feed/:id'}
@@ -121,7 +122,7 @@ export function App() {
         />
       )}
 
-      {background && profileOrders &&
+      {background &&
         (
           <Route
             path={'/profile/orders/:id'}
