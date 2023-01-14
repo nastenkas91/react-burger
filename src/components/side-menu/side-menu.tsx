@@ -3,7 +3,6 @@ import {NavLink, useHistory, useLocation} from "react-router-dom";
 import {logout} from "../../services/actions/auth";
 import {useDispatch} from "../../utils/hooks";
 
-
 export const SideMenu = () => {
   const history = useHistory();
   const dispatch = useDispatch();

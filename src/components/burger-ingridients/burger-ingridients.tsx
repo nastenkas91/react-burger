@@ -3,8 +3,6 @@ import styles from './burger-ingridients.module.css';
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IngridientsCategory} from "../ingridients-category/ingridients-category";
 import {IngredientsItem} from "../ingridients-item/ingridients-item";
-import {Modal} from "../modal/modal";
-import {IngredientDetails} from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import {Counter, TIngredient} from "../../utils/types";
 import {removeCurrentIngredient} from "../../services/actionCreators/ingredients";

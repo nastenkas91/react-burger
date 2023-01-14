@@ -61,7 +61,8 @@ export function makeOrder(order: TOrder) {
   return request(URL_API + ORDERS_END_POINT, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${getCookie('accessToken')}`
     },
     body: JSON.stringify(order)
   })

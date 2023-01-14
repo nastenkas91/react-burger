@@ -1,10 +1,12 @@
 import {FC} from "react";
 import styles from './feed-statistics.module.css'
-import {feedData} from '../../utils/data'
+import {useSelector} from "../../utils/hooks";
+import {TFeedItem} from "../../utils/types";
 
 export const FeedStatistics: FC = (): JSX.Element => {
-
-  const doneOrders = feedData.orders.filter(el => el.status === 'done');
+  const {orders, totalToday, total} = useSelector(state => state.orderFeedReducer.data)
+  const doneOrders = orders?.filter((el: TFeedItem) => el.status === 'done');
+  const ordersInProgress = orders?.filter((el: TFeedItem) => el.status === 'pending');
 
   return (
     <section className={styles.statistics}>
@@ -12,8 +14,10 @@ export const FeedStatistics: FC = (): JSX.Element => {
         <h3 className={`text text_type_main-medium mb-6`}>Готовы:</h3>
         <ul className={styles.orderList}>
           {
-            doneOrders.map(el => (
-              <li key={el._id} className={`digits text_type_digits-default text_color_success`}>{el._id}</li>
+            doneOrders &&
+            doneOrders.map((el: TFeedItem, index: number) => (
+              index < 20 &&
+              <li key={el._id} className={`digits text_type_digits-default text_color_success`}>{el.number}</li>
             ))
           }
         </ul>
@@ -23,8 +27,10 @@ export const FeedStatistics: FC = (): JSX.Element => {
         <h3 className={`text text_type_main-medium mb-6`}>В работе:</h3>
         <ul className={styles.orderList}>
           {
-            doneOrders.map(el => (
-              <li key={el._id} className={`digits text_type_digits-default`}>{el._id}</li>
+            ordersInProgress &&
+            ordersInProgress.map((el: TFeedItem, index: number) => (
+              index < 20 &&
+              <li key={el._id} className={`digits text_type_digits-default`}>{el.number}</li>
             ))
           }
         </ul>
@@ -32,12 +38,12 @@ export const FeedStatistics: FC = (): JSX.Element => {
 
       <div className={styles.total}>
         <h3 className={`text text_type_main-medium`}>Выполнено за все время:</h3>
-        <p className={`digits text_type_digits-large text ${styles.digits}`}>{feedData.total}</p>
+        <p className={`digits text_type_digits-large text ${styles.digits}`}>{total}</p>
       </div>
 
       <div className={styles.totalToday}>
         <h3 className={`text text_type_main-medium`}>Выполнено за сегодня:</h3>
-        <p className={`digits text_type_digits-large text ${styles.digits}`}>{feedData.totalToday}</p>
+        <p className={`digits text_type_digits-large text ${styles.digits}`}>{totalToday}</p>
       </div>
     </section>
   )

@@ -1,11 +1,13 @@
 import * as H from 'history';
-import {state} from "../index";
 import {TLoginActions, TProfile, TResetPassword} from "../services/actions/auth";
 import {TBurgerConstructorActions} from "../services/actions/burgerConstructor";
 import {TIngredientsActions} from "../services/actions/ingredients";
 import {TOrderActions} from "../services/actions/order";
 import { ThunkAction } from 'redux-thunk';
 import type {} from "redux-thunk/extend-redux"
+import {state} from "../services/store";
+import {TOrderFeedActions} from "../services/actions/ws-order-feed";
+import {TProfileFeedActions} from "../services/actions/ws-profile-feed";
 
 export type TIngredient = {
   _id: string,
@@ -55,12 +57,20 @@ export type TUserInfo = {
 }
 
 export type TFeedItem = {
-  ingredients: Array<string>,
+  ingredients: Array<string | null>,
   _id: string,
   status: string,
   number: number,
+  name: string
   createdAt: string,
   updatedAt: string
+}
+
+export type TWSData = {
+  orders: TFeedItem[] | null;
+  success: boolean,
+  total: number;
+  totalToday: number;
 }
 
 export type RootState = ReturnType<typeof state.getState>;
@@ -71,7 +81,9 @@ export type TApplicationActions =
   | TProfile
   | TBurgerConstructorActions
   | TIngredientsActions
-  | TOrderActions;
+  | TOrderActions
+  | TOrderFeedActions
+  | TProfileFeedActions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
 

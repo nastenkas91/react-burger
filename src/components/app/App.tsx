@@ -22,11 +22,16 @@ import {FeedOrderDetails} from "../feed-order-details/feed-order-details";
 
 export function App() {
   const {isLoggedIn} = useSelector(state => state.loginReducer);
+  const {wsOrdersConnected} = useSelector(state => state.orderFeedReducer)
+  const {orders, profileOrders} = useSelector(state => ({
+    orders: state.orderFeedReducer.data.orders,
+    profileOrders: state.profileFeedReducer.profileData.orders
+  }));
   const location = useLocation<TModalState>();
   const history = useHistory();
   const dispatch = useDispatch();
   const{ingredientsRequest} = useSelector(state => state.ingredients)
-  const orderNumber = parseInt(JSON.parse(localStorage.getItem('currentOrderId') || ''));
+  const orderNumber = parseInt(localStorage.getItem('orderNumber') || '');
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -40,7 +45,7 @@ export function App() {
   const handleModalClose = () => {
     history.goBack();
     localStorage.removeItem('currentIngredient');
-    localStorage.removeItem('currentOrder');
+    localStorage.removeItem('currentOrderId');
   }
 
   return (
@@ -79,6 +84,9 @@ export function App() {
         <ProtectedRoute onlyAuth={true} path={'/profile/orders'} exact={true}>
           <Profile />
         </ProtectedRoute>
+        <ProtectedRoute onlyAuth={true} path={'/profile/orders/:id'} exact={true}>
+          <FeedOrderDetails />
+        </ProtectedRoute>
 
         <Route>
           <NotFound />
@@ -99,7 +107,7 @@ export function App() {
         />
       )}
 
-      {background &&
+      {background && orders &&
       (
         <Route
           path={'/feed/:id'}
@@ -113,6 +121,21 @@ export function App() {
           )}
         />
       )}
+
+      {background && profileOrders &&
+        (
+          <Route
+            path={'/profile/orders/:id'}
+            render={() => (
+              <Modal
+                title={orderNumber}
+                closeModal={handleModalClose}
+              >
+                <FeedOrderDetails />
+              </Modal>
+            )}
+          />
+        )}
 
       {
         ingredientsRequest &&

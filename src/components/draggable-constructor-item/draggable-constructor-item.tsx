@@ -4,7 +4,7 @@ import React, {useRef, useCallback, FC} from "react";
 import { useDrag, useDrop } from "react-dnd";
 import {useDispatch} from "../../utils/hooks";
 import {moveIngredient} from "../../services/actionCreators/burgerConstructor";
-import {TDropIngredient, TIngredient} from "../../utils/types";
+import {TDropIngredient} from "../../utils/types";
 import { Identifier } from 'dnd-core'
 
 interface DraggableItem {

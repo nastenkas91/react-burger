@@ -1,9 +1,16 @@
-import React, {FC} from "react";
+import React, {useEffect} from "react";
 import styles from "./feed-page.module.css";
 import {Feed} from "../../components/feed/feed";
 import {FeedStatistics} from "../../components/feed-statistics/feed-statistics";
+import {useDispatch} from "../../utils/hooks";
+import {WS_ORDER_FEED_CONNECTION_START} from '../../services/actions/ws-order-feed';
 
-export const FeedPage: FC = (): JSX.Element => {
+export function FeedPage () {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({ type: WS_ORDER_FEED_CONNECTION_START });
+  }, [])
 
   return (
     <main className={`${styles.feed}`}>

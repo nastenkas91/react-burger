@@ -1,20 +1,25 @@
 import styles from './feed-order-details.module.css';
 import {useSelector} from "../../utils/hooks";
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components'
-
-import {feedData} from "../../utils/data";
 import {useEffect, useState} from "react";
 import {Counter, TFeedItem} from "../../utils/types";
 import {useLocation} from "react-router-dom";
+import {getStatusMessage} from "../../utils/utils";
 
 export function FeedOrderDetails() {
-  const {ingredients} = useSelector(state => state.ingredients)
   const location = useLocation();
-  const orderId = location.pathname.split('/')[2];
-  const order = feedData.orders.find((el: TFeedItem) => el._id === orderId);
+  const {ingredients} = useSelector(state => state.ingredients)
+  const {orders, profileOrders} = useSelector(state => ({
+    orders: state.orderFeedReducer.data.orders,
+    profileOrders: state.profileFeedReducer.profileData.orders
+  }));
+  const orderId = location.pathname.includes('feed')
+    ? location.pathname.split('/')[2]
+    : location.pathname.split('/')[3];
 
-  // const order = ingredientFromParams || JSON.parse(localStorage.getItem('currentOrderId') || '');
-  const orderIngredients = order!.ingredients;
+  const order = location.pathname.includes('feed')
+    ? orders!.find((el: TFeedItem) => el._id === orderId)
+    : profileOrders!.find((el: TFeedItem) => el._id === orderId);
   const [counter, setCounter] = useState<Counter>({});
 
   function countIngredients(arr: Array<any>) {
@@ -25,21 +30,20 @@ export function FeedOrderDetails() {
     setCounter(count);
   };
 
-  const totalPrice = orderIngredients.reduce((acc, id) => {
-    const price = ingredients.find(el => el._id === id)!.price;
-    acc += price;
+  const totalPrice = Object.keys(counter).reduce((acc: number, key: string | null) => {
+    const price = ingredients.find(el => el._id === key)!.price;
+    acc += price*counter[key!];
     return acc;
   }, 0);
 
   useEffect(() => {
-    countIngredients(orderIngredients);
+    countIngredients(order!.ingredients);
   }, [])
 
   return (
     <div className={`${styles.container}`}>
-      {/*<p className={`text digits text_type_digits-default mb-10 ${styles.orderId}`}>#{feedData.orders[0]._id}</p>*/}
-      <h3 className={`text text_type_main-medium mb-3`}>Black Hole Singularity острый бургер</h3>
-      <p className={`text text_type_main-default mb-15`}>{feedData.orders[0].status}</p>
+      <h3 className={`text text_type_main-medium mb-3`}>{order!.name}</h3>
+      <p className={`text text_type_main-default mb-15 ${order!.status === 'done' && 'text_color_success'}`}>{getStatusMessage(order!.status)}</p>
       <p className={`text text_type_main-medium mb-6`}>Состав:</p>
       <ul className={`${styles.ingredientsContainer} mb-10`}>
         {

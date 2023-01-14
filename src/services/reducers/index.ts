@@ -3,6 +3,8 @@ import {ingredients} from "./ingredients";
 import {burgerConstructor} from "./burgerConstructor";
 import {order} from "./order";
 import {loginReducer, resetPasswordReducer, profileReducer} from "./auth";
+import {orderFeedReducer} from "./ws-order-feed";
+import {profileFeedReducer} from "./ws-profile-feed";
 
 export const rootReducer = combineReducers({
   ingredients,
@@ -10,5 +12,7 @@ export const rootReducer = combineReducers({
   order,
   loginReducer,
   resetPasswordReducer,
-  profileReducer
+  profileReducer,
+  orderFeedReducer,
+  profileFeedReducer
 });
