@@ -9,6 +9,7 @@ export const LOGOUT_END_POINT = 'auth/logout';
 export const TOKEN_END_POINT = 'auth/token';
 export const USER_END_POINT = 'auth/user';
 export const WEB_SOCKET_ORDERS = 'wss://norma.nomoreparties.space/orders';
+export const URL_ORDERS = 'https://norma.nomoreparties.space/api/orders';
 
 export const commonErrorMessage = 'Во время запроса произошла ошибка. Подождите немного и попробуйте ещё раз';
 export const tokenError = 'Неверный код'

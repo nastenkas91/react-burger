@@ -22,7 +22,6 @@ import {FeedOrderDetails} from "../feed-order-details/feed-order-details";
 
 export function App() {
   const {isLoggedIn} = useSelector(state => state.loginReducer);
-  const {wsOrdersConnected} = useSelector(state => state.orderFeedReducer)
   const {orders, profileOrders} = useSelector(state => ({
     orders: state.orderFeedReducer.data.orders,
     profileOrders: state.profileFeedReducer.profileData.orders

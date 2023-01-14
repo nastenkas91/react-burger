@@ -8,7 +8,8 @@ import {
   REGISTRATION_END_POINT,
   LOGOUT_END_POINT,
   TOKEN_END_POINT,
-  USER_END_POINT
+  USER_END_POINT,
+  URL_ORDERS
 } from "./constants";
 import {getCookie, setCookie} from "./cookies";
 import {TOrder, TUserInfo} from "./types";
@@ -154,6 +155,15 @@ export function updateUserInfoRequest(req: TUserInfo) {
     body: JSON.stringify(req)
   })
 };
+
+export function getOrderById(id: string) {
+  return request(`${URL_ORDERS}/${id}`  , {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
 
 
 

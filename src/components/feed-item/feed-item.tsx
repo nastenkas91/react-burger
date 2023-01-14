@@ -36,8 +36,8 @@ export const FeedItem: FC<IFeedItem> = ({orderItem, type}): JSX.Element => {
         key={orderItem._id}
         to={{
           pathname: type === 'general'
-            ? `/feed/${orderItem['_id']}`
-            : `/profile/orders/${orderItem['_id']}`,
+            ? `/feed/${orderItem['number']}`
+            : `/profile/orders/${orderItem['number']}`,
           state: { background: location },
         }}
         className={`${styles.link}`}
