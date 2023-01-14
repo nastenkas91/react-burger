@@ -5,9 +5,14 @@ export const WS_PROFILE_FEED_CONNECTION_SUCCESS: 'WS_PROFILE_FEED_CONNECTION_SUC
 export const WS_PROFILE_FEED_CONNECTION_ERROR: 'WS_PROFILE_FEED_CONNECTION_ERROR' = 'WS_PROFILE_FEED_CONNECTION_ERROR';
 export const WS_PROFILE_FEED_GET_MESSAGE: 'WS_PROFILE_FEED_GET_MESSAGE' = 'WS_PROFILE_FEED_GET_MESSAGE';
 export const WS_PROFILE_FEED_CONNECTION_CLOSED: 'WS_PROFILE_FEED_CONNECTION_CLOSED' = 'WS_PROFILE_FEED_CONNECTION_CLOSED';
+export const WS_PROFILE_FEED_DISCONNECT: 'WS_PROFILE_FEED_DISCONNECT' = 'WS_PROFILE_FEED_DISCONNECT';
 
 export interface IWSProfileFeedConnectionStart {
   readonly type: typeof WS_PROFILE_FEED_CONNECTION_START
+}
+
+export interface IWSProfileFeedDisconnect {
+  readonly type: typeof WS_PROFILE_FEED_DISCONNECT
 }
 
 export interface IWSProfileFeedConnectionSuccess {
@@ -27,7 +32,7 @@ export interface IWSProfileFeedGetMessage {
 
 export interface IWSProfileFeedConnectionClosed {
   readonly type: typeof WS_PROFILE_FEED_CONNECTION_CLOSED,
-  readonly payload: Event
+  readonly payload?: Event
 }
 
 export type TProfileFeedActions =
@@ -36,3 +41,4 @@ export type TProfileFeedActions =
   | IWSProfileFeedConnectionError
   | IWSProfileFeedGetMessage
   | IWSProfileFeedConnectionClosed
+  | IWSProfileFeedDisconnect

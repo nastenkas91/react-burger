@@ -27,7 +27,7 @@ export const Feed: FC<IFeed> = ({type}): JSX.Element => {
           })
         }
         { type === 'account' && profileOrders &&
-          profileOrders!.map((el: TFeedItem) => {
+          profileOrders!.slice(0).reverse().map((el: TFeedItem) => {
             if (!el.ingredients.includes(null)) {
               return (
                 <FeedItem orderItem={el} key={el._id} type={type}/>

@@ -16,6 +16,11 @@ export const socketProfileFeedMiddleware = (): Middleware => {
         // объект класса WebSocket
         socket = new WebSocket(`${WEB_SOCKET_ORDERS}?token=${accessToken}`);
       }
+
+      if (type === 'WS_PROFILE_FEED_DISCONNECT') {
+        socket?.close()
+      }
+
       if (socket) {
 
         // функция, которая вызывается при открытии сокета

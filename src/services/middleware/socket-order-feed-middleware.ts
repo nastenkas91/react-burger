@@ -16,6 +16,11 @@ export const socketOrderFeedMiddleware = (): Middleware => {
         // объект класса WebSocket
         socket = new WebSocket(`${WEB_SOCKET_ORDERS}/all`);
       }
+
+      if (type === 'WS_ORDER_FEED_DISCONNECT') {
+        socket?.close()
+      }
+
       if (socket) {
 
         // функция, которая вызывается при открытии сокета
