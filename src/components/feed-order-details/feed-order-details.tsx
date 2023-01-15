@@ -28,7 +28,7 @@ export function FeedOrderDetails() {
     setCounter(count);
   }
 
-  const totalPrice = Object.keys(counter).reduce((acc: number, key: string | null) => {
+  const totalPrice = counter[0] && Object.keys(counter).reduce((acc: number, key: string | null) => {
     const price = ingredients.find(el => el._id === key)!.price;
     acc += price*counter[key!];
     return acc;
