@@ -37,7 +37,7 @@ export const getIngredients = (): AppThunk => (dispatch: AppDispatch) => {
     .then((res: any) => {
       if (res && res.success) {
         dispatch(getIngredientsSuccess(res.data));
-        localStorage.setItem('ingredients', JSON.stringify(res.data));
+        // localStorage.setItem('ingredients', JSON.stringify(res.data));
       } else {
         dispatch(getIngredientsFailed())
       }

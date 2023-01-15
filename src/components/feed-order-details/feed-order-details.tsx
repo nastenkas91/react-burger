@@ -1,20 +1,23 @@
 import styles from './feed-order-details.module.css';
-import {useSelector} from "../../utils/hooks";
+import {useDispatch, useSelector} from "../../utils/hooks";
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useEffect, useState} from "react";
-import {Counter, TFeedItem} from "../../utils/types";
+import {Counter} from "../../utils/types";
 import {useLocation} from "react-router-dom";
 import {getStatusMessage} from "../../utils/utils";
-import {getOrderById} from "../../utils/api";
+import {Spinner} from "../spinner/spinner";
+import {getOrderDetails} from "../../services/actions/order-details";
+import {clearOrderDetails} from "../../services/actionCreators/order-details";
 
 export function FeedOrderDetails() {
   const location = useLocation();
+  const dispatch = useDispatch();
   const {ingredients} = useSelector(state => state.ingredients)
+  const {orderRequest, order} = useSelector(state => state.orderDetailsReducer)
   const orderNumber = location.pathname.includes('feed')
     ? location.pathname.split('/')[2]
     : location.pathname.split('/')[3];
 
-  const [order, setOrder] = useState<TFeedItem>()
   const [counter, setCounter] = useState<Counter>({});
 
   function countIngredients(arr: Array<any>) {
@@ -32,12 +35,11 @@ export function FeedOrderDetails() {
   }, 0);
 
   useEffect(() => {
-    getOrderById(orderNumber).then((res: any) => {
-      if (res && res.success) {
-        localStorage.setItem('order', JSON.stringify(res.orders[0]))
-        setOrder(res.orders[0]);
-      } else {}
-    }).catch(err => console.log(err))
+    dispatch(getOrderDetails(orderNumber))
+
+    return () => {
+      dispatch(clearOrderDetails())
+    }
   }, [])
 
   useEffect(() => {
@@ -46,6 +48,9 @@ export function FeedOrderDetails() {
 
   return (
     <div className={`${styles.container}`}>
+      {
+        orderRequest && <Spinner />
+      }
       {order &&
         <>
           <h3 className={`text text_type_main-medium mb-3`}>{order!.name}</h3>
@@ -76,7 +81,10 @@ export function FeedOrderDetails() {
               <FormattedDate date={new Date(order!.createdAt)} />
             </span>
             <div className={styles.priceContainer}>
-              <span className={`text digits text_type_digits-default mr-2`}>{totalPrice}</span>
+              {
+                totalPrice &&
+                <span className={`text digits text_type_digits-default mr-2`}>{totalPrice}</span>
+              }
               <CurrencyIcon type={"primary"} />
             </div>
           </div>

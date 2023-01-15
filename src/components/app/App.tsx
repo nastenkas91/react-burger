@@ -22,15 +22,11 @@ import {FeedOrderDetails} from "../feed-order-details/feed-order-details";
 
 export function App() {
   const {isLoggedIn} = useSelector(state => state.loginReducer);
-  const {orders, profileOrders} = useSelector(state => ({
-    orders: state.orderFeedReducer.data.orders,
-    profileOrders: state.profileFeedReducer.profileData.orders
-  }));
   const location = useLocation<TModalState>();
   const history = useHistory();
   const dispatch = useDispatch();
   const{ingredientsRequest} = useSelector(state => state.ingredients)
-  const orderNumber = parseInt(localStorage.getItem('orderNumber') || '');
+  const orderNumber = localStorage.getItem('orderNumber') ? parseInt(localStorage.getItem('orderNumber') || '') : null;
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -44,8 +40,7 @@ export function App() {
   const handleModalClose = () => {
     history.goBack();
     localStorage.removeItem('currentIngredient');
-    localStorage.removeItem('currentOrderId');
-    localStorage.removeItem('order');
+    localStorage.removeItem('orderNumber');
   }
 
   return (

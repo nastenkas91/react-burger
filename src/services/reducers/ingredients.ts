@@ -13,9 +13,9 @@ type TIngredientsInitialState = {
   ingredientsFailed: boolean,
   currentIngredient: TIngredient | null,
 }
-
+// JSON.parse(localStorage.getItem('ingredients') || '') ||
 const initialState: TIngredientsInitialState = {
-  ingredients: JSON.parse(localStorage.getItem('ingredients') || '') || [],
+  ingredients:[],
   ingredientsRequest: false,
   ingredientsFailed: false,
   currentIngredient: null,
