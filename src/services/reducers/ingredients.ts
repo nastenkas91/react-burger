@@ -3,17 +3,25 @@ import {
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_SUCCESS,
   SET_CURRENT_INGREDIENT,
-  REMOVE_CURRENT_INGREDIENT
+  REMOVE_CURRENT_INGREDIENT, TIngredientsActions
 } from "../actions/ingredients";
+import {TIngredient} from "../../utils/types";
 
-const initialState = {
-  ingredients: [],
+type TIngredientsInitialState = {
+  ingredients: Array<TIngredient> | [],
+  ingredientsRequest: boolean,
+  ingredientsFailed: boolean,
+  currentIngredient: TIngredient | null,
+}
+// JSON.parse(localStorage.getItem('ingredients') || '') ||
+const initialState: TIngredientsInitialState = {
+  ingredients:[],
   ingredientsRequest: false,
   ingredientsFailed: false,
-  currentIngredient: {},
+  currentIngredient: null,
 }
 
-export const ingredients = (state = initialState, action) => {
+export const ingredients = (state = initialState, action: TIngredientsActions): TIngredientsInitialState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -45,7 +53,7 @@ export const ingredients = (state = initialState, action) => {
     case REMOVE_CURRENT_INGREDIENT: {
       return {
         ...state,
-        currentIngredient: {},
+        currentIngredient: null,
       }
     }
     default: {

@@ -1,0 +1,30 @@
+.feed_type_account {
+  width: 860px;
+}
+
+.feed_type_general {
+  width: 600px;
+}
+
+.feed__container {
+  height: calc(100vh - 200px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style-type: none;
+  padding: 0 8px 0 0;
+  margin: 0;
+}
+
+.feed__container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.feed__container::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+
+.feed__container::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}

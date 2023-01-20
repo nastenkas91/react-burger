@@ -6,7 +6,7 @@ import {ModalOverlay} from "../modal-overlay/modal-overlay";
 import {TCloseModal} from "../../utils/types";
 
 type ModalProps = TCloseModal & {
-  title?: string,
+  title: string | number | undefined | null,
   children: ReactNode
 }
 
@@ -31,7 +31,14 @@ export const Modal: FC<ModalProps> = ({title, children, closeModal}): JSX.Elemen
       <ModalOverlay closeModal={closeModal}/>
       <div className={styles.modal__container}>
         <h2 className={styles.modal__title}>
-          <span className={`text text_type_main-large`}>{title}</span>
+          {
+            typeof title === 'string' ? (
+              <span className={`text text_type_main-large`}>{title}</span>
+            )
+          : (
+              <span className={`digits text_type_digits-default`}>#{title}</span>
+            )
+          }
           <button className={`${styles.modal__button}`} type={"button"} onClick={closeModal}>
             <CloseIcon type={"primary"} />
           </button>

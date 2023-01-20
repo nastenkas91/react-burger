@@ -1,44 +1,95 @@
 import {
-  SET_REGISTRATION_FORM,
-  SEND_REGISTRATION_REQUEST,
-  REGISTRATION_REQUEST_SUCCESS,
-  REGISTRATION_REQUEST_FAILED,
-
-  SET_LOGIN_FORM,
-  SEND_LOGIN_REQUEST,
-  LOGIN_REQUEST_SUCCESS,
-  LOGIN_REQUEST_FAILED,
-
-  SEND_LOGOUT_REQUEST,
-  LOGOUT_REQUEST_SUCCESS,
-  LOGOUT_REQUEST_FAILED,
-
-  SET_RESET_PASSWORD_FORM,
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAILED,
-
-  SET_NEW_PASSWORD_FORM,
-  NEW_PASSWORD_REQUEST,
-  NEW_PASSWORD_SUCCESS,
-  NEW_PASSWORD_FAILED,
-
+  GET_USER_FAILED,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
-  GET_USER_FAILED,
-
-  SET_PROFILE_FORM,
+  LOGIN_REQUEST_FAILED,
+  LOGIN_REQUEST_SUCCESS,
+  LOGOUT_REQUEST_FAILED,
+  LOGOUT_REQUEST_SUCCESS,
+  NEW_PASSWORD_FAILED,
+  NEW_PASSWORD_REQUEST,
+  NEW_PASSWORD_SUCCESS,
   PROFILE_FORM_SUBMIT,
-  PROFILE_SUBMIT_SUCCESS,
   PROFILE_SUBMIT_FAILED,
-
+  PROFILE_SUBMIT_SUCCESS,
+  REGISTRATION_REQUEST_FAILED,
+  REGISTRATION_REQUEST_SUCCESS,
+  RESET_PASSWORD_FAILED,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  SEND_LOGIN_REQUEST,
+  SEND_LOGOUT_REQUEST,
+  SEND_REGISTRATION_REQUEST,
+  SET_LOGIN_FORM,
+  SET_NEW_PASSWORD_FORM,
+  SET_PROFILE_FORM,
+  SET_REGISTRATION_FORM,
+  SET_RESET_PASSWORD_FORM,
+  TLoginActions,
   TOKEN_REQUEST,
-  TOKEN_REQUEST_SUCCESS,
   TOKEN_REQUEST_FAILED,
+  TOKEN_REQUEST_SUCCESS,
+  TProfile,
+  TResetPassword,
 } from '../actions/auth';
 import {getCookie} from "../../utils/cookies";
 
-const loginState = {
+//state types
+type TLoginState = {
+  isLoggedIn: boolean,
+  sendLoginRequest: boolean,
+  failedLoginRequest: boolean,
+  sendLogoutRequest: boolean,
+  failedLogoutRequest: boolean,
+  sendRefreshTokenRequest: boolean,
+  failedRefreshTokenRequest: boolean,
+  sendRequest: boolean,
+  failedRequest: boolean,
+  registrationForm: {
+    email: string,
+    name: string,
+    password: string
+  },
+  loginForm: {
+    email: string,
+    password: string
+  },
+  error: string | undefined | null
+};
+
+type TResetPasswordFormState = {
+  forgotRequest: boolean,
+  successfulForgotRequest: boolean,
+  forgotForm: {
+    email: string,
+  },
+  sendRequest: boolean,
+  failedRequest: boolean,
+  successfulResetRequest: boolean,
+  resetForm: {
+    password: string,
+    token: string
+  },
+  error: string | null | undefined
+};
+
+type TProfileState = {
+  sendRequest: boolean,
+  failedRequest: boolean,
+  user: {
+    userEmail: string,
+    userName: string,
+  },
+  form: {
+    email: string,
+    name: string,
+    password: string
+  },
+  error: string | null | undefined
+};
+
+//states
+const loginState: TLoginState = {
   isLoggedIn: !!getCookie('accessToken'),
   sendLoginRequest: false,
   failedLoginRequest: false,
@@ -60,14 +111,14 @@ const loginState = {
   error: null
 };
 
-const resetPasswordFormState = {
+const resetPasswordFormState: TResetPasswordFormState = {
   forgotRequest: false,
   successfulForgotRequest: false,
   forgotForm: {
     email: '',
   },
-  sendResetRequest: false,
-  failedResetRequest: false,
+  sendRequest: false,
+  failedRequest: false,
   successfulResetRequest: false,
   resetForm: {
     password: '',
@@ -76,7 +127,7 @@ const resetPasswordFormState = {
   error: null
 };
 
-const profileState = {
+const profileState: TProfileState = {
   sendRequest: false,
   failedRequest: false,
   user: {
@@ -91,7 +142,7 @@ const profileState = {
   error: null
 };
 
-export const loginReducer = (state = loginState, action) => {
+export const loginReducer = (state = loginState, action: TLoginActions): TLoginState => {
   switch (action.type) {
     case SET_REGISTRATION_FORM: {
       return {
@@ -142,13 +193,14 @@ export const loginReducer = (state = loginState, action) => {
     case SEND_LOGIN_REQUEST: {
       return {
         ...state,
-        sendLoginLoginRequest: true,
+        sendLoginRequest: true,
       }
     }
     case LOGIN_REQUEST_SUCCESS: {
       return {
         ...state,
         loginForm: {
+          ...state.loginForm,
           email: '',
           password: ''
         },
@@ -192,17 +244,17 @@ export const loginReducer = (state = loginState, action) => {
     case SEND_LOGOUT_REQUEST: {
       return {
         ...state,
-        sendLoginLoginRequest: true,
+        sendLogoutRequest: true,
       }
     }
     case LOGOUT_REQUEST_SUCCESS: {
       return {
         ...state,
         sendLogoutRequest: false,
-        user: {
-          ...state.user,
+        loginForm: {
+          ...state.loginForm,
           email: '',
-          name: '',
+          password: '',
         },
         isLoggedIn: false,
         error: null
@@ -223,7 +275,7 @@ export const loginReducer = (state = loginState, action) => {
   }
 };
 
-export const resetPasswordReducer = (state = resetPasswordFormState, action) => {
+export const resetPasswordReducer = (state = resetPasswordFormState, action: TResetPassword): TResetPasswordFormState => {
   switch (action.type) {
     case SET_RESET_PASSWORD_FORM: {
       return {
@@ -245,6 +297,7 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
       return {
         ...state,
         forgotForm: {
+          ...state.forgotForm,
           email: '',
         },
         forgotRequest: false,
@@ -273,17 +326,18 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
     case NEW_PASSWORD_REQUEST: {
       return {
         ...state,
-        sendResetRequest: true,
+        sendRequest: true,
       }
     }
     case NEW_PASSWORD_SUCCESS: {
       return {
         ...state,
         resetForm: {
+          ...state.resetForm,
           password: '',
           token: ''
         },
-        sendResetRequest: false,
+        sendRequest: false,
         successfulResetRequest: true,
         failedRequest:false,
         error: null
@@ -292,7 +346,7 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
     case NEW_PASSWORD_FAILED: {
       return {
         ...state,
-        sendResetRequest: false,
+        sendRequest: false,
         successfulResetRequest: false,
         failedRequest: true,
         error: action.payload
@@ -304,7 +358,7 @@ export const resetPasswordReducer = (state = resetPasswordFormState, action) => 
   }
 };
 
-export const profileReducer = (state = profileState, action) => {
+export const profileReducer = (state = profileState, action: TProfile): TProfileState => {
   switch (action.type) {
     case SET_PROFILE_FORM: {
       return {
@@ -325,6 +379,7 @@ export const profileReducer = (state = profileState, action) => {
       return {
         ...state,
         form: {
+          ...state.form,
           email: action.payload.email,
           name: action.payload.name,
           password: ''
@@ -351,10 +406,12 @@ export const profileReducer = (state = profileState, action) => {
       return {
         ...state,
         user: {
+          ...state.user,
           userEmail: action.payload.email,
           userName: action.payload.name,
         },
         form: {
+          ...state.form,
           email: action.payload.email,
           name: action.payload.name,
           password: ''

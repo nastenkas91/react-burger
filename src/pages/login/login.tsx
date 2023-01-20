@@ -3,7 +3,7 @@ import {PasswordInput, EmailInput} from "@ya.praktikum/react-developer-burger-ui
 import {NavLink} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
 import {FC, SyntheticEvent, useState} from "react";
 import {setLoginForm} from "../../services/actionCreators/auth";
 import {login} from "../../services/actions/auth";
@@ -11,9 +11,9 @@ import {Spinner} from "../../components/spinner/spinner";
 import {TInputEvent} from "../../utils/types";
 
 export const Login: FC = (): JSX.Element => {
-  const dispatch = useDispatch<any>();
-  const {email, password} = useSelector((state: any) => state.loginReducer.loginForm)
-  const {sendLoginRequest, error} = useSelector((state: any) => state.loginReducer)
+  const dispatch = useDispatch();
+  const {email, password} = useSelector(state => state.loginReducer.loginForm)
+  const {sendLoginRequest, error} = useSelector(state => state.loginReducer)
   const [formIsValid, setFormIsValid] = useState(false);
 
   function handleFormValidation(e: TInputEvent) {
@@ -44,13 +44,13 @@ export const Login: FC = (): JSX.Element => {
         <EmailInput
           extraClass={`mb-6`}
           name={'email'}
-          value={email}
+          value={email || ''}
           onChange={handleFormChange}
         />
         <PasswordInput
           extraClass={`mb-6`}
           name={'password'}
-          value={password}
+          value={password || ''}
           icon={'ShowIcon'}
           onChange={handleFormChange}
         />

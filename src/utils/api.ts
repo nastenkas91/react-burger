@@ -8,7 +8,8 @@ import {
   REGISTRATION_END_POINT,
   LOGOUT_END_POINT,
   TOKEN_END_POINT,
-  USER_END_POINT
+  USER_END_POINT,
+  URL_ORDERS
 } from "./constants";
 import {getCookie, setCookie} from "./cookies";
 import {TOrder, TUserInfo} from "./types";
@@ -61,7 +62,8 @@ export function makeOrder(order: TOrder) {
   return request(URL_API + ORDERS_END_POINT, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${getCookie('accessToken')}`
     },
     body: JSON.stringify(order)
   })
@@ -73,7 +75,9 @@ export function resetPasswordRequest(email: string) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(email)
+    body: JSON.stringify({
+      "email": email,
+    })
   })
 };
 
@@ -151,6 +155,15 @@ export function updateUserInfoRequest(req: TUserInfo) {
     body: JSON.stringify(req)
   })
 };
+
+export function getOrderById(id: string) {
+  return request(`${URL_ORDERS}/${id}`  , {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
 
 
 

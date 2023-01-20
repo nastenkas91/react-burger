@@ -11,19 +11,22 @@ import {NotFound} from "../../pages/not-found/not-found";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
 import {Modal} from "../modal/modal";
 import {Ingredient} from "../../pages/ingredient/ingredient";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
 import {useEffect} from "react";
 import {getIngredients} from "../../services/actions/ingredients";
 import {getUser} from "../../services/actions/auth";
 import {Spinner} from "../spinner/spinner";
 import {TModalState} from "../../utils/types";
+import {FeedPage} from "../../pages/feed-page/feed-page";
+import {FeedOrderDetails} from "../feed-order-details/feed-order-details";
 
 export function App() {
-  const {isLoggedIn} = useSelector((state: any) => state.loginReducer);
+  const {isLoggedIn} = useSelector(state => state.loginReducer);
   const location = useLocation<TModalState>();
   const history = useHistory();
-  const dispatch = useDispatch<any>();
-  const{ingredientsRequest} = useSelector((state: any) => state.ingredients)
+  const dispatch = useDispatch();
+  const{ingredientsRequest} = useSelector(state => state.ingredients)
+  const orderNumber = localStorage.getItem('orderNumber') ? parseInt(localStorage.getItem('orderNumber') || '') : null;
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -36,6 +39,8 @@ export function App() {
   const background = location.state && location.state.background;
   const handleModalClose = () => {
     history.goBack();
+    localStorage.removeItem('currentIngredient');
+    localStorage.removeItem('orderNumber');
   }
 
   return (
@@ -47,6 +52,12 @@ export function App() {
         </Route>
         <Route path={'/ingredients/:ingredientId'} exact={true}>
           <Ingredient />
+        </Route>
+        <Route path={'/feed'} exact={true}>
+          <FeedPage />
+        </Route>
+        <Route path={'/feed/:id'} exact={true}>
+          <FeedOrderDetails />
         </Route>
 
         <ProtectedRoute onlyAuth={false} path={'/login'} exact={true}>
@@ -62,13 +73,14 @@ export function App() {
           <ResetPassword />
         </ProtectedRoute>
 
-        <ProtectedRoute onlyAuth={true} path={'/feed'} exact={true}>
-        </ProtectedRoute>
         <ProtectedRoute onlyAuth={true} path={'/profile'} exact={true}>
           <Profile />
         </ProtectedRoute>
         <ProtectedRoute onlyAuth={true} path={'/profile/orders'} exact={true}>
           <Profile />
+        </ProtectedRoute>
+        <ProtectedRoute onlyAuth={true} path={'/profile/orders/:id'} exact={true}>
+          <FeedOrderDetails />
         </ProtectedRoute>
 
         <Route>
@@ -89,6 +101,36 @@ export function App() {
           }
         />
       )}
+
+      {background &&
+      (
+        <Route
+          path={'/feed/:id'}
+          render={() => (
+            <Modal
+              title={orderNumber}
+              closeModal={handleModalClose}
+          >
+              <FeedOrderDetails />
+            </Modal>
+          )}
+        />
+      )}
+
+      {background &&
+        (
+          <Route
+            path={'/profile/orders/:id'}
+            render={() => (
+              <Modal
+                title={orderNumber}
+                closeModal={handleModalClose}
+              >
+                <FeedOrderDetails />
+              </Modal>
+            )}
+          />
+        )}
 
       {
         ingredientsRequest &&
