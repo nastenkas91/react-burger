@@ -89,7 +89,7 @@ type TProfileState = {
 };
 
 //states
-const loginState: TLoginState = {
+export const loginState: TLoginState = {
   isLoggedIn: !!getCookie('accessToken'),
   sendLoginRequest: false,
   failedLoginRequest: false,
@@ -111,7 +111,7 @@ const loginState: TLoginState = {
   error: null
 };
 
-const resetPasswordFormState: TResetPasswordFormState = {
+export const resetPasswordFormState: TResetPasswordFormState = {
   forgotRequest: false,
   successfulForgotRequest: false,
   forgotForm: {
@@ -127,7 +127,7 @@ const resetPasswordFormState: TResetPasswordFormState = {
   error: null
 };
 
-const profileState: TProfileState = {
+export const profileState: TProfileState = {
   sendRequest: false,
   failedRequest: false,
   user: {

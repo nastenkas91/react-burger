@@ -14,7 +14,7 @@ type TOrderDetailsState = {
   orderFailed: boolean,
 }
 
-const orderDetailsState: TOrderDetailsState = {
+export const orderDetailsState: TOrderDetailsState = {
   order: null,
   orderRequest: false,
   orderFailed: false,

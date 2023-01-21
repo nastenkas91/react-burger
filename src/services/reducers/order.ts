@@ -12,7 +12,7 @@ type TOrderInitialState = {
   isModalOpen: boolean
 }
 
-const initialState: TOrderInitialState = {
+export const initialState: TOrderInitialState = {
   orderNumber: null,
   orderRequest: false,
   orderFailed: false,

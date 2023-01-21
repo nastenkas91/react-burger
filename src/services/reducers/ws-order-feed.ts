@@ -13,7 +13,7 @@ type TOrderFeedState = {
   error?: Event
 }
 
-const orderFeedState: TOrderFeedState = {
+export const orderFeedState: TOrderFeedState = {
   wsOrdersConnected: false,
   data: {
     orders: null,

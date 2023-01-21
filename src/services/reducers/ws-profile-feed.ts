@@ -12,7 +12,7 @@ type TProfileFeedState = {
   error?: Event
 }
 
-const profileFeedState: TProfileFeedState = {
+export const profileFeedState: TProfileFeedState = {
   wsProfileOrdersConnected: false,
   profileData: {
     orders: null,
