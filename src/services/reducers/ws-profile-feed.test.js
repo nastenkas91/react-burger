@@ -39,6 +39,12 @@ describe('profile feed reducer', () => {
     expect(profileFeedReducer(profileFeedState, action)).toEqual(
       {
         ...profileFeedState,
+        profileData: {
+          ...profileFeedState.profileData,
+          orders: null,
+          total: 0,
+          totalToday: 0,
+        },
         wsProfileOrdersConnected: false
       }
     )

@@ -39,6 +39,12 @@ describe('order feed reducer', () => {
     expect(orderFeedReducer(orderFeedState, action)).toEqual(
       {
         ...orderFeedState,
+        data: {
+          ...orderFeedState.data,
+          orders: null,
+          total: 0,
+          totalToday: 0,
+        },
         wsOrdersConnected: false
       }
     )

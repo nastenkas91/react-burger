@@ -40,6 +40,12 @@ export const profileFeedReducer = (state = profileFeedState, action: TProfileFee
     case "WS_PROFILE_FEED_CONNECTION_CLOSED": {
       return {
         ...state,
+        profileData: {
+          ...state.profileData,
+          orders: null,
+          total: 0,
+          totalToday: 0,
+        },
         wsProfileOrdersConnected: false
       }
     }

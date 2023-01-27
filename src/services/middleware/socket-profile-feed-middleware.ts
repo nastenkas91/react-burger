@@ -7,14 +7,14 @@ import {getCookie} from "../../utils/cookies";
 export const socketProfileFeedMiddleware = (): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
-    const accessToken = getCookie('accessToken');
+    //const accessToken = getCookie('accessToken');
     return next => (action: TApplicationActions) => {
       const { dispatch } = store;
       const { type } = action;
 
       if (type === 'WS_PROFILE_FEED_CONNECTION_START') {
         // объект класса WebSocket
-        socket = new WebSocket(`${WEB_SOCKET_ORDERS}?token=${accessToken}`);
+       socket = new WebSocket(`${WEB_SOCKET_ORDERS}?token=${getCookie('accessToken')}`);
       }
 
       if (type === 'WS_PROFILE_FEED_DISCONNECT') {
