@@ -21,6 +21,7 @@ export const Form: FC<FormProps> = ({formTitle, children, buttonTitle, formIsVal
         htmlType={"submit"}
         type={'primary'}
         disabled={!formIsValid}
+        data-testid='auth-form-button'
       >
         {buttonTitle}
       </Button>

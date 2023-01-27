@@ -39,6 +39,8 @@ export const IngredientsItem: FC<Ingredient> = ({item, count}): JSX.Element => {
         state: { background: location },
       }}
       className={`${styles.item__link}`}
+
+      data-testid={item.name}
     >
       <div className={`${styles.item__wraper}`} onClick={onIngredientClick} draggable={true} ref={dragRef} style={{opacity}}>
       {count && (

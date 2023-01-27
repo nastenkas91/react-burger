@@ -46,6 +46,7 @@ export const Login: FC = (): JSX.Element => {
           name={'email'}
           value={email || ''}
           onChange={handleFormChange}
+          data-testid='email-input'
         />
         <PasswordInput
           extraClass={`mb-6`}
@@ -53,6 +54,7 @@ export const Login: FC = (): JSX.Element => {
           value={password || ''}
           icon={'ShowIcon'}
           onChange={handleFormChange}
+          data-testid='password_input'
         />
         {
           error && <p className={`${styles.text} text text_type_main-default text_color_error mb-4`}>{error}</p>

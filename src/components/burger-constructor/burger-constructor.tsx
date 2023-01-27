@@ -19,6 +19,7 @@ import {clearOrderNumber} from "../../services/actionCreators/order";
 import {useHistory} from "react-router-dom";
 import {TDropIngredient, TIngredient} from "../../utils/types";
 import {removeCurrentIngredient} from "../../services/actionCreators/ingredients";
+import {getUser} from "../../services/actions/auth";
 
 export function BurgerConstructor() {
   const {isLoggedIn} = useSelector(state => state.loginReducer);
@@ -29,6 +30,7 @@ export function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const onMakeOrderClick = () => {
+    dispatch(getUser());
     if (isLoggedIn) {
       const order = {ingredients: [bun._id, ...selectedIngredients.map((el: TIngredient) => el._id), bun._id]};
       dispatch(clearOrderNumber());
@@ -68,10 +70,14 @@ export function BurgerConstructor() {
   })
 
   return (
-    <section className={`${styles.constructor} pt-25`} ref={dropTarget}>
+    <section
+      className={`${styles.constructor} pt-25`}
+      ref={dropTarget}
+      data-testid='drop-container'
+    >
       {
         bun ?
-        (<div className={`${styles.constructor__bun} mr-4`}>
+        (<div data-testid='constructor-bun-1' className={`${styles.constructor__bun} mr-4`}>
           <ConstructorElement
             text={`${bun.name} (верх)`}
             thumbnail={bun.image}
@@ -87,7 +93,7 @@ export function BurgerConstructor() {
       }
       {
         selectedIngredients.length > 0 ?
-        (<div className={`${styles.constructor__container} mt-4 mb-4`}>
+        (<div data-testid='constructor-ingredient' className={`${styles.constructor__container} mt-4 mb-4`}>
         {selectedIngredients.map((elem: TDropIngredient, index: number) => {
             return (
               <DraggableConstructorItem
@@ -107,7 +113,7 @@ export function BurgerConstructor() {
       }
       {
         bun ?
-        (<div className={`${styles.constructor__bun} mr-4`}>
+        (<div data-testid='constructor-bun-2' className={`${styles.constructor__bun} mr-4`}>
           <ConstructorElement
             text={`${bun.name} (низ)`}
             thumbnail={bun.image}
@@ -124,7 +130,16 @@ export function BurgerConstructor() {
         <span className={`text text_type_digits-medium mr-10`}>
           {totalPrice} <CurrencyIcon type={"primary"} />
         </span>
-        <Button disabled={!bun} htmlType={"submit"} type={"primary"} size={"large"} onClick={onMakeOrderClick}>Оформить заказ</Button>
+        <Button
+          data-testid="send-order-button"
+          disabled={!bun}
+          htmlType={"submit"}
+          type={"primary"}
+          size={"large"}
+          onClick={onMakeOrderClick}
+        >
+          Оформить заказ
+        </Button>
       </div>
       {isModalOpen && (
         <Modal title={''} closeModal={closeModal}>

@@ -4,6 +4,6 @@ import {TCloseModal} from '../../utils/types'
 
 export const ModalOverlay: FC<TCloseModal> = ({closeModal}) => {
   return (
-    <div className={`${styles.overlay}`} onClick={closeModal}></div>
+    <div data-testid="modal-overlay" className={`${styles.overlay}`} onClick={closeModal}></div>
   )
 }
