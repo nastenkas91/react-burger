@@ -1,11 +1,10 @@
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './profile-form.module.css';
-import {FC, SyntheticEvent, useState} from "react";
+import {ChangeEvent, FC, SyntheticEvent, useState} from "react";
 import {setProfileInfoForm} from "../../services/actionCreators/auth";
 import {getUser, updateUserInfo} from "../../services/actions/auth";
 import {useDispatch, useSelector} from '../../utils/hooks';
 import {Spinner} from "../spinner/spinner";
-import {TInputEvent} from "../../utils/types";
 
 export const ProfileForm: FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -14,18 +13,18 @@ export const ProfileForm: FC = (): JSX.Element => {
   const [formIsValid, setFormIsValid] = useState(false);
   const [isModified, setIsModified] = useState(false)
 
-  function handleFormValidation(e: TInputEvent) {
+  function handleFormValidation(e: ChangeEvent<HTMLInputElement>) {
     // @ts-ignore
     setFormIsValid(e.target.closest('.form')!.checkValidity() && password);
   }
-  const handleFormChange = (e: TInputEvent) => {
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const field = e.target.name;
     const value = e.target.value;
     dispatch(setProfileInfoForm({field, value}));
     handleFormValidation(e);
     setIsModified(true);
   }
-  const handleFormSubmit = (e: SyntheticEvent) => {
+  const handleFormSubmit = (e: SyntheticEvent<Element, Event>) => {
     e.preventDefault();
     dispatch(updateUserInfo({
         "email": email,

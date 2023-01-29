@@ -1,5 +1,6 @@
 import {initialState, ingredients} from "./ingredients";
 import * as types from "../actions/ingredients";
+import {bun} from "../../utils/test-data";
 
 describe('ingredients reducer', () => {
   it('should return initial state', () => {
@@ -21,34 +22,14 @@ describe('ingredients reducer', () => {
   it('should handle GET_INGREDIENTS_SUCCESS', () => {
     const action = {
       type: types.GET_INGREDIENTS_SUCCESS,
-      payload: [{
-        "_id":"60d3b41abdacab0026a733c6",
-        "name":"Краторная булка N-200i",
-        "type":"bun",
-        "proteins":80,
-        "fat":24,
-        "carbohydrates":53,
-        "calories":420,
-        "price":1255,
-        "image":"https://code.s3.yandex.net/react/code/bun-02.png"
-      }]
+      payload: [bun]
     }
     expect(ingredients(initialState, action)).toEqual(
       {
         ...initialState,
         ingredientsRequest: false,
         ingredientsFailed: false,
-        ingredients: [{
-          "_id":"60d3b41abdacab0026a733c6",
-          "name":"Краторная булка N-200i",
-          "type":"bun",
-          "proteins":80,
-          "fat":24,
-          "carbohydrates":53,
-          "calories":420,
-          "price":1255,
-          "image":"https://code.s3.yandex.net/react/code/bun-02.png"
-        }]
+        ingredients: [bun]
       }
     )
   })
@@ -69,32 +50,12 @@ describe('ingredients reducer', () => {
   it('should handle SET_CURRENT_INGREDIENT', () => {
     const action = {
       type: types.SET_CURRENT_INGREDIENT,
-      payload: {
-        "_id":"60d3b41abdacab0026a733c6",
-        "name":"Краторная булка N-200i",
-        "type":"bun",
-        "proteins":80,
-        "fat":24,
-        "carbohydrates":53,
-        "calories":420,
-        "price":1255,
-        "image":"https://code.s3.yandex.net/react/code/bun-02.png"
-      }
+      payload: bun
     }
     expect(ingredients(initialState, action)).toEqual(
       {
         ...initialState,
-        currentIngredient: {
-          "_id":"60d3b41abdacab0026a733c6",
-          "name":"Краторная булка N-200i",
-          "type":"bun",
-          "proteins":80,
-          "fat":24,
-          "carbohydrates":53,
-          "calories":420,
-          "price":1255,
-          "image":"https://code.s3.yandex.net/react/code/bun-02.png"
-        }
+        currentIngredient: bun
       }
     )
   })

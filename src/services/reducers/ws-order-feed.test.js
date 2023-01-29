@@ -1,5 +1,6 @@
 import {orderFeedState, orderFeedReducer} from "./ws-order-feed";
 import * as types from "../actions/ws-order-feed";
+import {testOrder} from "../../utils/test-data";
 
 describe('order feed reducer', () => {
   it('should return initial state', () => {
@@ -53,46 +54,12 @@ describe('order feed reducer', () => {
   it('should handle WS_ORDER_FEED_GET_MESSAGE', () => {
     const action = {
       type: types.WS_ORDER_FEED_GET_MESSAGE,
-      payload: {
-        "success": true,
-        "orders": [
-          {
-            "_id": "63cbe9ee936b17001be52a36",
-            "ingredients": ["60d3b41abdacab0026a733c6",
-              "60d3b41abdacab0026a733ce"],
-            "owner": "6356dd7a9b518a001bb7707e",
-            "status": "done",
-            "name": "Люминесцентный традиционный-галактический краторный бургер",
-            "createdAt": "2023-01-21T13:34:38.364Z",
-            "updatedAt": "2023-01-21T13:34:38.804Z",
-            "number": 37440
-          }
-        ],
-      "total": 37355,
-      "totalToday": 75
-      }
+      payload: testOrder
     }
     expect(orderFeedReducer(orderFeedState, action)).toEqual(
       {
         ...orderFeedState,
-        data: {
-          "success": true,
-          "orders": [
-            {
-              "_id": "63cbe9ee936b17001be52a36",
-              "ingredients": ["60d3b41abdacab0026a733c6",
-                "60d3b41abdacab0026a733ce"],
-              "owner": "6356dd7a9b518a001bb7707e",
-              "status": "done",
-              "name": "Люминесцентный традиционный-галактический краторный бургер",
-              "createdAt": "2023-01-21T13:34:38.364Z",
-              "updatedAt": "2023-01-21T13:34:38.804Z",
-              "number": 37440
-            }
-          ],
-          "total": 37355,
-          "totalToday": 75
-        }
+        data: testOrder
       }
     )
   })

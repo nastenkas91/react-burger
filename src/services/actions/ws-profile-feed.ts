@@ -7,12 +7,23 @@ export const WS_PROFILE_FEED_GET_MESSAGE: 'WS_PROFILE_FEED_GET_MESSAGE' = 'WS_PR
 export const WS_PROFILE_FEED_CONNECTION_CLOSED: 'WS_PROFILE_FEED_CONNECTION_CLOSED' = 'WS_PROFILE_FEED_CONNECTION_CLOSED';
 export const WS_PROFILE_FEED_DISCONNECT: 'WS_PROFILE_FEED_DISCONNECT' = 'WS_PROFILE_FEED_DISCONNECT';
 
-export interface IWSProfileFeedConnectionStart {
-  readonly type: typeof WS_PROFILE_FEED_CONNECTION_START
+export const wsProfileFeedType = {
+  wsConnectionStart: WS_PROFILE_FEED_CONNECTION_START,
+  wsDisconnect: WS_PROFILE_FEED_DISCONNECT,
+  wsConnectionSuccess: WS_PROFILE_FEED_CONNECTION_SUCCESS,
+  wsConnectionError: WS_PROFILE_FEED_CONNECTION_ERROR,
+  wsGetMessage: WS_PROFILE_FEED_GET_MESSAGE,
+  wsConnectionClosed: WS_PROFILE_FEED_CONNECTION_CLOSED
 }
 
-export interface IWSProfileFeedDisconnect {
-  readonly type: typeof WS_PROFILE_FEED_DISCONNECT
+export interface IWSProfileFeedConnectionStart {
+  readonly type: typeof WS_PROFILE_FEED_CONNECTION_START,
+  payload: string
+}
+
+export interface IWSDisconnect {
+  readonly type: typeof WS_PROFILE_FEED_DISCONNECT,
+  payload?: any
 }
 
 export interface IWSProfileFeedConnectionSuccess {
@@ -37,8 +48,8 @@ export interface IWSProfileFeedConnectionClosed {
 
 export type TProfileFeedActions =
   | IWSProfileFeedConnectionStart
+  | IWSDisconnect
   | IWSProfileFeedConnectionSuccess
   | IWSProfileFeedConnectionError
   | IWSProfileFeedGetMessage
   | IWSProfileFeedConnectionClosed
-  | IWSProfileFeedDisconnect

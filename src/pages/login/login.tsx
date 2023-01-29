@@ -4,11 +4,10 @@ import {NavLink} from "react-router-dom";
 import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {FC, SyntheticEvent, useState} from "react";
+import {ChangeEvent, FC, SyntheticEvent, useState} from "react";
 import {setLoginForm} from "../../services/actionCreators/auth";
 import {login} from "../../services/actions/auth";
 import {Spinner} from "../../components/spinner/spinner";
-import {TInputEvent} from "../../utils/types";
 
 export const Login: FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -16,15 +15,15 @@ export const Login: FC = (): JSX.Element => {
   const {sendLoginRequest, error} = useSelector(state => state.loginReducer)
   const [formIsValid, setFormIsValid] = useState(false);
 
-  function handleFormValidation(e: TInputEvent) {
+  function handleFormValidation(e: ChangeEvent<HTMLInputElement>) {
     // @ts-ignore
     setFormIsValid(e.target.closest('.form')!.checkValidity());
   }
-  const handleFormChange = (e: TInputEvent) => {
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setLoginForm(e.target.name, e.target.value));
     handleFormValidation(e);
   }
-  const handleFormSubmit = (e: SyntheticEvent) => {
+  const handleFormSubmit = (e: SyntheticEvent<Element, Event>) => {
     e.preventDefault();
     dispatch(login({
         "email": email,

@@ -46,7 +46,7 @@ export function App() {
   return (
     <>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route path={'/'} exact={true}>
           <ConstructorPage />
         </Route>

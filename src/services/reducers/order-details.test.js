@@ -1,5 +1,6 @@
 import {orderDetailsState, orderDetailsReducer} from "./order-details";
 import * as types from "../actions/order-details";
+import {testOrder} from "../../utils/test-data";
 
 describe('order reducer', () => {
   it('should return initial state', () => {
@@ -21,38 +22,12 @@ describe('order reducer', () => {
   it('should handle GET_ORDER_SUCCESS', () => {
     const action = {
       type: types.GET_ORDER_SUCCESS,
-      payload: {
-        "success":true,
-        "orders":[
-            {"_id":"63cbe9ee936b17001be52a36",
-              "ingredients":["60d3b41abdacab0026a733c6",
-                "60d3b41abdacab0026a733ce"],
-              "owner":"6356dd7a9b518a001bb7707e",
-              "status":"done",
-              "name":"Люминесцентный традиционный-галактический краторный бургер",
-              "createdAt":"2023-01-21T13:34:38.364Z",
-              "updatedAt":"2023-01-21T13:34:38.804Z",
-              "number":37440
-            }
-          ]}
+      payload: testOrder
     }
     expect(orderDetailsReducer(orderDetailsState, action)).toEqual(
       {
         ...orderDetailsState,
-        order: {
-          "success":true,
-          "orders":[
-            {"_id":"63cbe9ee936b17001be52a36",
-              "ingredients":["60d3b41abdacab0026a733c6",
-                "60d3b41abdacab0026a733ce"],
-              "owner":"6356dd7a9b518a001bb7707e",
-              "status":"done",
-              "name":"Люминесцентный традиционный-галактический краторный бургер",
-              "createdAt":"2023-01-21T13:34:38.364Z",
-              "updatedAt":"2023-01-21T13:34:38.804Z",
-              "number":37440
-            }
-          ]},
+        order: testOrder,
         orderRequest: false,
         orderFailed: false
       }

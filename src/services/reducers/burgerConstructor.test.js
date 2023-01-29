@@ -1,5 +1,6 @@
 import * as types from '../actions/burgerConstructor';
 import {initialState, burgerConstructor} from '../reducers/burgerConstructor';
+import {bun, ingredient1, ingredient2} from "../../utils/test-data";
 
 describe('burger constructor reducer', () => {
   it('should return initial state', () => {
@@ -9,33 +10,12 @@ describe('burger constructor reducer', () => {
   it('should handle ADD_INGREDIENT', () => {
     const action = {
       type: types.ADD_INGREDIENT,
-      payload:
-        {
-          "_id":"60d3b41abdacab0026a733d4",
-          "name":"Сыр с астероидной плесенью",
-          "type":"main",
-          "proteins":84,
-          "fat":48,
-          "carbohydrates":420,
-          "calories":3377,
-          "price":4142,
-          "image":"https://code.s3.yandex.net/react/code/cheese.png"
-        },
+      payload: ingredient1,
     }
     expect(burgerConstructor(initialState, action)).toEqual(
       {
         ...initialState,
-        selectedIngredients: [{
-          "_id":"60d3b41abdacab0026a733d4",
-          "name":"Сыр с астероидной плесенью",
-          "type":"main",
-          "proteins":84,
-          "fat":48,
-          "carbohydrates":420,
-          "calories":3377,
-          "price":4142,
-          "image":"https://code.s3.yandex.net/react/code/cheese.png",
-        }],
+        selectedIngredients: [ingredient1],
         totalPrice: 4142
       }
     )
@@ -44,17 +24,7 @@ describe('burger constructor reducer', () => {
   it('should handle REMOVE_INGREDIENT', () => {
     const action = {
       type: types.REMOVE_INGREDIENT,
-      payload: {
-        "_id":"60d3b41abdacab0026a733d4",
-        "name":"Сыр с астероидной плесенью",
-        "type":"main",
-        "proteins":84,
-        "fat":48,
-        "carbohydrates":420,
-        "calories":3377,
-        "price":4142,
-        "image":"https://code.s3.yandex.net/react/code/cheese.png",
-      }
+      payload: ingredient1
     }
     expect(burgerConstructor({
       ...initialState,
@@ -78,55 +48,16 @@ describe('burger constructor reducer', () => {
     }
     expect(burgerConstructor({
       ...initialState,
-      selectedIngredients:
-        [{
-          "_id":"60d3b41abdacab0026a733d4",
-          "name":"Сыр с астероидной плесенью",
-          "type":"main",
-          "proteins":84,
-          "fat":48,
-          "carbohydrates":420,
-          "calories":3377,
-          "price":4142,
-          "image":"https://code.s3.yandex.net/react/code/cheese.png"
-        },
-        {
-          "_id":"60d3b41abdacab0026a733d4",
-          "name":"Сыр с астероидной плесенью",
-          "type":"main",
-          "proteins":84,
-          "fat":48,
-          "carbohydrates":420,
-          "calories":3377,
-          "price":4142,
-          "image":"https://code.s3.yandex.net/react/code/cheese.png"
-        }]
+      selectedIngredients: [
+        ingredient1,
+        ingredient2
+      ],
     }, action)).toEqual(
       {
         ...initialState,
         selectedIngredients: [
-          {
-            "_id":"60d3b41abdacab0026a733d4",
-            "name":"Сыр с астероидной плесенью",
-            "type":"main",
-            "proteins":84,
-            "fat":48,
-            "carbohydrates":420,
-            "calories":3377,
-            "price":4142,
-            "image":"https://code.s3.yandex.net/react/code/cheese.png"
-          },
-          {
-            "_id":"60d3b41abdacab0026a733d4",
-            "name":"Сыр с астероидной плесенью",
-            "type":"main",
-            "proteins":84,
-            "fat":48,
-            "carbohydrates":420,
-            "calories":3377,
-            "price":4142,
-            "image":"https://code.s3.yandex.net/react/code/cheese.png"
-          }
+          ingredient2,
+          ingredient1
         ],
       }
     )
@@ -135,32 +66,12 @@ describe('burger constructor reducer', () => {
   it('should handle SET_BUN', () => {
     const action = {
       type: types.SET_BUN,
-      payload:  {
-        "_id":"60d3b41abdacab0026a733c6",
-        "name":"Краторная булка N-200i",
-        "type":"bun",
-        "proteins":80,
-        "fat":24,
-        "carbohydrates":53,
-        "calories":420,
-        "price":1255,
-        "image":"https://code.s3.yandex.net/react/code/bun-02.png"
-      }
+      payload:  bun
     }
     expect(burgerConstructor(initialState, action)).toEqual(
       {
         ...initialState,
-        bun: {
-          "_id":"60d3b41abdacab0026a733c6",
-          "name":"Краторная булка N-200i",
-          "type":"bun",
-          "proteins":80,
-          "fat":24,
-          "carbohydrates":53,
-          "calories":420,
-          "price":1255,
-          "image":"https://code.s3.yandex.net/react/code/bun-02.png"
-        },
+        bun: bun,
         totalPrice: 2510
       }
     )
@@ -169,17 +80,7 @@ describe('burger constructor reducer', () => {
   it('should handle REMOVE_BUN', () => {
     const action = {
       type: types.REMOVE_BUN,
-      payload:  {
-        "_id":"60d3b41abdacab0026a733c6",
-        "name":"Краторная булка N-200i",
-        "type":"bun",
-        "proteins":80,
-        "fat":24,
-        "carbohydrates":53,
-        "calories":420,
-        "price":1255,
-        "image":"https://code.s3.yandex.net/react/code/bun-02.png"
-      }
+      payload: bun
     }
     expect(burgerConstructor({
       ...initialState,
