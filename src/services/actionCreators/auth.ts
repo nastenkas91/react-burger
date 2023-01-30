@@ -64,7 +64,6 @@ import {
   ISendTokenRequest,
   ITokenRequestSuccess, ITokenRequestFailed,
 } from '../actions/auth';
-import {string} from "prop-types";
 import {TUserInfo} from "../../utils/types";
 
 //Registration

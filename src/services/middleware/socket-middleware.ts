@@ -1,46 +1,54 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
-
 import type { AppDispatch, RootState } from '../../utils/types';
-import {WEB_SOCKET_ORDERS} from "../../utils/constants";
-import {TOrderFeedActions} from "../actions/ws-order-feed";
+import { TOrderFeedActions } from "../actions/ws-order-feed";
+import {TProfileFeedActions} from "../actions/ws-profile-feed";
 
-export const socketOrderFeedMiddleware = (): Middleware => {
+type wsFeedActions =
+  |TProfileFeedActions
+  |TOrderFeedActions
+
+export const socketMiddleware = (wsUrl: string, wsActions: any): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
-    return next => (action: TOrderFeedActions) => {
+    return next => (action: wsFeedActions) => {
       const { dispatch } = store;
-      const { type } = action;
+      const { type, payload } = action;
 
-      if (type === 'WS_ORDER_FEED_CONNECTION_START') {
+      if (type === wsActions.wsConnectionStart && socket === null) {
         // объект класса WebSocket
-        socket = new WebSocket(`${WEB_SOCKET_ORDERS}/all`);
+        if (payload !== undefined) {
+          socket = new WebSocket(`${wsUrl}${payload}`);
+        } else {
+          socket = new WebSocket(`${wsUrl}`);
+        }
       }
 
-      if (type === 'WS_ORDER_FEED_DISCONNECT') {
-        socket?.close()
+      if (type === wsActions.wsDisconnect && socket !== null) {
+        socket.close()
       }
 
       if (socket) {
 
         // функция, которая вызывается при открытии сокета
         socket.onopen = event => {
-          dispatch({ type: 'WS_ORDER_FEED_CONNECTION_SUCCESS', payload: event });
+          dispatch({ type: wsActions.wsConnectionSuccess, payload: event });
         };
 
         // функция, которая вызывается при ошибке соединения
         socket.onerror = event => {
-          dispatch({ type: 'WS_ORDER_FEED_CONNECTION_ERROR', payload: event });
+          dispatch({ type: wsActions.wsConnectionError, payload: event });
         };
 
         // функция, которая вызывается при получения события от сервера
         socket.onmessage = event => {
           const { data } = event;
-          dispatch({ type: 'WS_ORDER_FEED_GET_MESSAGE', payload: JSON.parse(data) });
+          dispatch({ type: wsActions.wsGetMessage, payload: JSON.parse(data) });
         };
         // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {
-          dispatch({ type: 'WS_ORDER_FEED_CONNECTION_CLOSED', payload: event });
+          dispatch({ type: wsActions.wsConnectionClosed, payload: event });
+          socket = null
         };
 
       }

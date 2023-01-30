@@ -5,7 +5,7 @@ import {useSelector} from "../../utils/hooks";
 export function OrderDetails() {
   const {orderRequest, orderNumber} = useSelector(state => state.order)
   return (
-    <div className={`${styles.order__container}`}>
+    <div data-testid='order-number' className={`${styles.order__container}`}>
       {
         orderRequest && (
           <p className={`${styles.order__ident} text text_type_digits-default mt-4`}>Загрузка...</p>

@@ -20,7 +20,7 @@ import {
   getUserProfileFailed,
   changeProfileInfoRequest,
   changeProfileInfoSuccess,
-  changeProfileInfoFailed, setRegistrationForm,
+  changeProfileInfoFailed,
 } from "../actionCreators/auth";
 import {
   loginRequest,
@@ -31,16 +31,14 @@ import {
   updateUserInfoRequest,
   setNewPasswordRequest
 } from "../../utils/api";
-import {deleteCookie, setCookie} from "../../utils/cookies";
+import {getCookie} from "../../utils/cookies";
 import {
   authErrorMessage,
   commonErrorMessage,
-  conflictingEmailMessage, profileUpdateErrorMessage,
+  conflictingEmailMessage,
   registrationErrorMessage, tokenError
 } from "../../utils/constants";
 import {AppDispatch, AppThunk, TUserInfo} from "../../utils/types";
-import {string} from "prop-types";
-import exp from "constants";
 
 export const SET_REGISTRATION_FORM: 'SET_REGISTRATION_FORM' = 'SET_REGISTRATION_FORM';
 export const SEND_REGISTRATION_REQUEST: 'SEND_REGISTRATION_REQUEST' = 'SEND_REGISTRATION_REQUEST';
@@ -242,8 +240,8 @@ export const register = (user: TUserInfo): AppThunk => (dispatch: AppDispatch) =
     .then((res: any) => {
       if(res && res.success) {
         const token = res.accessToken.split('Bearer ')[1];
-        setCookie('accessToken', token);
-        setCookie('refreshToken', res.refreshToken);
+        document.cookie = `accessToken=${token};  max-age=12000`;
+        document.cookie = `refreshToken=${res.refreshToken};  max-age=12000`
         dispatch(registrationRequestSuccess())
       }
       else {
@@ -265,8 +263,8 @@ export const login = (user: Pick<TUserInfo, 'password' | 'email'>): AppThunk => 
     .then((res: any) => {
       if(res && res.success) {
         const token = res.accessToken.split('Bearer ')[1];
-        setCookie('accessToken', token);
-        setCookie('refreshToken', res.refreshToken);
+        document.cookie = `accessToken=${token};  max-age=12000`;
+        document.cookie = `refreshToken=${res.refreshToken};  max-age=12000`
         dispatch(loginRequestSuccess())
       }
       else {
@@ -287,8 +285,8 @@ export const logout = (): AppThunk => (dispatch: AppDispatch) => {
   logoutRequest()
     .then((res: any) => {
       if(res && res.success) {
-        deleteCookie('accessToken');
-        deleteCookie('refreshToken');
+        document.cookie = `accessToken=${getCookie('accessToken')}; max-age=0`;
+        document.cookie = `refreshToken=${getCookie('refreshToken')}; max-age=0`;
         dispatch(logoutSuccess())
       }
       else {

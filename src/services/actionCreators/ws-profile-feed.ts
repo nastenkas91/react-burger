@@ -1,16 +1,21 @@
-import {TFeedItem, TWSData} from "../../utils/types";
+import {TWSData} from "../../utils/types";
 import {
   IWSProfileFeedConnectionClosed,
   IWSProfileFeedConnectionError,
   IWSProfileFeedConnectionStart,
   IWSProfileFeedConnectionSuccess,
-  IWSProfileFeedGetMessage, WS_PROFILE_FEED_CONNECTION_CLOSED, WS_PROFILE_FEED_CONNECTION_ERROR,
-  WS_PROFILE_FEED_CONNECTION_START, WS_PROFILE_FEED_CONNECTION_SUCCESS, WS_PROFILE_FEED_GET_MESSAGE
+  IWSProfileFeedGetMessage,
+  WS_PROFILE_FEED_CONNECTION_CLOSED,
+  WS_PROFILE_FEED_CONNECTION_ERROR,
+  WS_PROFILE_FEED_CONNECTION_START,
+  WS_PROFILE_FEED_CONNECTION_SUCCESS,
+  WS_PROFILE_FEED_GET_MESSAGE
 } from "../actions/ws-profile-feed";
 
-export const startProfileFeedConnection = (): IWSProfileFeedConnectionStart => {
+export const startProfileFeedConnection = (wsUrl: string): IWSProfileFeedConnectionStart => {
   return {
     type: WS_PROFILE_FEED_CONNECTION_START,
+    payload: wsUrl
   }
 };
 

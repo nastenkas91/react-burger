@@ -59,7 +59,7 @@ export const FeedItem: FC<IFeedItem> = ({orderItem, type}): JSX.Element => {
           {
             ingredientsToShow &&
             ingredientsToShow.map((el, index) => (
-              <li key={index} className={styles.ingredient} style={{zIndex: 100 - index}}>
+              <li key={index} className={styles.ingredient} >
                 <img
                   src={el!.image}
                   alt={el!.name}
@@ -70,7 +70,7 @@ export const FeedItem: FC<IFeedItem> = ({orderItem, type}): JSX.Element => {
           }
           {
             count && (
-              <li className={styles.ingredient} style={{zIndex: 90}}>
+              <li className={styles.ingredient} >
                 <img
                   src={ingredientWithCount!.image}
                   alt={ingredientWithCount!.name}

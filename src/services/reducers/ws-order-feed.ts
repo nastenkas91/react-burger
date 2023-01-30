@@ -13,7 +13,7 @@ type TOrderFeedState = {
   error?: Event
 }
 
-const orderFeedState: TOrderFeedState = {
+export const orderFeedState: TOrderFeedState = {
   wsOrdersConnected: false,
   data: {
     orders: null,
@@ -41,6 +41,12 @@ export const orderFeedReducer = (state = orderFeedState, action: TOrderFeedActio
     case "WS_ORDER_FEED_CONNECTION_CLOSED": {
       return {
         ...state,
+        data: {
+          ...state.data,
+          orders: null,
+          total: 0,
+          totalToday: 0,
+        },
         wsOrdersConnected: false
       }
     }

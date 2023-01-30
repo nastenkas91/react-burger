@@ -28,11 +28,14 @@ export function FeedOrderDetails() {
     setCounter(count);
   }
 
-  const totalPrice = counter[0] && Object.keys(counter).reduce((acc: number, key: string | null) => {
-    const price = ingredients.find(el => el._id === key)!.price;
-    acc += price*counter[key!];
-    return acc;
-  }, 0);
+  const totalPrice = order && order.ingredients.reduce((acc, id) => {
+    const price = ingredients.find(el => el._id === id)!.price;
+    acc += price;
+    return acc
+  }, 0)
+
+  console.log(counter);
+
 
   useEffect(() => {
     dispatch(getOrderDetails(orderNumber))
@@ -82,7 +85,7 @@ export function FeedOrderDetails() {
             </span>
             <div className={styles.priceContainer}>
               {
-                totalPrice &&
+                // totalPrice &&
                 <span className={`text digits text_type_digits-default mr-2`}>{totalPrice}</span>
               }
               <CurrencyIcon type={"primary"} />

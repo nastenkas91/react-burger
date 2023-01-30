@@ -5,10 +5,10 @@ import {PageWithForm} from "../page-with-form/page-with-form";
 import {Form} from "../../components/form/form";
 import {sendNewPassword} from "../../services/actions/auth";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {FC, SyntheticEvent, useState} from "react";
+import {ChangeEvent, FC, SyntheticEvent, useState} from "react";
 import {setNewPasswordForm} from "../../services/actionCreators/auth";
 import {Spinner} from "../../components/spinner/spinner";
-import {TInputEvent, TLocation} from "../../utils/types";
+import {TLocation} from "../../utils/types";
 
 export const ResetPassword: FC = (): JSX.Element => {
   const location = useLocation<TLocation>();
@@ -17,15 +17,15 @@ export const ResetPassword: FC = (): JSX.Element => {
   const {sendRequest, successfulResetRequest, error} = useSelector(state => state.resetPasswordReducer);
   const [formIsValid, setFormIsValid] = useState(false);
 
-  function handleFormValidation(e: TInputEvent) {
+  function handleFormValidation(e: ChangeEvent<HTMLInputElement>) {
     // @ts-ignore
     setFormIsValid(e.target.closest('.form')!.checkValidity());
   }
-  const handleFormChange = (e: TInputEvent) => {
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setNewPasswordForm(e.target.name, e.target.value));
     handleFormValidation(e);
   }
-  const handleFormSubmit = (e: SyntheticEvent) => {
+  const handleFormSubmit = (e: SyntheticEvent<Element, Event>) => {
     e.preventDefault();
     dispatch(sendNewPassword({
         "password": password,

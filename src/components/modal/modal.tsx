@@ -39,7 +39,12 @@ export const Modal: FC<ModalProps> = ({title, children, closeModal}): JSX.Elemen
               <span className={`digits text_type_digits-default`}>#{title}</span>
             )
           }
-          <button className={`${styles.modal__button}`} type={"button"} onClick={closeModal}>
+          <button
+            data-testid="modal-close-button"
+            className={`${styles.modal__button}`}
+            type={"button"}
+            onClick={closeModal}
+          >
             <CloseIcon type={"primary"} />
           </button>
         </h2>

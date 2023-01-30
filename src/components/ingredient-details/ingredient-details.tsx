@@ -16,7 +16,7 @@ export function IngredientDetails() {
   }, [ingredients])
 
   return (
-    <div className={`${styles.ingridient__container}`}>
+    <div data-testid="modal-ingredient"  className={`${styles.ingridient__container}`}>
       {currentIngredient &&
         <>
           <img src={currentIngredient.image} className={`${styles.ingridient__image}`}/>
