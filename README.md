@@ -7,7 +7,7 @@
 * React
 * Redux
 * Drag and Drop
-* TypeScrip
+* TypeScript
 * WebSockets
 * Тестирование с Jest и Cypress
 
